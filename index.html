@@ -1303,6 +1303,7 @@ async function doResetPassword(accessToken){
       showToast('Password updated! Please login.');
     }, 1500);
   } catch(err){
+    alert(JSON.stringify(err));
     errEl.textContent = 'Failed to update password. Please try again.';
     errEl.style.display = 'block';
     btn.disabled = false; btn.textContent = 'Update Password';
