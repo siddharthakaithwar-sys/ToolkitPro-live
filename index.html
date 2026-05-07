@@ -1172,7 +1172,16 @@ document.getElementById('forgot-modal').addEventListener('click', function(e){
 
     // Password Reset
     if(type === 'recovery' && token){
-      showResetModal(token);
+      // Set session from hash params first
+      const at = hashParams.get('access_token');
+      const rt = hashParams.get('refresh_token');
+      if(at && rt && window._supa){
+        window._supa.auth.setSession({ access_token: at, refresh_token: rt })
+          .then(() => showResetModal(at))
+          .catch(() => showResetModal(at));
+      } else {
+        showResetModal(token);
+      }
       return;
     }
 
@@ -1273,14 +1282,18 @@ async function doResetPassword(accessToken){
   btn.disabled = true; btn.textContent = 'Updating…';
 
   try {
-    // Exchange the token for a session
-    const { error: sessErr } = await window._supa.auth.verifyOtp({
-      token_hash: accessToken,
-      type: 'recovery'
-    });
-
     const { error } = await window._supa.auth.updateUser({ password: pass });
-    if(error) throw error;
+    if(error){
+      // Try setting session first then update
+      const hashParams = new URLSearchParams(window.location.hash.replace('#',''));
+      const at = hashParams.get('access_token');
+      const rt = hashParams.get('refresh_token');
+      if(at && rt){
+        await window._supa.auth.setSession({ access_token: at, refresh_token: rt });
+        const { error: err2 } = await window._supa.auth.updateUser({ password: pass });
+        if(err2) throw err2;
+      } else throw error;
+    }
 
     // Success
     btn.textContent = '✅ Password Updated!';
