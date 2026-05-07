@@ -1282,18 +1282,26 @@ async function doResetPassword(accessToken){
   btn.disabled = true; btn.textContent = 'Updating…';
 
   try {
-    const { error } = await window._supa.auth.updateUser({ password: pass });
-    if(error){
-      // Try setting session first then update
-      const hashParams = new URLSearchParams(window.location.hash.replace('#',''));
-      const at = hashParams.get('access_token');
-      const rt = hashParams.get('refresh_token');
-      if(at && rt){
-        await window._supa.auth.setSession({ access_token: at, refresh_token: rt });
-        const { error: err2 } = await window._supa.auth.updateUser({ password: pass });
-        if(err2) throw err2;
-      } else throw error;
+    // Get token from URL hash
+    const hashParams = new URLSearchParams(window.location.hash.replace('#',''));
+    const tokenHash = hashParams.get('access_token');
+
+    if(tokenHash){
+      const { error: otpErr } = await window._supa.auth.verifyOtp({
+        token_hash: tokenHash,
+        type: 'email'
+      });
+      if(otpErr){
+        // Try recovery type
+        const { error: otpErr2 } = await window._supa.auth.verifyOtp({
+          token_hash: tokenHash,
+          type: 'recovery'
+        });
+      }
     }
+
+    const { error } = await window._supa.auth.updateUser({ password: pass });
+    if(error) throw error;
 
     // Success
     btn.textContent = '✅ Password Updated!';
@@ -1303,7 +1311,6 @@ async function doResetPassword(accessToken){
       showToast('Password updated! Please login.');
     }, 1500);
   } catch(err){
-    alert(JSON.stringify(err));
     errEl.textContent = 'Failed to update password. Please try again.';
     errEl.style.display = 'block';
     btn.disabled = false; btn.textContent = 'Update Password';
@@ -2720,3 +2727,4 @@ function adminDel(uid,email){
 </div><!-- end app-page -->
 </body>
 </html>
+
