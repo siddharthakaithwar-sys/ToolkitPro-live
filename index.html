@@ -1305,15 +1305,28 @@ document.getElementById('forgot-modal').addEventListener('click', function(e){
     const type = hashParams.get('type') || queryParams.get('type');
     const token = hashParams.get('access_token') || queryParams.get('token');
 
-    // Password Reset
+    // Password Reset — use onAuthStateChange for reliable session
     if(type === 'recovery' && token){
-      // Set session from hash params first
-      const at = hashParams.get('access_token');
-      const rt = hashParams.get('refresh_token');
-      if(at && rt && window._supa){
-        window._supa.auth.setSession({ access_token: at, refresh_token: rt })
-          .then(() => showResetModal(at))
-          .catch(() => showResetModal(at));
+      if(window._supa){
+        // Supabase will fire PASSWORD_RECOVERY event automatically
+        window._supa.auth.onAuthStateChange((event, session) => {
+          if(event === 'PASSWORD_RECOVERY'){
+            showResetModal(session?.access_token || token);
+          }
+        });
+        // Also try setSession as fallback
+        const at = hashParams.get('access_token');
+        const rt = hashParams.get('refresh_token');
+        if(at && rt){
+          window._supa.auth.setSession({ access_token: at, refresh_token: rt })
+            .then(({data}) => {
+              if(data?.session) showResetModal(data.session.access_token);
+              else showResetModal(at);
+            })
+            .catch(() => showResetModal(at));
+        } else {
+          showResetModal(token);
+        }
       } else {
         showResetModal(token);
       }
@@ -1322,7 +1335,6 @@ document.getElementById('forgot-modal').addEventListener('click', function(e){
 
     // Email Verification
     if((type === 'signup' || type === 'email' || type === 'email_confirmation') && token){
-      // Set session then show verified popup
       if(window._supa){
         window._supa.auth.setSession({
           access_token: token,
@@ -1330,7 +1342,7 @@ document.getElementById('forgot-modal').addEventListener('click', function(e){
         }).then(()=>{
           showVerifiedPopup();
         }).catch(()=>{
-          showVerifiedPopup(); // Show anyway
+          showVerifiedPopup();
         });
       } else {
         showVerifiedPopup();
@@ -1417,18 +1429,6 @@ async function doResetPassword(accessToken){
   btn.disabled = true; btn.textContent = 'Updating…';
 
   try {
-    const hashParams = new URLSearchParams(window.location.hash.replace('#',''));
-    const at = hashParams.get('access_token');
-    const rt = hashParams.get('refresh_token');
-
-    // Set session first
-    if(at && rt){
-      await window._supa.auth.setSession({ access_token: at, refresh_token: rt });
-    } else if(at){
-      // Try OTP verification
-      await window._supa.auth.verifyOtp({ token_hash: at, type: 'recovery' }).catch(()=>{});
-    }
-
     const { error } = await window._supa.auth.updateUser({ password: pass });
     if(error) throw error;
 
