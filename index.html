@@ -1141,7 +1141,7 @@ async function doForgot(){
 
   try {
     const { error } = await window._supa.auth.resetPasswordForEmail(email, {
-      redirectTo: 'https://toolkitpro.siddharthakaithwar.workers.dev/'
+      redirectTo: 'toolkitpro.co.in'
     });
     if(error) throw error;
     sucEl.innerHTML = '✅ Password reset link sent!<br>Check your email inbox (and spam folder).';
