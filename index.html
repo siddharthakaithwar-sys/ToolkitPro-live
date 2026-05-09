@@ -1276,7 +1276,7 @@ async function doForgot(){
 
   try {
     const { error } = await window._supa.auth.resetPasswordForEmail(email, {
-      redirectTo: 'toolkitpro.co.in'
+      redirectTo: 'https://toolkitpro.co.in'
     });
     if(error) throw error;
     sucEl.innerHTML = '✅ Password reset link sent!<br>Check your email inbox (and spam folder).';
@@ -1816,7 +1816,7 @@ function showToast(msg){
     <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:14px;margin-bottom:24px;">
 
       <!-- Email card — same style as Instagram -->
-      <div onclick="window.open('mailto:siddharthakaithwar@gmail.com','_blank')" style="background:var(--surface2);border:1px solid var(--border);border-radius:16px;padding:24px 18px;text-align:center;transition:all .2s;cursor:pointer;" onmouseover="this.style.borderColor='var(--accent)';this.style.transform='translateY(-2px)'" onmouseout="this.style.borderColor='var(--border)';this.style.transform='none'">
+      <div onclick="window.open('mailto:support@toolkitpro.co.in','_blank')" style="background:var(--surface2);border:1px solid var(--border);border-radius:16px;padding:24px 18px;text-align:center;transition:all .2s;cursor:pointer;" onmouseover="this.style.borderColor='var(--accent)';this.style.transform='translateY(-2px)'" onmouseout="this.style.borderColor='var(--border)';this.style.transform='none'">
         <div style="font-size:2rem;margin-bottom:10px;">📧</div>
         <div style="font-size:.68rem;color:var(--text-dim);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;">Email</div>
         <div style="color:var(--accent);font-size:.85rem;font-weight:700;"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="31425855555950434559505a5058455946504371565c50585d1f525e5c">[email&#160;protected]</a></div>
@@ -1931,7 +1931,7 @@ function sendContactMsg(){
   var body = encodeURIComponent('Name: '+nm+'\nEmail: '+em+'\n\n'+mg);
   var subj = encodeURIComponent(sub||'ToolKit Pro - Contact');
   var a    = document.createElement('a');
-  a.href   = 'mailto:siddharthakaithwar@gmail.com?subject='+subj+'&body='+body;
+  a.href   = 'mailto:support@toolkitpro.co.in?subject='+subj+'&body='+body;
   a.target = '_blank';
   a.rel    = 'noopener';
   document.body.appendChild(a);
@@ -1947,7 +1947,7 @@ function sendContactMsg(){
   }, 3000);
 }
 function copyEmail(){
-  var email = 'siddharthakaithwar@gmail.com';
+  var email = 'support@toolkitpro.co.in';
   if(navigator.clipboard && navigator.clipboard.writeText){
     navigator.clipboard.writeText(email).then(function(){
       showToast('📋 Email copied!');
