@@ -16,6 +16,15 @@
     const SUPA_KEY = 'sb_publishable_8JLKbBqWBknZ7gmkQjf6cA_obs56jHA';
     window._supa = supabase.createClient(SUPA_URL, SUPA_KEY);
     window._supaReady = true;
+    // Listen for PASSWORD_RECOVERY event globally
+    window._supa.auth.onAuthStateChange((event, session) => {
+      if(event === 'PASSWORD_RECOVERY' && session){
+        // Remove any existing modal first
+        const existing = document.getElementById('reset-modal');
+        if(existing) existing.remove();
+        showResetModal(session.access_token);
+      }
+    });
   }catch(e){ window._supaReady = false; }
 })();
 </script>
@@ -1305,31 +1314,16 @@ document.getElementById('forgot-modal').addEventListener('click', function(e){
     const type = hashParams.get('type') || queryParams.get('type');
     const token = hashParams.get('access_token') || queryParams.get('token');
 
-    // Password Reset — use onAuthStateChange for reliable session
+    // Password Reset — onAuthStateChange handles it automatically
+    // But show modal immediately too as fallback
     if(type === 'recovery' && token){
-      if(window._supa){
-        // Supabase will fire PASSWORD_RECOVERY event automatically
-        window._supa.auth.onAuthStateChange((event, session) => {
-          if(event === 'PASSWORD_RECOVERY'){
-            showResetModal(session?.access_token || token);
-          }
-        });
-        // Also try setSession as fallback
-        const at = hashParams.get('access_token');
-        const rt = hashParams.get('refresh_token');
-        if(at && rt){
-          window._supa.auth.setSession({ access_token: at, refresh_token: rt })
-            .then(({data}) => {
-              if(data?.session) showResetModal(data.session.access_token);
-              else showResetModal(at);
-            })
-            .catch(() => showResetModal(at));
-        } else {
+      // onAuthStateChange will fire PASSWORD_RECOVERY event
+      // Fallback: show modal after short delay
+      setTimeout(()=>{
+        if(!document.getElementById('reset-modal')){
           showResetModal(token);
         }
-      } else {
-        showResetModal(token);
-      }
+      }, 1500);
       return;
     }
 
@@ -1801,7 +1795,7 @@ function showToast(msg){
     <p>If you have any questions about this Privacy Policy, please contact us:</p>
     <div style="margin-top:12px;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:14px 18px;">
       <div style="margin-bottom:6px;">👤 <strong style="color:var(--text)">Siddhartha</strong></div>
-      <div style="margin-bottom:6px;">📧 <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="582b313c3c30392a2c30393339312c302f392a183f35393134763b3735">[email&#160;protected]</a></div>
+      <div style="margin-bottom:6px;">📧 <a href="mailto:support@toolkitpro.co.in" style="color:var(--accent);">support@toolkitpro.co.in</a></div>
       <div>📸 <a href="https://www.instagram.com/fix_before_flex?igsh=ZW9pMXoyZm9yOWFk" target="_blank" style="color:var(--accent);">@fix_before_flex</a></div>
     </div>
   </div>
@@ -1819,7 +1813,7 @@ function showToast(msg){
       <div onclick="window.open('mailto:support@toolkitpro.co.in','_blank')" style="background:var(--surface2);border:1px solid var(--border);border-radius:16px;padding:24px 18px;text-align:center;transition:all .2s;cursor:pointer;" onmouseover="this.style.borderColor='var(--accent)';this.style.transform='translateY(-2px)'" onmouseout="this.style.borderColor='var(--border)';this.style.transform='none'">
         <div style="font-size:2rem;margin-bottom:10px;">📧</div>
         <div style="font-size:.68rem;color:var(--text-dim);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;">Email</div>
-        <div style="color:var(--accent);font-size:.85rem;font-weight:700;"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="31425855555950434559505a5058455946504371565c50585d1f525e5c">[email&#160;protected]</a></div>
+        <div style="color:var(--accent);font-size:.85rem;font-weight:700;">support@toolkitpro.co.in</div>
         <div style="font-size:.7rem;color:var(--text-dim);margin-top:4px;">Tap to send ↗</div>
       </div>
 
@@ -1865,7 +1859,7 @@ function showToast(msg){
       <div style="margin-top:18px;padding:14px 16px;background:rgba(0,245,255,.04);border:1px solid rgba(0,245,255,.12);border-radius:10px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;">
         <div>
           <div style="font-size:.66rem;color:var(--text-dim);text-transform:uppercase;letter-spacing:.8px;margin-bottom:4px;">Direct Email</div>
-          <div style="color:var(--accent);font-size:.88rem;font-weight:700;letter-spacing:.3px;"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="60130904040801121408010b0109140817011220070d01090c4e030f0d">[email&#160;protected]</a></div>
+          <div style="color:var(--accent);font-size:.88rem;font-weight:700;letter-spacing:.3px;">support@toolkitpro.co.in</div>
         </div>
         <button onclick="copyEmail()" id="copy-email-btn2" style="padding:8px 16px;background:var(--surface);border:1px solid var(--border);border-radius:8px;color:var(--accent);font-size:.78rem;cursor:pointer;font-family:'Exo 2',sans-serif;font-weight:700;white-space:nowrap;flex-shrink:0;">📋 Copy</button>
       </div>
@@ -1895,11 +1889,11 @@ function showToast(msg){
     <p style="margin-bottom:16px;">ToolKit Pro is provided "as is" without warranties of any kind. We are not responsible for any errors or inaccuracies in the tools provided, including calculator results or currency conversion rates.</p>
 
     <h3 style="color:var(--accent);font-family:'Rajdhani',sans-serif;letter-spacing:1px;margin-bottom:8px;">6. Contact</h3>
-    <p>Questions about these Terms? Contact us at <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="23504a47474b4251574b4248424a574b54425163444e424a4f0d404c4e">[email&#160;protected]</a> or on Instagram <a href="https://www.instagram.com/fix_before_flex?igsh=ZW9pMXoyZm9yOWFk" target="_blank" style="color:var(--accent);">@fix_before_flex</a></p>
+    <p>Questions about these Terms? Contact us at <a href="mailto:support@toolkitpro.co.in" style="color:var(--accent);">support@toolkitpro.co.in</a> or on Instagram <a href="https://www.instagram.com/fix_before_flex?igsh=ZW9pMXoyZm9yOWFk" target="_blank" style="color:var(--accent);">@fix_before_flex</a></p>
   </div>
 </div>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<script>
 /* ─────────────────────────────────────────
    NAV
 ───────────────────────────────────────── */
