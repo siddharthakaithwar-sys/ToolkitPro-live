@@ -1034,7 +1034,10 @@ async function doSignup(name, email, pass){
   if(db[email]?.status === 'blocked') throw { code:'auth/user-blocked' };
   const { data, error } = await window._supa.auth.signUp({
     email, password: pass,
-    options: { data: { name } }
+    options: {
+      data: { name },
+      emailRedirectTo: 'https://toolkitpro.co.in'
+    }
   });
   if(error){
     if(error.message.includes('already registered')||error.message.includes('already exists')) throw { code:'auth/email-already-in-use' };
