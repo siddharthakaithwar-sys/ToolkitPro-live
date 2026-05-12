@@ -2,6 +2,14 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<!-- Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-SK7Z4P7H7P"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-SK7Z4P7H7P');
+</script>
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9683643895235168" crossorigin="anonymous"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>ToolKit Pro</title>
@@ -850,6 +858,18 @@ body.light-mode .chess-sq.dark{background:#4a6fa5;}
         Sign In
       </button>
 
+      <div style="text-align:center;margin-top:12px;">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;">
+          <div style="flex:1;height:1px;background:var(--bd);"></div>
+          <span style="color:var(--td);font-size:.72rem;letter-spacing:1px;">OR</span>
+          <div style="flex:1;height:1px;background:var(--bd);"></div>
+        </div>
+        <button onclick="guestLogin()" style="width:100%;padding:13px;background:transparent;border:1px solid var(--bd);border-radius:12px;color:var(--t);font-size:.88rem;cursor:pointer;font-family:'Exo 2',sans-serif;font-weight:600;letter-spacing:.5px;transition:all .2s;" onmouseover="this.style.borderColor='var(--a)';this.style.color='var(--a)'" onmouseout="this.style.borderColor='var(--bd)';this.style.color='var(--t)'">
+          👤 Continue as Guest
+        </button>
+        <div style="font-size:.68rem;color:var(--td);margin-top:6px;">No account needed — explore freely</div>
+      </div>
+
 
 
     </div>
@@ -1226,6 +1246,13 @@ async function savePassword(){
   } catch(err){
     msg.textContent = 'Failed to update password. Please login again.'; msg.className='profile-msg err'; msg.style.display='block';
   }
+}
+
+function guestLogin(){
+  const s = { uid:'guest_'+Date.now(), name:'Guest', email:'guest@toolkitpro.co.in', isGuest:true };
+  setSes(s);
+  gotoApp(s);
+  showToast('Guest mode — features limited!');
 }
 
 function doLogout(){
