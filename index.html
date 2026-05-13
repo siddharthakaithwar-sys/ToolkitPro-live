@@ -1770,7 +1770,7 @@ function showToast(msg){
   <div class="panel-header">🔒 Privacy Policy <span>/ ToolKit Pro</span></div>
   <div style="max-width:720px;background:var(--surface2);border:1px solid var(--border);border-radius:14px;padding:28px 24px;line-height:1.8;font-size:.88rem;color:var(--text-dim);">
 
-    <p style="font-size:.75rem;color:var(--text-dim);margin-bottom:20px;">Last updated: March 17, 2026</p>
+    <p style="font-size:.75rem;color:var(--text-dim);margin-bottom:20px;">Last updated: May 13, 2026</p>
 
     <div style="background:rgba(0,245,255,.06);border:1px solid rgba(0,245,255,.15);border-radius:10px;padding:14px 18px;margin-bottom:24px;font-size:.85rem;color:var(--text);">
       This Privacy Policy describes how <strong>ToolKit Pro</strong>, operated by <strong>Siddhartha</strong>, collects, uses, and shares information when you use our app.
@@ -1779,10 +1779,10 @@ function showToast(msg){
     <h3 style="color:var(--accent);font-family:'Rajdhani',sans-serif;letter-spacing:1px;margin-bottom:8px;margin-top:0;">1. Information We Collect</h3>
     <p style="margin-bottom:16px;">We collect the following information when you create an account or use ToolKit Pro:</p>
     <ul style="margin-left:20px;margin-bottom:16px;">
-      <li><strong style="color:var(--text)">Account Information:</strong> Name, email address, and password (stored as a secure SHA-256 hash — never in plain text)</li>
+      <li><strong style="color:var(--text)">Account Information:</strong> Name, email address, and password (managed securely via Supabase Auth)</li>
       <li><strong style="color:var(--text)">Usage Data:</strong> Calculator history, preferences stored locally on your device via localStorage</li>
-      <li><strong style="color:var(--text)">Google Sign-In:</strong> If you use Google Sign-In, we receive your name, email, and profile photo from Google</li>
-      <li><strong style="color:var(--text)">Log Data:</strong> Browser type, device information, and pages visited (via third-party analytics)</li>
+      <li><strong style="color:var(--text)">Analytics Data:</strong> Browser type, device information, and pages visited via Google Analytics</li>
+      <li><strong style="color:var(--text)">Log Data:</strong> IP address and usage patterns collected by our hosting and analytics providers</li>
     </ul>
 
     <h3 style="color:var(--accent);font-family:'Rajdhani',sans-serif;letter-spacing:1px;margin-bottom:8px;">2. How We Use Your Information</h3>
@@ -1802,14 +1802,16 @@ function showToast(msg){
     <p style="margin-bottom:16px;">ToolKit Pro uses cookies and similar tracking technologies including localStorage to store your login session and preferences. By using our app, you consent to our use of cookies. You can instruct your browser to refuse all cookies or to indicate when a cookie is being sent.</p>
 
     <h3 style="color:var(--accent);font-family:'Rajdhani',sans-serif;letter-spacing:1px;margin-bottom:8px;">5. Data Storage & Security</h3>
-    <p style="margin-bottom:16px;">Your account data is stored securely in your browser's localStorage and in Firebase (Google's secure cloud platform). Passwords are never stored in plain text — they are hashed using SHA-256 encryption. We implement appropriate security measures to protect your personal information.</p>
+    <p style="margin-bottom:16px;">Your account data is stored securely in your browser's localStorage and in Supabase (secure cloud platform). Passwords are managed by Supabase Auth and never stored in plain text. We implement appropriate security measures to protect your personal information.</p>
 
     <h3 style="color:var(--accent);font-family:'Rajdhani',sans-serif;letter-spacing:1px;margin-bottom:8px;">6. Third-Party Services</h3>
     <p style="margin-bottom:8px;">ToolKit Pro uses the following third-party services:</p>
     <ul style="margin-left:20px;margin-bottom:16px;">
-      <li><strong style="color:var(--text)">Google Firebase</strong> — Authentication &amp; database (<a href="https://firebase.google.com/support/privacy" target="_blank" style="color:var(--accent);">Privacy Policy</a>)</li>
+      <li><strong style="color:var(--text)">Supabase</strong> — Authentication &amp; database (<a href="https://supabase.com/privacy" target="_blank" style="color:var(--accent);">Privacy Policy</a>)</li>
       <li><strong style="color:var(--text)">Google AdSense</strong> — Advertising (<a href="https://policies.google.com/privacy" target="_blank" style="color:var(--accent);">Privacy Policy</a>)</li>
-      <li><strong style="color:var(--text)">Netlify</strong> — Web hosting (<a href="https://www.netlify.com/privacy/" target="_blank" style="color:var(--accent);">Privacy Policy</a>)</li>
+      <li><strong style="color:var(--text)">Google Analytics</strong> — Usage tracking (<a href="https://policies.google.com/privacy" target="_blank" style="color:var(--accent);">Privacy Policy</a>)</li>
+      <li><strong style="color:var(--text)">GitHub Pages</strong> — Web hosting (<a href="https://docs.github.com/en/site-policy/privacy-policies/github-privacy-statement" target="_blank" style="color:var(--accent);">Privacy Policy</a>)</li>
+      <li><strong style="color:var(--text)">Zoho Mail</strong> — Email communication (<a href="https://www.zoho.com/privacy.html" target="_blank" style="color:var(--accent);">Privacy Policy</a>)</li>
     </ul>
 
     <h3 style="color:var(--accent);font-family:'Rajdhani',sans-serif;letter-spacing:1px;margin-bottom:8px;">7. Children's Privacy</h3>
@@ -1901,7 +1903,7 @@ function showToast(msg){
 <div class="panel" id="panel-terms">
   <div class="panel-header">📋 Terms of Service <span>/ ToolKit Pro</span></div>
   <div style="max-width:720px;background:var(--surface2);border:1px solid var(--border);border-radius:14px;padding:28px 24px;line-height:1.8;font-size:.88rem;color:var(--text-dim);">
-    <p style="font-size:.75rem;color:var(--text-dim);margin-bottom:20px;">Last updated: March 17, 2026</p>
+    <p style="font-size:.75rem;color:var(--text-dim);margin-bottom:20px;">Last updated: May 13, 2026</p>
 
     <h3 style="color:var(--accent);font-family:'Rajdhani',sans-serif;letter-spacing:1px;margin-bottom:8px;margin-top:0;">1. Acceptance of Terms</h3>
     <p style="margin-bottom:16px;">By accessing and using ToolKit Pro, you accept and agree to be bound by these Terms of Service. If you do not agree, please do not use this application.</p>
