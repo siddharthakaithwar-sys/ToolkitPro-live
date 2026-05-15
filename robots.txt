@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://toolkitpro.co.in/sitemap.xml
