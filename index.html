@@ -2,6 +2,25 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<meta name="description" content="ToolKit Pro — Free online calculator with unlimited precision, chess game vs AI, and currency converter for 160+ countries. No app needed!">
+<meta name="keywords" content="calculator, chess, currency converter, free tools, student tools, online calculator, unlimited precision calculator, play chess online, currency exchange">
+<meta name="author" content="Siddhartha Kaithwar">
+<meta name="robots" content="index, follow">
+
+<!-- Open Graph (WhatsApp, Facebook preview) -->
+<meta property="og:title" content="ToolKit Pro — Free Student Tools">
+<meta property="og:description" content="Calculator, Chess & Currency Converter — all free, no app needed!">
+<meta property="og:url" content="https://toolkitpro.co.in">
+<meta property="og:type" content="website">
+<meta property="og:image" content="https://toolkitpro.co.in/og-image.png">
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="ToolKit Pro — Free Student Tools">
+<meta name="twitter:description" content="Calculator, Chess & Currency Converter — all free!">
+
+<!-- Canonical -->
+<link rel="canonical" href="https://toolkitpro.co.in/">
 <!-- Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-SK7Z4P7H7P"></script>
 <script>
@@ -902,11 +921,10 @@ body.light-mode .chess-sq.dark{background:#4a6fa5;}
 
 <script>
 /* ══════════════════════════════════════════════════
-   AUTH SYSTEM — Pure JS + localStorage + SHA-256
-   ✅ Works on: file://, content://, https://
-   ✅ No Firebase, no internet required
-   ✅ Admin: commander@admin.com (password set on first login)
-   ✅ SHA-256 password hashing via Web Crypto API
+   AUTH SYSTEM — Supabase Auth + localStorage
+   ✅ Works on: https://
+   ✅ Admin: commander@admin.com (local system)
+   ✅ Users: Supabase Auth (email/password)
 ══════════════════════════════════════════════════ */
 
 const DB  = 'tkp_users';
