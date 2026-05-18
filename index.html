@@ -2058,4 +2058,868 @@ function applyFn(fn, entryStr){
   if(fn==='x³')  return new Big(n).pow(3);
   if(fn==='!')   return bigFact(new Big(entryStr));
   if(fn==='sqrt') return new Big(Math.sqrt(n));
-  if(fn==='cbrt') return new Big(Math.cbr
+  if(fn==='cbrt') return new Big(Math.cbrt(n));
+  const fmap={sin:Math.sin,cos:Math.cos,tan:Math.tan,
+    asin:Math.asin,acos:Math.acos,atan:Math.atan,
+    log:Math.log10,ln:Math.log};
+  if(fmap[fn]!==undefined) return new Big(fmap[fn](n));
+  throw new Error('Unknown fn: '+fn);
+}
+
+function opSym(op){return op==='+'?'+':op==='-'?'−':op==='*'?'×':op==='/'?'÷':op==='^'?'^':op;}
+
+function calcPress(label){
+
+  /* ── C ── */
+  if(label==='C'){ calcReset(); return; }
+
+  /* ── DEL ── */
+  if(label==='DEL'){
+    if(justEvaled){ calcReset(); return; }
+    if(entry.startsWith('⚠')){ entry='0'; updCalc(); return; }
+    entry = entry.length>1 ? entry.slice(0,-1) : '0';
+    updCalc(); return;
+  }
+
+  /* ── DIGITS ── */
+  if(/^\d$/.test(label)){
+    if(justEvaled){ acc=null; pendingOp=null; pctBase=null; exprDisp=''; justEvaled=false; }
+    if(entry.startsWith('⚠')) entry='0';
+    entry = (entry==='0') ? label : entry+label;
+    updCalc(); return;
+  }
+
+  /* ── DECIMAL ── */
+  if(label==='.'){
+    if(justEvaled){ acc=null; pendingOp=null; pctBase=null; exprDisp=''; justEvaled=false; entry='0'; }
+    if(entry.startsWith('⚠')) entry='0';
+    if(!entry.includes('.')) entry+='.';
+    updCalc(); return;
+  }
+
+  /* ── ± NEGATE ── */
+  if(label==='±'){
+    if(entry==='0'||entry==='0.'){ return; }
+    entry = entry.startsWith('-') ? entry.slice(1) : '-'+entry;
+    updCalc(); return;
+  }
+
+  /* ── % PERCENT ──
+     Flow: 600 [%] → stores 600 as pctBase, shows "600 % ×", entry resets to 0
+           user types 69.5 → entry = "69.5"
+           [=] → result = 600 × (69.5 ÷ 100) = 417
+
+     Also works standalone:
+           600 [%] [=] → 600 × (600÷100) = 600×6 = 3600  (same base repeated)
+  */
+  if(label==='%'){
+    if(entry==='0'&&!acc) return;
+    // Save current entry as the percentage base
+    try{
+      pctBase   = new Big(entry==='0' && acc ? bigFormat(acc) : entry);
+      pendingOp = '%';          // special op flag
+      exprDisp  = bigFormat(pctBase) + ' % ×';
+      acc       = pctBase;
+      entry     = '0';
+      justEvaled= false;
+    }catch(e){ entry='⚠ '+e.message; justEvaled=true; }
+    updCalc(); return;
+  }
+
+  /* ── = EQUALS ── */
+  if(label==='='){
+    try{
+      const right=new Big(entry);
+      let result;
+      if(pendingOp==='%' && pctBase!==null){
+        // base % × pctValue  →  base × (pctValue ÷ 100)
+        result = pctBase.times(right.div(100));
+        exprDisp = bigFormat(pctBase)+' % × '+bigFormat(right)+' =';
+        pctBase=null;
+      } else if(acc!==null && pendingOp){
+        result=applyOp(acc,pendingOp,right);
+        exprDisp=bigFormat(acc)+' '+opSym(pendingOp)+' '+bigFormat(right)+' =';
+      } else {
+        result=right; exprDisp=bigFormat(right)+' =';
+      }
+      const resStr=bigFormat(result);
+      addHist(exprDisp.replace(' =',''), resStr);
+      acc=result; pendingOp=null;
+      entry=resStr; justEvaled=true;
+    }catch(e){
+      entry='⚠ '+e.message; exprDisp=''; acc=null; pendingOp=null; pctBase=null; justEvaled=true;
+    }
+    updCalc(); return;
+  }
+
+  /* ── BINARY OPERATORS ── */
+  const opMap={'+':'+','−':'-','×':'*','÷':'/','xʸ':'^'};
+  if(opMap[label]!==undefined){
+    try{
+      const right=new Big(entry);
+      if(acc!==null && pendingOp && !justEvaled){
+        acc=applyOp(acc,pendingOp,right);
+      } else {
+        acc=right;
+      }
+      pendingOp=opMap[label];
+      exprDisp=bigFormat(acc)+' '+label;
+      entry='0'; justEvaled=false;
+    }catch(e){
+      entry='⚠ '+e.message; justEvaled=true;
+    }
+    updCalc(); return;
+  }
+
+  /* ── SCIENTIFIC UNARY ── */
+  const fnMap={'√':'sqrt','∛':'cbrt','x²':'x²','x³':'x³','!':'!',
+    'sin':'sin','cos':'cos','tan':'tan','asin':'asin','acos':'acos','atan':'atan',
+    'log':'log','ln':'ln'};
+  if(fnMap[label]!==undefined){
+    try{
+      const result=applyFn(fnMap[label], entry);
+      const resStr=bigFormat(result);
+      exprDisp=label+'('+entry+') =';
+      entry=resStr; justEvaled=true;
+    }catch(e){ entry='⚠ '+e.message; justEvaled=true; }
+    updCalc(); return;
+  }
+
+  /* ── CONSTANTS ── */
+  if(label==='π'){
+    if(justEvaled){ acc=null; pendingOp=null; exprDisp=''; justEvaled=false; }
+    entry=bigFormat(new Big('3.14159265358979323846264338327950288419716939937510'));
+    updCalc(); return;
+  }
+  if(label==='e'){
+    if(justEvaled){ acc=null; pendingOp=null; exprDisp=''; justEvaled=false; }
+    entry=bigFormat(new Big('2.71828182845904523536028747135266249775724709369995'));
+    updCalc(); return;
+  }
+}
+
+function addHist(expr,res){
+  historyArr.unshift({expr,res});
+  if(historyArr.length>40) historyArr.pop();
+  renderHist();
+}
+function renderHist(){
+  document.getElementById('hist-list').innerHTML=historyArr.map((h,i)=>`
+    <div class="hist-item" onclick="recallHist(${i})">
+      <div class="hi-expr">${h.expr.length>30?h.expr.slice(0,30)+'…':h.expr}</div>
+      <div class="hi-res">${h.res.length>36?h.res.slice(0,36)+'…':h.res}</div>
+    </div>`).join('');
+}
+function recallHist(i){
+  const h=historyArr[i];
+  acc=null; pendingOp=null; entry=h.res; justEvaled=true;
+  exprDisp=h.expr+' ='; updCalc();
+}
+function clearHist(){historyArr=[];renderHist();}
+
+document.addEventListener('keydown',e=>{
+  var a=document.activeElement;
+  if(a&&(a.tagName==='INPUT'||a.tagName==='TEXTAREA'||a.contentEditable==='true')) return;
+  if(!document.getElementById('panel-calc').classList.contains('active'))return;
+  const m={'Enter':'=','Backspace':'DEL','Escape':'C','*':'×','/':'÷','-':'−'};
+  const k=m[e.key]||e.key;
+  if('0123456789.+−×÷%^'.includes(k)||['DEL','C','='].includes(k)){
+    e.preventDefault(); calcPress(k);
+  }
+});
+
+renderCalcBtns(); updCalc();
+
+/* ─────────────────────────────────────────
+/* ─────────────────────────────────────────
+   CHESS — Improved Engine v2
+   ✅ Minimax + alpha-beta (depth 3 Hard / 2 Med / 1 Easy)
+   ✅ Castling (kingside + queenside)
+   ✅ En passant
+   ✅ Pawn promotion modal (Q/R/B/N)
+   ✅ Stalemate + checkmate detection
+   ✅ Captured pieces display
+   ✅ chess.com-style last-move highlight
+───────────────────────────────────────── */
+let cBoard=[],cSel=null,cTurn='w',cMode='computer',cFlipped=false;
+let cMoveHist=[],cLastMove=null,cHistory=[];
+let cCapturedW=[],cCapturedB=[];   // pieces captured by white/black
+let cEPTarget=null;                 // en passant target square {r,c}
+let cCastle={wK:true,wQR:true,wKR:true,bK:true,bQR:true,bKR:true}; // castling rights
+let cDiff='easy';                   // 'easy' | 'med' | 'hard'
+let cPromoCallback=null;            // called when user picks promo piece
+let cGameOver=false;
+
+const CP={wK:'♔',wQ:'♕',wR:'♖',wB:'♗',wN:'♘',wP:'♙',bK:'♚',bQ:'♛',bR:'♜',bB:'♝',bN:'♞',bP:'♟'};
+const PV={K:20000,Q:900,R:500,B:330,N:320,P:100};
+
+// ── Positional bonus tables (white POV, flip for black) ──
+const PST={
+  P:[[0,0,0,0,0,0,0,0],[50,50,50,50,50,50,50,50],[10,10,20,30,30,20,10,10],[5,5,10,25,25,10,5,5],[0,0,0,20,20,0,0,0],[5,-5,-10,0,0,-10,-5,5],[5,10,10,-20,-20,10,10,5],[0,0,0,0,0,0,0,0]],
+  N:[[-50,-40,-30,-30,-30,-30,-40,-50],[-40,-20,0,0,0,0,-20,-40],[-30,0,10,15,15,10,0,-30],[-30,5,15,20,20,15,5,-30],[-30,0,15,20,20,15,0,-30],[-30,5,10,15,15,10,5,-30],[-40,-20,0,5,5,0,-20,-40],[-50,-40,-30,-30,-30,-30,-40,-50]],
+  B:[[-20,-10,-10,-10,-10,-10,-10,-20],[-10,0,0,0,0,0,0,-10],[-10,0,5,10,10,5,0,-10],[-10,5,5,10,10,5,5,-10],[-10,0,10,10,10,10,0,-10],[-10,10,10,10,10,10,10,-10],[-10,5,0,0,0,0,5,-10],[-20,-10,-10,-10,-10,-10,-10,-20]],
+  R:[[0,0,0,0,0,0,0,0],[5,10,10,10,10,10,10,5],[-5,0,0,0,0,0,0,-5],[-5,0,0,0,0,0,0,-5],[-5,0,0,0,0,0,0,-5],[-5,0,0,0,0,0,0,-5],[-5,0,0,0,0,0,0,-5],[0,0,0,5,5,0,0,0]],
+  Q:[[-20,-10,-10,-5,-5,-10,-10,-20],[-10,0,0,0,0,0,0,-10],[-10,0,5,5,5,5,0,-10],[-5,0,5,5,5,5,0,-5],[0,0,5,5,5,5,0,-5],[-10,5,5,5,5,5,0,-10],[-10,0,5,0,0,0,0,-10],[-20,-10,-10,-5,-5,-10,-10,-20]],
+  K:[[-30,-40,-40,-50,-50,-40,-40,-30],[-30,-40,-40,-50,-50,-40,-40,-30],[-30,-40,-40,-50,-50,-40,-40,-30],[-30,-40,-40,-50,-50,-40,-40,-30],[-20,-30,-30,-40,-40,-30,-30,-20],[-10,-20,-20,-20,-20,-20,-20,-10],[20,20,0,0,0,0,20,20],[20,30,10,0,0,10,30,20]]
+};
+
+function initChess(){
+  cTurn='w';cSel=null;cMoveHist=[];cLastMove=null;cHistory=[];
+  cCapturedW=[];cCapturedB=[];cEPTarget=null;cGameOver=false;
+  cCastle={wK:true,wQR:true,wKR:true,bK:true,bQR:true,bKR:true};
+  cBoard=[
+    ['bR','bN','bB','bQ','bK','bB','bN','bR'],
+    ['bP','bP','bP','bP','bP','bP','bP','bP'],
+    Array(8).fill(null),Array(8).fill(null),Array(8).fill(null),Array(8).fill(null),
+    ['wP','wP','wP','wP','wP','wP','wP','wP'],
+    ['wR','wN','wB','wQ','wK','wB','wN','wR']
+  ];
+  const msgEl=document.getElementById('chess-msg');
+  msgEl.textContent='';msgEl.classList.remove('visible');
+  document.getElementById('move-list').innerHTML='';
+  document.getElementById('ai-thinking').classList.remove('show');
+  renderCBoard();updateCStatus();renderCaptured();
+}
+
+function renderCBoard(){
+  const b=document.getElementById('chessboard');b.innerHTML='';
+  // Rank labels
+  const rl=document.getElementById('rank-labels');
+  if(rl){rl.innerHTML='';for(let i=0;i<8;i++){const s=document.createElement('span');s.textContent=cFlipped?i+1:8-i;rl.appendChild(s);}}
+  // File labels
+  const fl=document.getElementById('file-labels');
+  if(fl){fl.innerHTML='';const files='abcdefgh';for(let i=0;i<8;i++){const s=document.createElement('span');s.textContent=cFlipped?files[7-i]:files[i];fl.appendChild(s);}}
+
+  const kp=findKing(cTurn);
+  const inCk=kp&&isAtt(kp.r,kp.c,cTurn==='w'?'b':'w');
+
+  for(let r=0;r<8;r++)for(let c=0;c<8;c++){
+    const dr=cFlipped?7-r:r,dc=cFlipped?7-c:c;
+    const sq=document.createElement('div');
+    sq.className='chess-sq '+((dr+dc)%2===0?'light':'dark');
+    sq.dataset.r=dr;sq.dataset.c=dc;
+    if(cBoard[dr][dc]){
+      const span=document.createElement('span');
+      span.textContent=CP[cBoard[dr][dc]];
+      sq.appendChild(span);
+    }
+    if(cSel&&cSel.r===dr&&cSel.c===dc)sq.classList.add('selected');
+    if(cLastMove){
+      if(cLastMove.fr===dr&&cLastMove.fc===dc)sq.classList.add('last-move-from');
+      if(cLastMove.tr===dr&&cLastMove.tc===dc)sq.classList.add('last-move-to');
+    }
+    if(cSel){
+      const vm=getVM(cSel.r,cSel.c,true);
+      if(vm.some(m=>m.r===dr&&m.c===dc)){
+        sq.classList.add('valid-move');
+        if(cBoard[dr][dc]||(cEPTarget&&cEPTarget.r===dr&&cEPTarget.c===dc))sq.classList.add('has-piece');
+      }
+    }
+    if(inCk&&cBoard[dr][dc]===cTurn+'K')sq.classList.add('check-sq');
+    sq.onclick=()=>handleCClick(dr,dc);
+    b.appendChild(sq);
+  }
+}
+
+function handleCClick(r,c){
+  if(cGameOver)return;
+  if(cMode==='computer'&&cTurn==='b')return; // AI turn
+  const p=cBoard[r][c];
+  if(cSel){
+    const vm=getVM(cSel.r,cSel.c,true);
+    const mv=vm.find(m=>m.r===r&&m.c===c);
+    if(mv){
+      execCMove(cSel.r,cSel.c,r,c,mv.special);
+      cSel=null;return;
+    }
+    cSel=null;
+  }
+  if(p&&p[0]===cTurn){cSel={r,c};}
+  renderCBoard();
+}
+
+function execCMove(fr,fc,tr,tc,special,skipRender){
+  const p=cBoard[fr][fc];
+  if(!p)return;
+  // Save history
+  cHistory.push({board:JSON.parse(JSON.stringify(cBoard)),turn:cTurn,ep:cEPTarget?{...cEPTarget}:null,castle:{...cCastle},capW:[...cCapturedW],capB:[...cCapturedB],lastMove:cLastMove?{...cLastMove}:null,hist:[...cMoveHist]});
+
+  let captured=cBoard[tr][tc];
+
+  // En passant capture
+  if(special==='ep'&&cEPTarget){
+    const epCaptureR=cTurn==='w'?cEPTarget.r+1:cEPTarget.r-1;
+    captured=cBoard[epCaptureR][cEPTarget.c];
+    cBoard[epCaptureR][cEPTarget.c]=null;
+  }
+  if(captured){
+    if(p[0]==='w')cCapturedW.push(captured);
+    else cCapturedB.push(captured);
+  }
+
+  // Castling — move rook too
+  if(special==='castleK'){
+    cBoard[fr][7]=null;cBoard[fr][5]=(p[0]+'R');
+  }
+  if(special==='castleQ'){
+    cBoard[fr][0]=null;cBoard[fr][3]=(p[0]+'R');
+  }
+
+  cBoard[tr][tc]=p;cBoard[fr][fc]=null;
+  cLastMove={fr,fc,tr,tc};
+
+  // Update castling rights
+  if(p==='wK'){cCastle.wK=false;cCastle.wQR=false;cCastle.wKR=false;}
+  if(p==='bK'){cCastle.bK=false;cCastle.bQR=false;cCastle.bKR=false;}
+  if(p==='wR'){if(fr===7&&fc===0)cCastle.wQR=false;if(fr===7&&fc===7)cCastle.wKR=false;}
+  if(p==='bR'){if(fr===0&&fc===0)cCastle.bQR=false;if(fr===0&&fc===7)cCastle.bKR=false;}
+
+  // En passant target
+  cEPTarget=null;
+  if(p[1]==='P'&&Math.abs(tr-fr)===2)cEPTarget={r:(fr+tr)/2,c:fc};
+
+  addCMove(p,fr,fc,tr,tc,cTurn,special,captured);
+
+  // Promotion check
+  const needsPromo=(p==='wP'&&tr===0)||(p==='bP'&&tr===7);
+  if(needsPromo){
+    showPromoModal(p[0],tr,tc);
+    return; // will resume after user picks
+  }
+
+  finishMove();
+}
+
+function finishMove(){
+  cTurn=cTurn==='w'?'b':'w';
+  renderCBoard();updateCStatus();renderCaptured();
+  if(cMode==='computer'&&cTurn==='b'&&!cGameOver){
+    document.getElementById('ai-thinking').classList.add('show');
+    setTimeout(()=>{aiMove();document.getElementById('ai-thinking').classList.remove('show');},cDiff==='easy'?300:cDiff==='med'?500:800);
+  }
+}
+
+function showPromoModal(col,tr,tc){
+  const pieces=col==='w'?['wQ','wR','wB','wN']:['bQ','bR','bB','bN'];
+  const modal=document.getElementById('promo-modal');
+  const choices=document.getElementById('promo-choices');
+  choices.innerHTML='';
+  pieces.forEach(pp=>{
+    const btn=document.createElement('button');
+    btn.className='promo-piece-btn';
+    btn.textContent=CP[pp];
+    btn.onclick=()=>{
+      cBoard[tr][tc]=pp;
+      modal.classList.remove('show');
+      finishMove();
+    };
+    choices.appendChild(btn);
+  });
+  modal.classList.add('show');
+}
+
+// ── Move generation ──
+function getVM(r,c,filterCheck){
+  const p=cBoard[r][c];if(!p)return[];
+  const col=p[0],type=p[1],opp=col==='w'?'b':'w';const moves=[];
+  const addIf=(nr,nc,sp)=>{if(nr>=0&&nr<8&&nc>=0&&nc<8&&(!cBoard[nr][nc]||cBoard[nr][nc][0]===opp))moves.push({r:nr,c:nc,special:sp});};
+  const slide=(dr,dc)=>{let nr=r+dr,nc=c+dc;while(nr>=0&&nr<8&&nc>=0&&nc<8){if(cBoard[nr][nc]){if(cBoard[nr][nc][0]===opp)moves.push({r:nr,c:nc});break;}moves.push({r:nr,c:nc});nr+=dr;nc+=dc;}};
+
+  if(type==='P'){
+    const dir=col==='w'?-1:1,st=col==='w'?6:1;
+    if(r+dir>=0&&r+dir<8&&!cBoard[r+dir][c]){
+      moves.push({r:r+dir,c});
+      if(r===st&&!cBoard[r+2*dir][c])moves.push({r:r+2*dir,c});
+    }
+    for(const dc of[-1,1]){
+      if(c+dc>=0&&c+dc<8){
+        if(cBoard[r+dir]?.[c+dc]?.[0]===opp)moves.push({r:r+dir,c:c+dc});
+        // En passant
+        if(cEPTarget&&cEPTarget.r===r+dir&&cEPTarget.c===c+dc)moves.push({r:r+dir,c:c+dc,special:'ep'});
+      }
+    }
+  }
+  if(type==='N')[[-2,-1],[-2,1],[-1,-2],[-1,2],[1,-2],[1,2],[2,-1],[2,1]].forEach(([dr,dc])=>addIf(r+dr,c+dc));
+  if(type==='B'||type==='Q')[[-1,-1],[-1,1],[1,-1],[1,1]].forEach(([dr,dc])=>slide(dr,dc));
+  if(type==='R'||type==='Q')[[-1,0],[1,0],[0,-1],[0,1]].forEach(([dr,dc])=>slide(dr,dc));
+  if(type==='K'){
+    [[-1,-1],[-1,0],[-1,1],[0,-1],[0,1],[1,-1],[1,0],[1,1]].forEach(([dr,dc])=>addIf(r+dr,c+dc));
+    // Castling
+    if(col==='w'&&r===7&&c===4&&cCastle.wK){
+      if(cCastle.wKR&&!cBoard[7][5]&&!cBoard[7][6]&&!isAtt(7,4,'b')&&!isAtt(7,5,'b')&&!isAtt(7,6,'b'))moves.push({r:7,c:6,special:'castleK'});
+      if(cCastle.wQR&&!cBoard[7][3]&&!cBoard[7][2]&&!cBoard[7][1]&&!isAtt(7,4,'b')&&!isAtt(7,3,'b')&&!isAtt(7,2,'b'))moves.push({r:7,c:2,special:'castleQ'});
+    }
+    if(col==='b'&&r===0&&c===4&&cCastle.bK){
+      if(cCastle.bKR&&!cBoard[0][5]&&!cBoard[0][6]&&!isAtt(0,4,'w')&&!isAtt(0,5,'w')&&!isAtt(0,6,'w'))moves.push({r:0,c:6,special:'castleK'});
+      if(cCastle.bQR&&!cBoard[0][3]&&!cBoard[0][2]&&!cBoard[0][1]&&!isAtt(0,4,'w')&&!isAtt(0,3,'w')&&!isAtt(0,2,'w'))moves.push({r:0,c:2,special:'castleQ'});
+    }
+  }
+
+  if(!filterCheck)return moves;
+  // Filter moves that leave king in check
+  return moves.filter(m=>{
+    const saved=cBoard[m.r][m.c];
+    let epSaved=null;
+    if(m.special==='ep'&&cEPTarget){const epr=col==='w'?cEPTarget.r+1:cEPTarget.r-1;epSaved={r:epr,c:cEPTarget.c,p:cBoard[epr][cEPTarget.c]};cBoard[epr][cEPTarget.c]=null;}
+    cBoard[m.r][m.c]=p;cBoard[r][c]=null;
+    const kp=findKing(col);
+    const inCheck=kp&&isAtt(kp.r,kp.c,opp);
+    cBoard[r][c]=p;cBoard[m.r][m.c]=saved;
+    if(epSaved)cBoard[epSaved.r][epSaved.c]=epSaved.p;
+    return !inCheck;
+  });
+}
+
+function findKing(col){for(let r=0;r<8;r++)for(let c=0;c<8;c++)if(cBoard[r][c]===col+'K')return{r,c};return null;}
+function isAtt(r,c,by){
+  for(let fr=0;fr<8;fr++)for(let fc=0;fc<8;fc++)
+    if(cBoard[fr][fc]?.[0]===by&&getVM(fr,fc,false).some(m=>m.r===r&&m.c===c))return true;
+  return false;
+}
+
+function hasLegalMoves(col){
+  for(let r=0;r<8;r++)for(let c=0;c<8;c++)
+    if(cBoard[r][c]?.[0]===col&&getVM(r,c,true).length>0)return true;
+  return false;
+}
+
+// ── Move history notation ──
+function colL(c){return'abcdefgh'[c];}
+function addCMove(p,fr,fc,tr,tc,col,special,captured){
+  let notation=CP[p]+colL(tc)+(8-tr);
+  if(captured)notation+='×';
+  if(special==='castleK')notation='O-O';
+  if(special==='castleQ')notation='O-O-O';
+  cMoveHist.push({p,to:colL(tc)+(8-tr),col,notation});
+  rebuildMoveList();
+}
+function rebuildMoveList(){
+  const ml=document.getElementById('move-list');
+  ml.innerHTML='';
+  let moveNum=1;
+  for(let i=0;i<cMoveHist.length;i+=2){
+    const nn=document.createElement('span');nn.className='move-num';nn.textContent=moveNum+'.';ml.appendChild(nn);
+    const wm=document.createElement('span');wm.className='move-w';wm.textContent=cMoveHist[i].notation;ml.appendChild(wm);
+    if(cMoveHist[i+1]){const bm=document.createElement('span');bm.className='move-b';bm.textContent=cMoveHist[i+1].notation;ml.appendChild(bm);}
+    else{const em=document.createElement('span');em.textContent='';ml.appendChild(em);}
+    moveNum++;
+  }
+  ml.scrollTop=ml.scrollHeight;
+}
+
+// ── Captured pieces display ──
+function renderCaptured(){
+  const sortByVal=arr=>[...arr].sort((a,b)=>(PV[b[1]]||0)-(PV[a[1]]||0));
+  document.getElementById('captured-by-black').textContent=sortByVal(cCapturedB).map(p=>CP[p]).join('');
+  document.getElementById('captured-by-white').textContent=sortByVal(cCapturedW).map(p=>CP[p]).join('');
+}
+
+// ── Status update ──
+function updateCStatus(){
+  const wBar=document.getElementById('player-bar-white');
+  const bBar=document.getElementById('player-bar-black');
+  wBar.classList.toggle('active-player',cTurn==='w');
+  bBar.classList.toggle('active-player',cTurn==='b');
+  document.getElementById('chess-turn').textContent=cTurn==='w'?'White ⬜':'Black ⬛';
+  const mc=Math.ceil(cMoveHist.length/2);
+  document.getElementById('chess-move-count').textContent=mc;
+  const msgEl=document.getElementById('chess-msg');
+  const kp=findKing(cTurn);
+  const opp=cTurn==='w'?'b':'w';
+  const legal=hasLegalMoves(cTurn);
+  if(!legal){
+    cGameOver=true;
+    if(kp&&isAtt(kp.r,kp.c,opp)){
+      msgEl.textContent='♚ Checkmate! '+(cTurn==='w'?'Black':'White')+' wins!';
+    } else {
+      msgEl.textContent='🤝 Stalemate! Draw.';
+    }
+    msgEl.classList.add('visible');
+    return;
+  }
+  if(kp&&isAtt(kp.r,kp.c,opp)){msgEl.textContent='⚠ Check!';msgEl.classList.add('visible');}
+  else{msgEl.textContent='';msgEl.classList.remove('visible');}
+}
+
+// ── Undo ──
+function undoChess(){
+  const steps=cMode==='computer'&&cHistory.length>=2?2:1;
+  for(let i=0;i<steps;i++){
+    if(!cHistory.length)break;
+    const h=cHistory.pop();
+    cBoard=h.board;cTurn=h.turn;cEPTarget=h.ep;cCastle=h.castle;
+    cCapturedW=h.capW;cCapturedB=h.capB;cLastMove=h.lastMove;cMoveHist=h.hist;
+  }
+  cGameOver=false;cSel=null;
+  rebuildMoveList();renderCBoard();updateCStatus();renderCaptured();
+  const msgEl=document.getElementById('chess-msg');msgEl.textContent='';msgEl.classList.remove('visible');
+}
+
+function flipBoard(){cFlipped=!cFlipped;renderCBoard();}
+function setChessMode(mode){
+  cMode=mode;
+  document.getElementById('chess-btn-computer').classList.toggle('active',mode==='computer');
+  document.getElementById('chess-btn-friend').classList.toggle('active',mode==='friend');
+  document.getElementById('chess-mode-label').textContent=mode==='computer'?'vs Computer':'2 Players';
+  document.getElementById('player-black-label').textContent=mode==='computer'?'Computer':'Player 2';
+  const dr=document.getElementById('chess-diff-row');if(dr)dr.style.display=mode==='computer'?'flex':'none';
+  initChess();
+}
+function setDiff(d){
+  cDiff=d;
+  ['easy','med','hard'].forEach(x=>document.getElementById('diff-'+x).classList.toggle('on',x===d));
+}
+
+// ── AI — minimax with alpha-beta ──
+const DIFF_DEPTH={easy:1,med:2,hard:3};
+function evalCBoard(){
+  let score=0;
+  for(let r=0;r<8;r++)for(let c=0;c<8;c++){
+    const p=cBoard[r][c];if(!p)continue;
+    const type=p[1],col=p[0];
+    const base=PV[type]||0;
+    const pstRow=col==='w'?r:7-r;
+    const pst=(PST[type]?PST[type][pstRow]?.[c]:0)||0;
+    score+=(col==='b'?1:-1)*(base+pst);
+  }
+  return score;
+}
+function minimax(depth,alpha,beta,maximizing){
+  if(depth===0)return evalCBoard();
+  const col=maximizing?'b':'w';
+  const opp=maximizing?'w':'b';
+  const savedEP={...cEPTarget};const savedCastle={...cCastle};
+  let best=maximizing?-Infinity:Infinity;
+  for(let r=0;r<8;r++)for(let c=0;c<8;c++){
+    if(cBoard[r][c]?.[0]===col){
+      const moves=getVM(r,c,true);
+      for(const m of moves){
+        const savedPiece=cBoard[m.r][m.c];
+        let epCap=null;
+        if(m.special==='ep'&&cEPTarget){const epr=col==='w'?cEPTarget.r+1:cEPTarget.r-1;epCap={r:epr,c:cEPTarget.c,p:cBoard[epr][cEPTarget.c]};cBoard[epr][cEPTarget.c]=null;}
+        // castling rook
+        if(m.special==='castleK'){cBoard[r][7]=null;cBoard[r][5]=col+'R';}
+        if(m.special==='castleQ'){cBoard[r][0]=null;cBoard[r][3]=col+'R';}
+        const wasP=cBoard[r][c];
+        cBoard[m.r][m.c]=wasP;cBoard[r][c]=null;
+        // pawn promo — auto queen for AI
+        if(wasP==='bP'&&m.r===7)cBoard[m.r][m.c]='bQ';
+        if(wasP==='wP'&&m.r===0)cBoard[m.r][m.c]='wQ';
+        // update EP
+        cEPTarget=null;if(wasP[1]==='P'&&Math.abs(m.r-r)===2)cEPTarget={r:(r+m.r)/2,c:c};
+        const score=minimax(depth-1,alpha,beta,!maximizing);
+        // undo
+        cBoard[r][c]=wasP;cBoard[m.r][m.c]=savedPiece;
+        if(epCap)cBoard[epCap.r][epCap.c]=epCap.p;
+        if(m.special==='castleK'){cBoard[r][5]=null;cBoard[r][7]=col+'R';}
+        if(m.special==='castleQ'){cBoard[r][3]=null;cBoard[r][0]=col+'R';}
+        Object.assign(cEPTarget,savedEP);Object.assign(cCastle,savedCastle);
+        if(maximizing){best=Math.max(best,score);alpha=Math.max(alpha,score);}
+        else{best=Math.min(best,score);beta=Math.min(beta,score);}
+        if(beta<=alpha)return best;
+      }
+    }
+  }
+  return best;
+}
+
+function aiMove(){
+  const depth=DIFF_DEPTH[cDiff]||1;
+  let best=null,bs=-Infinity;
+  const savedEP=cEPTarget?{...cEPTarget}:null;const savedCastle={...cCastle};
+  for(let r=0;r<8;r++)for(let c=0;c<8;c++){
+    if(cBoard[r][c]?.[0]==='b'){
+      getVM(r,c,true).forEach(m=>{
+        const savedPiece=cBoard[m.r][m.c];
+        let epCap=null;
+        if(m.special==='ep'&&cEPTarget){const epr=1;epCap={r:epr,c:cEPTarget.c,p:cBoard[epr][cEPTarget.c]};cBoard[epr][cEPTarget.c]=null;}
+        if(m.special==='castleK'){cBoard[r][7]=null;cBoard[r][5]='bR';}
+        if(m.special==='castleQ'){cBoard[r][0]=null;cBoard[r][3]='bR';}
+        const wasP=cBoard[r][c];cBoard[m.r][m.c]=wasP==='bP'&&m.r===7?'bQ':wasP;cBoard[r][c]=null;
+        cEPTarget=null;if(wasP[1]==='P'&&Math.abs(m.r-r)===2)cEPTarget={r:(r+m.r)/2,c:c};
+        const score=minimax(depth-1,-Infinity,Infinity,false)+Math.random()*.5*(3-DIFF_DEPTH[cDiff]);
+        cBoard[r][c]=wasP;cBoard[m.r][m.c]=savedPiece;
+        if(epCap)cBoard[epCap.r][epCap.c]=epCap.p;
+        if(m.special==='castleK'){cBoard[r][5]=null;cBoard[r][7]='bR';}
+        if(m.special==='castleQ'){cBoard[r][3]=null;cBoard[r][0]='bR';}
+        cEPTarget=savedEP;Object.assign(cCastle,savedCastle);
+        if(score>bs){bs=score;best={fr:r,fc:c,tr:m.r,tc:m.c,special:m.special};}
+      });
+    }
+  }
+  if(best)execCMove(best.fr,best.fc,best.tr,best.tc,best.special);
+  else{const msgEl=document.getElementById('chess-msg');msgEl.textContent='🏳 No moves — checkmate or stalemate!';msgEl.classList.add('visible');cGameOver=true;}
+}
+
+initChess();
+
+
+/* ─────────────────────────────────────────
+   CURRENCY — Live Rates (3 API fallbacks, no key needed)
+   1. fawazahmed0/currency-api via jsDelivr (200+ currencies, daily)
+   2. Frankfurter / ECB (30 major currencies)
+   3. open.er-api.com (free open access)
+   4. Static hardcoded fallback (offline)
+───────────────────────────────────────── */
+const CURR={USD:'US Dollar',EUR:'Euro',GBP:'British Pound',JPY:'Japanese Yen',INR:'Indian Rupee',CNY:'Chinese Yuan',AUD:'Australian Dollar',CAD:'Canadian Dollar',CHF:'Swiss Franc',HKD:'Hong Kong Dollar',SGD:'Singapore Dollar',SEK:'Swedish Krona',NOK:'Norwegian Krone',DKK:'Danish Krone',NZD:'New Zealand Dollar',MXN:'Mexican Peso',BRL:'Brazilian Real',ZAR:'South African Rand',RUB:'Russian Ruble',TRY:'Turkish Lira',AED:'UAE Dirham',SAR:'Saudi Riyal',KRW:'South Korean Won',THB:'Thai Baht',IDR:'Indonesian Rupiah',MYR:'Malaysian Ringgit',PHP:'Philippine Peso',PKR:'Pakistani Rupee',BDT:'Bangladeshi Taka',EGP:'Egyptian Pound',NGN:'Nigerian Naira',KES:'Kenyan Shilling',GHS:'Ghanaian Cedi',MAD:'Moroccan Dirham',TZS:'Tanzanian Shilling',UGX:'Ugandan Shilling',ILS:'Israeli Shekel',JOD:'Jordanian Dinar',KWD:'Kuwaiti Dinar',QAR:'Qatari Riyal',BHD:'Bahraini Dinar',OMR:'Omani Rial',LKR:'Sri Lankan Rupee',NPR:'Nepalese Rupee',MMK:'Myanmar Kyat',VND:'Vietnamese Dong',TWD:'Taiwan Dollar',HUF:'Hungarian Forint',PLN:'Polish Zloty',CZK:'Czech Koruna',RON:'Romanian Leu',BGN:'Bulgarian Lev',UAH:'Ukrainian Hryvnia',GEL:'Georgian Lari',KZT:'Kazakhstani Tenge',CLP:'Chilean Peso',COP:'Colombian Peso',PEN:'Peruvian Sol',ARS:'Argentine Peso',BOB:'Bolivian Boliviano',UYU:'Uruguayan Peso',GTQ:'Guatemalan Quetzal',HNL:'Honduran Lempira',CRC:'Costa Rican Colón',DOP:'Dominican Peso',JMD:'Jamaican Dollar',BWP:'Botswana Pula',ZMW:'Zambian Kwacha',ETB:'Ethiopian Birr',TND:'Tunisian Dinar',DZD:'Algerian Dinar',MUR:'Mauritian Rupee',RWF:'Rwandan Franc',XOF:'West African CFA',XAF:'Central African CFA',IQD:'Iraqi Dinar',LYD:'Libyan Dinar',SDG:'Sudanese Pound',SOS:'Somali Shilling',MGA:'Malagasy Ariary',MZN:'Mozambican Metical',AMD:'Armenian Dram',AZN:'Azerbaijani Manat',UZS:'Uzbekistani Som',KHR:'Cambodian Riel',NIO:'Nicaraguan Córdoba',PYG:'Paraguayan Guaraní',TTD:'Trinidad Dollar',BBD:'Barbadian Dollar',VES:'Venezuelan Bolívar',IRR:'Iranian Rial',BTC:'Bitcoin',ETH:'Ethereum'};
+const FLAGS={USD:'🇺🇸',EUR:'🇪🇺',GBP:'🇬🇧',JPY:'🇯🇵',INR:'🇮🇳',CNY:'🇨🇳',AUD:'🇦🇺',CAD:'🇨🇦',CHF:'🇨🇭',HKD:'🇭🇰',SGD:'🇸🇬',SEK:'🇸🇪',NOK:'🇳🇴',DKK:'🇩🇰',NZD:'🇳🇿',MXN:'🇲🇽',BRL:'🇧🇷',ZAR:'🇿🇦',RUB:'🇷🇺',TRY:'🇹🇷',AED:'🇦🇪',SAR:'🇸🇦',KRW:'🇰🇷',THB:'🇹🇭',IDR:'🇮🇩',MYR:'🇲🇾',PHP:'🇵🇭',PKR:'🇵🇰',BDT:'🇧🇩',EGP:'🇪🇬',NGN:'🇳🇬',KES:'🇰🇪',GHS:'🇬🇭',MAD:'🇲🇦',TZS:'🇹🇿',UGX:'🇺🇬',ILS:'🇮🇱',JOD:'🇯🇴',KWD:'🇰🇼',QAR:'🇶🇦',BHD:'🇧🇭',OMR:'🇴🇲',LKR:'🇱🇰',NPR:'🇳🇵',MMK:'🇲🇲',VND:'🇻🇳',TWD:'🇹🇼',HUF:'🇭🇺',PLN:'🇵🇱',CZK:'🇨🇿',RON:'🇷🇴',BGN:'🇧🇬',UAH:'🇺🇦',GEL:'🇬🇪',KZT:'🇰🇿',CLP:'🇨🇱',COP:'🇨🇴',PEN:'🇵🇪',ARS:'🇦🇷',BOB:'🇧🇴',UYU:'🇺🇾',GTQ:'🇬🇹',HNL:'🇭🇳',CRC:'🇨🇷',DOP:'🇩🇴',JMD:'🇯🇲',BWP:'🇧🇼',ZMW:'🇿🇲',ETB:'🇪🇹',TND:'🇹🇳',DZD:'🇩🇿',MUR:'🇲🇺',RWF:'🇷🇼',XOF:'🌍',XAF:'🌍',IQD:'🇮🇶',LYD:'🇱🇾',SDG:'🇸🇩',SOS:'🇸🇴',MGA:'🇲🇬',MZN:'🇲🇿',AMD:'🇦🇲',AZN:'🇦🇿',UZS:'🇺🇿',KHR:'🇰🇭',NIO:'🇳🇮',PYG:'🇵🇾',TTD:'🇹🇹',BBD:'🇧🇧',VES:'🇻🇪',IRR:'🇮🇷',BTC:'₿',ETH:'⟠'};
+const STATIC_RATES={USD:1,EUR:.92,GBP:.79,JPY:149.5,INR:83.5,CNY:7.24,AUD:1.53,CAD:1.36,CHF:.89,HKD:7.82,SGD:1.35,SEK:10.4,NOK:10.6,DKK:6.88,NZD:1.63,MXN:17.1,BRL:4.97,ZAR:18.6,RUB:90.5,TRY:30.4,AED:3.67,SAR:3.75,KRW:1325,THB:35.1,IDR:15600,MYR:4.68,PHP:56.2,PKR:278,BDT:110,EGP:30.9,NGN:1580,KES:154,GHS:12.1,MAD:10.1,TZS:2500,UGX:3750,ILS:3.71,JOD:.71,KWD:.308,QAR:3.64,BHD:.376,OMR:.385,LKR:325,NPR:133,MMK:2100,VND:24500,TWD:31.5,HUF:354,PLN:4.01,CZK:22.7,RON:4.57,BGN:1.8,UAH:37.3,GEL:2.67,KZT:456,CLP:875,COP:3950,PEN:3.74,ARS:900,BOB:6.91,UYU:38.7,GTQ:7.84,HNL:24.7,CRC:530,DOP:57.2,JMD:156,BWP:13.5,ZMW:21.3,ETB:55.9,TND:3.1,DZD:135,MUR:44.8,RWF:1285,XOF:600,XAF:600,IQD:1310,LYD:4.85,SDG:602,SOS:572,MGA:4570,MZN:63.8,AMD:390,AZN:1.7,UZS:12300,KHR:4060,NIO:36.6,PYG:7280,TTD:6.78,BBD:2,VES:36,IRR:42000,BTC:0.0000235,ETH:0.000385};
+
+let RATES = {...STATIC_RATES};
+let ratesSource = 'Loading...';
+
+function setRatesBadge(msg, ok){
+  const el=document.getElementById('curr-rate-info');
+  if(el) el.innerHTML = ok
+    ? `<span style="color:#22c55e;font-weight:700">✓ Live Rates</span> · Updated: <strong>${msg}</strong> · via ${ratesSource}`
+    : `<span style="color:var(--accent2)">⚠ ${msg}</span>`;
+}
+
+async function fetchRates(){
+  setRatesBadge('Fetching live rates...', false);
+  // 1. fawazahmed0 via jsDelivr
+  const today = new Date().toISOString().slice(0,10);
+  const cdnUrls = [
+    `https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@${today}/v1/currencies/usd.json`,
+    `https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies/usd.json`
+  ];
+  for(const url of cdnUrls){
+    try{
+      const res = await fetch(url);
+      if(!res.ok) continue;
+      const data = await res.json();
+      if(data && data.usd){
+        const mapped={};
+        for(const [k,v] of Object.entries(data.usd)) mapped[k.toUpperCase()]=v;
+        RATES={...STATIC_RATES,...mapped};
+        ratesSource='fawazahmed0/currency-api';
+        setRatesBadge(data.date||today, true);
+        convertCurr(); return;
+      }
+    }catch(e){}
+  }
+  // 2. Frankfurter (ECB)
+  try{
+    const res=await fetch('https://api.frankfurter.dev/v1/latest?base=USD');
+    if(res.ok){
+      const data=await res.json();
+      if(data&&data.rates){
+        const mapped={USD:1};
+        for(const [k,v] of Object.entries(data.rates)) mapped[k.toUpperCase()]=v;
+        RATES={...STATIC_RATES,...mapped};
+        ratesSource='Frankfurter (ECB)';
+        setRatesBadge(data.date||'today', true);
+        convertCurr(); return;
+      }
+    }
+  }catch(e){}
+  // 3. open.er-api.com
+  try{
+    const res=await fetch('https://open.er-api.com/v6/latest/USD');
+    if(res.ok){
+      const data=await res.json();
+      if(data&&data.rates){
+        RATES={...STATIC_RATES,...data.rates};
+        ratesSource='ExchangeRate-API';
+        setRatesBadge((data.time_last_update_utc||'').slice(0,16), true);
+        convertCurr(); return;
+      }
+    }
+  }catch(e){}
+  // Fallback
+  ratesSource='Static fallback';
+  setRatesBadge('Live fetch failed — using reference rates', false);
+  convertCurr();
+}
+
+function populateCurr(){
+  const opts=Object.entries(CURR).map(([c,n])=>`<option value="${c}">${FLAGS[c]||''} ${c} — ${n}</option>`).join('');
+  document.getElementById('curr-from').innerHTML=opts;
+  document.getElementById('curr-to').innerHTML=opts;
+  document.getElementById('curr-from').value='USD';
+  document.getElementById('curr-to').value='INR';
+  updateFlags();
+}
+function updateFlags(){
+  const from=document.getElementById('curr-from').value;
+  const to=document.getElementById('curr-to').value;
+  document.getElementById('flag-from').textContent=FLAGS[from]||'💰';
+  document.getElementById('code-from').textContent=from;
+  document.getElementById('name-from').textContent=CURR[from]||'';
+  document.getElementById('flag-to').textContent=FLAGS[to]||'💰';
+  document.getElementById('code-to').textContent=to;
+  document.getElementById('name-to').textContent=CURR[to]||'';
+}
+function swapCurr(){
+  const f=document.getElementById('curr-from'),t=document.getElementById('curr-to');
+  [f.value,t.value]=[t.value,f.value];updateFlags();convertCurr();
+}
+function convertCurr(){
+  const amt=parseFloat(document.getElementById('curr-amount').value)||0;
+  const from=document.getElementById('curr-from').value,to=document.getElementById('curr-to').value;
+  const rF=RATES[from]||STATIC_RATES[from]||1;
+  const rT=RATES[to]||STATIC_RATES[to]||1;
+  const result=(amt/rF)*rT,rate=rT/rF;
+  const fmtd=result>=1?result.toLocaleString('en-US',{maximumFractionDigits:4}):result.toLocaleString('en-US',{maximumFractionDigits:8});
+  const fmtAmt=amt.toLocaleString('en-US',{maximumFractionDigits:4});
+  document.getElementById('curr-result').innerHTML=`
+    <div class="res-val">${FLAGS[to]||''} ${fmtd} ${to}</div>
+    <div class="res-sub">${FLAGS[from]||''} ${fmtAmt} ${from} = ${FLAGS[to]||''} ${fmtd} ${to}</div>
+    <div class="res-rate">1 ${from} = ${rate.toFixed(6).replace(/\.?0+$/,'')} ${to}</div>
+  `;
+  renderPop(from,'');
+}
+let popSearchTerm='';
+function filterPop(){
+  popSearchTerm=document.getElementById('curr-search').value.toUpperCase();
+  renderPop(document.getElementById('curr-from').value, popSearchTerm);
+}
+function renderPop(base,search){
+  const rF=RATES[base]||STATIC_RATES[base]||1;
+  let pairs=Object.keys(CURR).filter(c=>c!==base);
+  if(search)pairs=pairs.filter(c=>c.includes(search)||CURR[c].toUpperCase().includes(search));
+  pairs=pairs.slice(0,40);
+  document.getElementById('pop-grid').innerHTML=pairs.map(c=>`
+    <div class="pop-rate" onclick="document.getElementById('curr-to').value='${c}';updateFlags();convertCurr()">
+      <div class="rate-flag">${FLAGS[c]||'💰'}</div>
+      <div class="pair">${c}</div>
+      <div class="rate-val">${((RATES[c]||STATIC_RATES[c]||1)/rF).toFixed(3)}</div>
+    </div>`).join('');
+}
+populateCurr();
+fetchRates();
+
+/* ── ADMIN PANEL JS ── */
+let _adminCache=[];
+function openAdminPanel(btn){
+  if(!window._isAdmin){showToast('⛔ Access denied');return;}
+  showPanel('admin',btn); loadAdminUsers();
+}
+function loadAdminUsers(){
+  if(!window._isAdmin||!window._adminAPI) return;
+  const users=window._adminAPI.getUsers();
+  _adminCache=users;
+  const g=id=>document.getElementById(id);
+  if(g('stat-total'))   g('stat-total').textContent=users.length;
+  if(g('stat-active'))  g('stat-active').textContent=users.filter(u=>u.status!=='blocked').length;
+  if(g('stat-blocked')) g('stat-blocked').textContent=users.filter(u=>u.status==='blocked').length;
+  renderAdminTable(users);
+}
+function renderAdminTable(users){
+  const AE=atob('Y29tbWFuZGVyQGFkbWluLmNvbQ==');
+  const tb=document.getElementById('admin-user-list');
+  if(!tb) return;
+  if(!users.length){tb.innerHTML='<tr><td colspan="4" class="admin-empty">No users found</td></tr>';return;}
+  tb.innerHTML=users.map(u=>{
+    const isAdm=u.email===AE;
+    const sb=u.status==='blocked'?'<span class="u-badge blocked">Blocked</span>':'<span class="u-badge active">Active</span>';
+    const ab=isAdm?'<span class="u-badge admin">ADMIN</span>':'';
+    const dt=u.createdAt?new Date(u.createdAt).toLocaleDateString('en-IN'):'—';
+    const em=u.email.replace(/'/g,"\\'");
+    const acts=isAdm?'<span style="color:var(--text-dim);font-size:.72rem">Protected</span>'
+      :`<div style="display:flex;gap:5px;flex-wrap:wrap">
+        ${u.status==='blocked'
+          ?`<button class="admin-action-btn unblock" onclick="adminStatus('${u.uid}','active','${em}')">✅ Unblock</button>`
+          :`<button class="admin-action-btn block" onclick="adminStatus('${u.uid}','blocked','${em}')">🚫 Block</button>`}
+        <button class="admin-action-btn delete" onclick="adminDel('${u.uid}','${em}')">🗑 Delete</button>
+      </div>`;
+    return `<tr class="${u.status==='blocked'?'row-blocked':''}">
+      <td><div style="font-weight:600;font-size:.82rem">${u.name||'—'} ${ab}</div><div style="font-size:.7rem;color:var(--text-dim)">${u.email}</div></td>
+      <td>${sb}</td><td style="font-size:.74rem;color:var(--text-dim)">${dt}</td><td>${acts}</td></tr>`;
+  }).join('');
+}
+function filterAdminUsers(){
+  const q=(document.getElementById('admin-search').value||'').toLowerCase();
+  const f=document.getElementById('admin-filter').value;
+  let list=_adminCache;
+  if(f==='active')  list=list.filter(u=>u.status!=='blocked');
+  if(f==='blocked') list=list.filter(u=>u.status==='blocked');
+  if(q) list=list.filter(u=>(u.email||'').includes(q)||(u.name||'').toLowerCase().includes(q));
+  renderAdminTable(list);
+}
+function adminStatus(uid,status,email){
+  if(!window._isAdmin) return;
+  if(!confirm((status==='blocked'?'Block':'Unblock')+' user: '+email+'?')) return;
+  window._adminAPI.setStatus(uid,status);
+  showToast(status==='blocked'?'🚫 Blocked: '+email:'✅ Unblocked: '+email);
+  loadAdminUsers();
+}
+function adminDel(uid,email){
+  if(!window._isAdmin) return;
+  if(!confirm('DELETE user: '+email+'?\nCannot be undone.')) return;
+  window._adminAPI.deleteUser(uid);
+  showToast('🗑 Deleted: '+email);
+  loadAdminUsers();
+}
+</script>
+
+
+<!-- ADMIN PANEL -->
+<div class="panel" id="panel-admin">
+  <div class="admin-header">
+    <div style="font-size:1.6rem">🛡️</div>
+    <div><h2>ADMIN PANEL</h2><div style="font-size:.72rem;color:var(--text-dim)">User Management · ToolKit Pro</div></div>
+    <button class="admin-refresh" style="margin-left:auto" onclick="loadAdminUsers()">🔄 Refresh</button>
+  </div>
+  <div class="admin-stats">
+    <div class="admin-stat"><span class="stat-val" id="stat-total">—</span><span class="stat-lbl">Total Users</span></div>
+    <div class="admin-stat green"><span class="stat-val" id="stat-active">—</span><span class="stat-lbl">Active</span></div>
+    <div class="admin-stat red"><span class="stat-val" id="stat-blocked">—</span><span class="stat-lbl">Blocked</span></div>
+  </div>
+  <div class="admin-controls">
+    <input type="text" class="admin-search" id="admin-search" placeholder="🔍 Search name or email..." oninput="filterAdminUsers()">
+    <select class="admin-filter" id="admin-filter" onchange="filterAdminUsers()">
+      <option value="all">All Users</option>
+      <option value="active">Active Only</option>
+      <option value="blocked">Blocked Only</option>
+    </select>
+  </div>
+  <div class="admin-table-wrap">
+    <table class="admin-table">
+      <thead><tr><th>User</th><th>Status</th><th>Joined</th><th>Actions</th></tr></thead>
+      <tbody id="admin-user-list"><tr><td colspan="4" class="admin-loading-row">Click Refresh to load users</td></tr></tbody>
+    </table>
+  </div>
+</div>
+
+</div><!-- end app-page -->
+<!-- Cookie Consent Banner -->
+<div id="cookie-banner" style="display:none;position:fixed;bottom:0;left:0;right:0;background:#0e1221;border-top:1px solid #1e2640;padding:14px 16px;z-index:99999;display:flex;align-items:center;gap:12px;flex-wrap:wrap;box-shadow:0 -4px 20px rgba(0,0,0,.5);">
+  <div style="flex:1;min-width:200px;font-size:.78rem;color:#5a6a90;line-height:1.5;">
+    🍪 We use cookies for login sessions, preferences, and ads (Google AdSense). By continuing, you agree to our <a href="/privacy.html" style="color:#00f5ff;">Privacy Policy</a>.
+  </div>
+  <div style="display:flex;gap:8px;">
+    <button onclick="acceptCookies()" style="padding:9px 20px;background:linear-gradient(135deg,#00f5ff,#00b8d4);border:none;border-radius:8px;color:#000;font-family:'Exo 2',sans-serif;font-size:.82rem;font-weight:800;cursor:pointer;">Accept</button>
+    <button onclick="declineCookies()" style="padding:9px 16px;background:none;border:1px solid #1e2640;border-radius:8px;color:#5a6a90;font-family:'Exo 2',sans-serif;font-size:.82rem;cursor:pointer;">Decline</button>
+  </div>
+</div>
+
+<!-- Back to Top -->
+<button id="back-top-btn" onclick="window.scrollTo({top:0,behavior:'smooth'})" style="display:none;position:fixed;bottom:20px;right:20px;width:42px;height:42px;background:linear-gradient(135deg,#00f5ff,#00b8d4);border:none;border-radius:50%;color:#000;font-size:1.1rem;cursor:pointer;z-index:9998;box-shadow:0 4px 16px rgba(0,245,255,.3);transition:all .2s;">↑</button>
+
+<script>
+// Cookie consent
+(function(){
+  if(!localStorage.getItem('tkp_cookie_consent')){
+    setTimeout(()=>{ const b=document.getElementById('cookie-banner'); if(b) b.style.display='flex'; }, 1500);
+  }
+})();
+function acceptCookies(){
+  localStorage.setItem('tkp_cookie_consent','accepted');
+  document.getElementById('cookie-banner').style.display='none';
+}
+function declineCookies(){
+  localStorage.setItem('tkp_cookie_consent','declined');
+  document.getElementById('cookie-banner').style.display='none';
+}
+
+// Back to top button
+window.addEventListener('scroll',()=>{
+  const btn = document.getElementById('back-top-btn');
+  if(btn) btn.style.display = window.scrollY > 300 ? 'block' : 'none';
+});
+</script>
+
+</body>
+</html>
+
