@@ -6,13 +6,21 @@
 <meta name="keywords" content="calculator, chess, currency converter, free tools, student tools, online calculator, unlimited precision calculator, play chess online, currency exchange">
 <meta name="author" content="Siddhartha Kaithwar">
 <meta name="robots" content="index, follow">
+<meta name="theme-color" content="#080b12">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="ToolKit Pro">
 
-<!-- Open Graph (WhatsApp, Facebook preview) -->
+<!-- Favicon -->
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%23080b12'/><text y='.9em' font-size='80' x='10'>⚡</text></svg>">
+<link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%23080b12'/><text y='.9em' font-size='80' x='10'>⚡</text></svg>">
+
+<!-- Open Graph -->
 <meta property="og:title" content="ToolKit Pro — Free Student Tools">
 <meta property="og:description" content="Calculator, Chess & Currency Converter — all free, no app needed!">
 <meta property="og:url" content="https://toolkitpro.co.in">
 <meta property="og:type" content="website">
-<meta property="og:image" content="https://toolkitpro.co.in/og-image.png">
+<meta property="og:site_name" content="ToolKit Pro">
 
 <!-- Twitter Card -->
 <meta name="twitter:card" content="summary">
@@ -21,6 +29,29 @@
 
 <!-- Canonical -->
 <link rel="canonical" href="https://toolkitpro.co.in/">
+
+<!-- Structured Data -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "ToolKit Pro",
+  "url": "https://toolkitpro.co.in",
+  "description": "Free online calculator with unlimited precision, chess game vs AI, and currency converter for 160+ countries.",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "Any",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "INR"
+  },
+  "author": {
+    "@type": "Person",
+    "name": "Siddhartha Kaithwar"
+  },
+  "featureList": ["Unlimited Precision Calculator", "Chess vs AI", "Currency Converter 160+ countries"]
+}
+</script>
 <!-- Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-SK7Z4P7H7P"></script>
 <script>
@@ -2937,6 +2968,43 @@ function adminDel(uid,email){
 </div>
 
 </div><!-- end app-page -->
+<!-- Cookie Consent Banner -->
+<div id="cookie-banner" style="display:none;position:fixed;bottom:0;left:0;right:0;background:#0e1221;border-top:1px solid #1e2640;padding:14px 16px;z-index:99999;display:flex;align-items:center;gap:12px;flex-wrap:wrap;box-shadow:0 -4px 20px rgba(0,0,0,.5);">
+  <div style="flex:1;min-width:200px;font-size:.78rem;color:#5a6a90;line-height:1.5;">
+    🍪 We use cookies for login sessions, preferences, and ads (Google AdSense). By continuing, you agree to our <a href="#" onclick="showPanel('privacy',null);document.getElementById('cookie-banner').style.display='none';return false;" style="color:#00f5ff;">Privacy Policy</a>.
+  </div>
+  <div style="display:flex;gap:8px;">
+    <button onclick="acceptCookies()" style="padding:9px 20px;background:linear-gradient(135deg,#00f5ff,#00b8d4);border:none;border-radius:8px;color:#000;font-family:'Exo 2',sans-serif;font-size:.82rem;font-weight:800;cursor:pointer;">Accept</button>
+    <button onclick="declineCookies()" style="padding:9px 16px;background:none;border:1px solid #1e2640;border-radius:8px;color:#5a6a90;font-family:'Exo 2',sans-serif;font-size:.82rem;cursor:pointer;">Decline</button>
+  </div>
+</div>
+
+<!-- Back to Top -->
+<button id="back-top-btn" onclick="window.scrollTo({top:0,behavior:'smooth'})" style="display:none;position:fixed;bottom:20px;right:20px;width:42px;height:42px;background:linear-gradient(135deg,#00f5ff,#00b8d4);border:none;border-radius:50%;color:#000;font-size:1.1rem;cursor:pointer;z-index:9998;box-shadow:0 4px 16px rgba(0,245,255,.3);transition:all .2s;">↑</button>
+
+<script>
+// Cookie consent
+(function(){
+  if(!localStorage.getItem('tkp_cookie_consent')){
+    setTimeout(()=>{ const b=document.getElementById('cookie-banner'); if(b) b.style.display='flex'; }, 1500);
+  }
+})();
+function acceptCookies(){
+  localStorage.setItem('tkp_cookie_consent','accepted');
+  document.getElementById('cookie-banner').style.display='none';
+}
+function declineCookies(){
+  localStorage.setItem('tkp_cookie_consent','declined');
+  document.getElementById('cookie-banner').style.display='none';
+}
+
+// Back to top button
+window.addEventListener('scroll',()=>{
+  const btn = document.getElementById('back-top-btn');
+  if(btn) btn.style.display = window.scrollY > 300 ? 'block' : 'none';
+});
+</script>
+
 </body>
 </html>
 
