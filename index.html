@@ -811,35 +811,6 @@ body.light-mode .chess-sq.dark{background:#4a6fa5;}
 .profile-msg{font-size:.78rem;padding:8px 12px;border-radius:8px;margin-bottom:10px;display:none;}
 .profile-msg.ok{background:rgba(0,200,150,.1);border:1px solid rgba(0,200,150,.3);color:#00c896;}
 .profile-msg.err{background:rgba(255,32,96,.1);border:1px solid rgba(255,32,96,.3);color:#ff2060;}
-.nav-uname{font-size:.75rem;font-weight:700;color:var(--text);max-width:80px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
-.nav-logout{padding:5px 11px;border:1px solid var(--border);border-radius:7px;background:none;color:var(--accent2);cursor:pointer;font-family:"Exo 2",sans-serif;font-size:.72rem;font-weight:600;white-space:nowrap;flex-shrink:0;}
-.admin-header{display:flex;align-items:center;gap:12px;margin-bottom:20px;flex-wrap:wrap;}
-.admin-header h2{font-family:"Rajdhani",sans-serif;font-size:1.5rem;font-weight:700;letter-spacing:2px;color:var(--accent2);}
-.admin-stats{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px;margin-bottom:20px;}
-.admin-stat{background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:14px;text-align:center;}
-.admin-stat .stat-val{font-family:"Rajdhani",sans-serif;font-size:1.8rem;font-weight:700;color:var(--accent);display:block;}
-.admin-stat .stat-lbl{font-size:.68rem;color:var(--text-dim);text-transform:uppercase;letter-spacing:1px;}
-.admin-stat.red .stat-val{color:var(--accent2);}.admin-stat.green .stat-val{color:#22c55e;}
-.admin-controls{display:flex;gap:10px;margin-bottom:14px;flex-wrap:wrap;}
-.admin-search{flex:1;min-width:180px;background:var(--surface2);border:2px solid var(--border);border-radius:9px;padding:9px 13px;color:var(--text);font-family:"Exo 2",sans-serif;font-size:.85rem;outline:none;}
-.admin-search:focus{border-color:var(--accent2);}
-.admin-filter{padding:9px 12px;background:var(--surface2);border:1px solid var(--border);border-radius:9px;color:var(--text);font-family:"Exo 2",sans-serif;font-size:.82rem;outline:none;cursor:pointer;}
-.admin-refresh{padding:8px 13px;background:var(--surface2);border:1px solid var(--border);border-radius:9px;color:var(--accent);cursor:pointer;font-size:.82rem;}
-.admin-table-wrap{overflow-x:auto;background:var(--surface2);border:1px solid var(--border);border-radius:10px;}
-.admin-table{width:100%;border-collapse:collapse;font-size:.82rem;}
-.admin-table th{padding:9px 13px;text-align:left;font-size:.68rem;color:var(--text-dim);text-transform:uppercase;letter-spacing:1px;border-bottom:1px solid var(--border);}
-.admin-table td{padding:9px 13px;border-bottom:1px solid rgba(30,38,64,.4);vertical-align:middle;}
-.admin-table tr:last-child td{border-bottom:none;}
-.admin-table tr.row-blocked td{opacity:.65;}
-.u-badge{display:inline-block;padding:2px 8px;border-radius:20px;font-size:.68rem;font-weight:700;text-transform:uppercase;}
-.u-badge.active{background:rgba(34,197,94,.15);color:#22c55e;border:1px solid rgba(34,197,94,.3);}
-.u-badge.blocked{background:rgba(255,32,96,.15);color:var(--accent2);border:1px solid rgba(255,32,96,.3);}
-.u-badge.admin{background:rgba(124,58,237,.2);color:#a78bfa;border:1px solid rgba(124,58,237,.3);margin-left:4px;}
-.admin-action-btn{padding:5px 9px;border-radius:6px;border:1px solid var(--border);background:none;color:var(--text-dim);cursor:pointer;font-size:.72rem;font-family:"Exo 2",sans-serif;font-weight:600;white-space:nowrap;}
-.admin-action-btn.block:hover{border-color:var(--accent2);color:var(--accent2);}
-.admin-action-btn.unblock:hover{border-color:#22c55e;color:#22c55e;}
-.admin-action-btn.delete{color:var(--accent2);}
-.admin-loading-row,.admin-empty{text-align:center;padding:28px;color:var(--text-dim);}
 
 </style>
 </head>
@@ -1310,7 +1281,7 @@ async function profileLoginSubmit(){
       showToast('✅ Account created!');
     }
   } catch(err){
-    errEl.textContent = friendlyError(err.message || err.code || 'Login failed');
+    errEl.textContent = errMsg(err.message || err.code || 'Login failed');
     errEl.style.display = 'block';
   } finally {
     btn.disabled = false;
@@ -1631,6 +1602,7 @@ function showToast(msg){
   <button class="nav-btn" onclick="showPanel('chess',this)"><span>♟️</span> Chess</button>
   <button class="nav-btn" onclick="showPanel('currency',this)"><span>💱</span> Currency</button>
   <button class="nav-btn" onclick="showPanel('about',this)"><span>👤</span> About</button>
+  <a href="/manual.html" class="nav-btn" style="text-decoration:none;"><span>📖</span> Manual</a>
   <a href="/privacy.html" class="nav-btn" style="text-decoration:none;"><span>🔒</span> Privacy</a>
   <a href="/contact.html" class="nav-btn" style="text-decoration:none;"><span>✉️</span> Contact</a>
   <a href="/terms.html" class="nav-btn" style="text-decoration:none;display:none;" id="nav-terms-btn"><span>📋</span> Terms</a>
@@ -1812,16 +1784,16 @@ function showToast(msg){
 
   <!-- GUEST VIEW: Login/Signup form -->
   <div id="profile-guest-view" style="display:none;max-width:420px;">
-    <div style="background:var(--surface2);border:1px solid var(--border);border-radius:16px;padding:28px 24px;">
+    <div style="background:var(--s2);border:1px solid var(--bd);border-radius:16px;padding:28px 24px;">
       <div style="text-align:center;margin-bottom:22px;">
         <div style="font-size:2.5rem;margin-bottom:8px;">👤</div>
-        <div style="font-family:'Rajdhani',sans-serif;font-size:1.4rem;font-weight:700;color:var(--accent);letter-spacing:2px;">LOGIN / SIGN UP</div>
-        <div style="font-size:.78rem;color:var(--text-dim);margin-top:4px;">Account banao ya login karo</div>
+        <div style="font-family:'Rajdhani',sans-serif;font-size:1.4rem;font-weight:700;color:var(--a);letter-spacing:2px;">LOGIN / SIGN UP</div>
+        <div style="font-size:.78rem;color:var(--td);margin-top:4px;">Account banao ya login karo</div>
       </div>
       <!-- Tabs -->
-      <div style="display:flex;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:3px;gap:3px;margin-bottom:18px;">
-        <button id="ptab-login" onclick="profileTab('login')" style="flex:1;padding:9px;border:none;border-radius:7px;background:var(--accent);color:#000;font-family:'Exo 2',sans-serif;font-size:.8rem;font-weight:800;cursor:pointer;letter-spacing:.5px;text-transform:uppercase;">Login</button>
-        <button id="ptab-signup" onclick="profileTab('signup')" style="flex:1;padding:9px;border:none;border-radius:7px;background:transparent;color:var(--text-dim);font-family:'Exo 2',sans-serif;font-size:.8rem;font-weight:700;cursor:pointer;letter-spacing:.5px;text-transform:uppercase;">Sign Up</button>
+      <div style="display:flex;background:var(--s1);border:1px solid var(--bd);border-radius:10px;padding:3px;gap:3px;margin-bottom:18px;">
+        <button id="ptab-login" onclick="profileTab('login')" style="flex:1;padding:9px;border:none;border-radius:7px;background:var(--a);color:#000;font-family:'Exo 2',sans-serif;font-size:.8rem;font-weight:800;cursor:pointer;letter-spacing:.5px;text-transform:uppercase;">Login</button>
+        <button id="ptab-signup" onclick="profileTab('signup')" style="flex:1;padding:9px;border:none;border-radius:7px;background:transparent;color:var(--td);font-family:'Exo 2',sans-serif;font-size:.8rem;font-weight:700;cursor:pointer;letter-spacing:.5px;text-transform:uppercase;">Sign Up</button>
       </div>
       <!-- Error -->
       <div id="profile-login-err" style="display:none;padding:10px 13px;background:rgba(255,32,96,.1);border:1px solid rgba(255,32,96,.3);border-radius:9px;color:#ff5577;font-size:.82rem;margin-bottom:12px;"></div>
@@ -1924,15 +1896,15 @@ function showToast(msg){
 
     <!-- Footer — no github, no email -->
     <div class="about-footer">
-      Made with ❤️ by <strong style="color:var(--text);">Siddhartha</strong>
+      Made with ❤️ by <strong style="color:var(--t);">Siddhartha</strong>
       &nbsp;·&nbsp;
       <a href="https://www.instagram.com/fix_before_flex?igsh=ZW9pMXoyZm9yOWFk" target="_blank" style="color:#e1306c;text-decoration:none;">📸 @fix_before_flex</a>
       <br style="margin:6px 0;">
-      <a href="/privacy.html" style="color:var(--accent);text-decoration:underline;font-size:.78rem;">Privacy Policy</a>
+      <a href="/privacy.html" style="color:var(--a);text-decoration:underline;font-size:.78rem;">Privacy Policy</a>
       &nbsp;·&nbsp;
-      <a href="/terms.html" style="color:var(--accent);text-decoration:underline;font-size:.78rem;">Terms of Service</a>
+      <a href="/terms.html" style="color:var(--a);text-decoration:underline;font-size:.78rem;">Terms of Service</a>
       &nbsp;·&nbsp;
-      <a href="/contact.html" style="color:var(--accent);text-decoration:underline;font-size:.78rem;">Contact Us</a>
+      <a href="/contact.html" style="color:var(--a);text-decoration:underline;font-size:.78rem;">Contact Us</a>
     </div>
   </div>
 </div>
@@ -2884,7 +2856,7 @@ function adminDel(uid,email){
 
 </div><!-- end app-page -->
 <!-- Cookie Consent Banner -->
-<div id="cookie-banner" style="display:none;position:fixed;bottom:0;left:0;right:0;background:#0e1221;border-top:1px solid #1e2640;padding:14px 16px;z-index:99999;display:flex;align-items:center;gap:12px;flex-wrap:wrap;box-shadow:0 -4px 20px rgba(0,0,0,.5);">
+<div id="cookie-banner" style="display:none;position:fixed;bottom:0;left:0;right:0;background:#0e1221;border-top:1px solid #1e2640;padding:14px 16px;z-index:99999;align-items:center;gap:12px;flex-wrap:wrap;box-shadow:0 -4px 20px rgba(0,0,0,.5);">
   <div style="flex:1;min-width:200px;font-size:.78rem;color:#5a6a90;line-height:1.5;">
     🍪 We use cookies for login sessions, preferences, and ads (Google AdSense). By continuing, you agree to our <a href="/privacy.html" style="color:#00f5ff;">Privacy Policy</a>.
   </div>
