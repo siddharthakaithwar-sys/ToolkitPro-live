@@ -90,7 +90,7 @@ echo "app_encrypted.bin" >> .gitignore
 
 **Before (UNSAFE):**
 ```python
-api_key = "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"
+api_key = "nvapi-nhApfX2jtIEVrGgWe5Cc"
 ```
 
 **After (SAFE):**
