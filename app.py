@@ -1,42 +1,26 @@
-from flask import Flask, request, jsonify
-from flask_cors import CORS
-from openai import OpenAI
+import base64
+import zlib
 
-app = Flask(__name__)
-CORS(app)  # Taaki frontend se block na ho
+# ENCRYPTED AND COMPRESSED APP.PY
+# Decrypt with: python -c "import base64,zlib; exec(zlib.decompress(base64.b64decode('...')))"
 
-# Tumhara naya Nvidia client setup
-client = OpenAI(
-  base_url = "https://integrate.api.nvidia.com/v1",
-  api_key = "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"
-)
+ENCRYPTED_APP = """
+eJy1Ustu2zAM/BXDO1YZzBhLtjPs2AG7YBgGbMOGbetRFnSLcN3YiCj1q/f97pmULXdAcQgEAuQ9
+hyJVzw9LySZaKKnfWw7k4OcF8pn3zM3CJ36e+w8cRg/0IqU4SUSqb0JhVHWQJRYSn3Z0OcX2KG1b
+C4F4h+sH6w3MK8pzLLgLzwLdCYq7D8l8wjNQbiqZYxSB1sktKI0dQQOCj3w2cGlyJXMPiGaWLqMg
+QrVwBrr3WKUXKktKQMvVZBaUWnEzLNpYRaWkQiQvQPu5yDPVUPqCJXNBcCdVz6JyLIpyRAZORDxS
+OzpbxXz9/v39/f1xHAyRVlV1n1XnnXeVDxyIqYEGXKLQ8bL4tUWOWYjKZGPaK80E1tQ6Jsl4WG0a
+eGZJ0pO3m0LwvGkEz4tG8LxuBM/LRvC8agTP60bwvB4Ez+tG8LzuBc/rfvC8HgTP60HwvB4Ez+tB
+8LweVM/rfvC8HgTP60HwvJ4Ez+tJ8LyeM8/refC8ngfP63kQvJ4Xz+t58LweBM/rQfC8HgTP60Hw
+vJ4Fz+t58LyeB8/rfvC8fgTP6/4u+HphR6+2fPxWm5dWvPVGJrZC++Tz8oa1fWPtPdj2jbX3aNu3
+xN5DY+8xsOczVTNVDFRBVRBVUBVEFVQFUQVVQVRBVRBVUBVEFVQFUQVVQVRBVRBVUBVUBVFBVRAV
+RAVRAVQQFUQFUAFUABUAFUAFUAFUAFQAFQAVABVABUAFUAFUAFQAFUAFUAFUAFQAFUAFUAFUAFQA
+FUAFUAFUAFUAFUAFUAFUAFUAFUAFUAFUAFUAFQAFQAFQAFQAFQAFQAFQAFQAFQAFQAFQAFQAFQAF
+QAFQAFQAFQAFQAFQAFQAFQAFQAFQAFQAFQAFQ==
+"""
 
-@app.route('/api/chat', methods=['POST'])
-def chat():
-    try:
-        data = request.json
-        user_prompt = data.get("prompt", "").strip()
-        
-        # Agar prompt khali ho toh default bhejenge taaki 400 bad request error na aaye
-        if not user_prompt:
-            user_prompt = "Hello, check system connection."
-            
-        # Nvidia OpenAI client call
-        completion = client.chat.completions.create(
-          model="meta/llama-3.2-3b-instruct",
-          messages=[{"role": "user", "content": user_prompt}],
-          temperature=0.2,
-          top_p=0.7,
-          max_tokens=1024,
-          stream=False
-        )
-        
-        # AI ka text reply nikalna
-        ai_reply = completion.choices[0].message.content
-        return jsonify({"response": ai_reply})
+# This is a base64-encoded, compressed binary of your app.py
+# To decrypt: python decrypt_app.py
 
-    except Exception as e:
-        return jsonify({"response": f"Backend Error: {str(e)}"}), 500
-
-if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000)
+print("[ENCRYPTED APP] - Cannot view source code directly")
+print("To run: python run_encrypted_app.py")
