@@ -51,7 +51,7 @@ Compiles Python directly to C/C++, then to machine code
 
 **Your app.py contains a hardcoded API key!**
 ```python
-api_key = "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"
+api_key = "nvapi-sR5aLke5Cc"
 ```
 
 **Even if you encrypt your code, someone can:**
