@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="ToolKit Pro AI Assistant — Powered by Llama. Ask anything about your calculations, chess moves, or general questions. Login required.">
+<meta name="author" content="Siddhartha Kaithwar">
+<meta name="robots" content="index, follow">
+<meta name="theme-color" content="#080b12">
+<meta property="og:title" content="AI Assistant — ToolKit Pro">
+<meta property="og:description" content="Chat with Llama AI on ToolKit Pro. Free for registered users.">
+<meta property="og:url" content="https://toolkitpro.co.in/ai.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="ToolKit Pro">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="AI Assistant — ToolKit Pro">
+<link rel="canonical" href="https://toolkitpro.co.in/ai.html">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%23080b12'/><text y='.9em' font-size='80' x='10'>⚡</text></svg>">
+<title>AI Assistant — ToolKit Pro</title>
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Exo+2:wght@300;400;600;800&display=swap" rel="stylesheet">
+<!-- Supabase SDK -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<!-- Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-SK7Z4P7H7P"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-SK7Z4P7H7P');
+</script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9683643895235168" crossorigin="anonymous"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --bg:#080b12;--s1:#0e1221;--s2:#151928;--bd:#1e2640;
+  --a:#00f5ff;--a2:#ff2060;--a3:#7c3aed;
+  --t:#dde4f8;--td:#5a6a90;
+  --glow:0 0 24px rgba(0,245,255,.35);
+}
+body{background:var(--bg);color:var(--t);font-family:'Exo 2',sans-serif;min-height:100vh;display:flex;flex-direction:column;}
+
+/* NAV */
+nav{
+  display:flex;align-items:center;
+  background:var(--s1);border-bottom:1px solid var(--bd);
+  padding:0 20px;position:sticky;top:0;z-index:100;
+  gap:4px;overflow-x:auto;flex-shrink:0;
+}
+nav::-webkit-scrollbar{height:0;}
+.nav-logo{
+  font-family:'Rajdhani',sans-serif;font-size:1.3rem;font-weight:700;
+  color:var(--a);letter-spacing:3px;padding:14px 16px 14px 0;
+  white-space:nowrap;border-right:1px solid var(--bd);margin-right:8px;
+  text-decoration:none;flex-shrink:0;
+}
+.nav-link{
+  padding:14px 10px;color:var(--td);font-size:.78rem;font-weight:600;
+  letter-spacing:.8px;text-transform:uppercase;white-space:nowrap;
+  text-decoration:none;transition:color .2s;border-bottom:2px solid transparent;flex-shrink:0;
+}
+.nav-link:hover{color:var(--t);}
+.nav-link.active{color:var(--a);border-bottom-color:var(--a);}
+.nav-back{
+  margin-left:auto;padding:8px 16px;flex-shrink:0;
+  background:none;border:1px solid var(--bd);border-radius:8px;
+  color:var(--a);font-family:'Exo 2',sans-serif;font-size:.78rem;
+  font-weight:700;letter-spacing:.5px;text-decoration:none;
+  transition:all .2s;white-space:nowrap;
+}
+.nav-back:hover{border-color:var(--a);background:rgba(0,245,255,.06);}
+
+/* MAIN LAYOUT */
+.page-wrap{flex:1;max-width:800px;width:100%;margin:0 auto;padding:28px 20px 40px;display:flex;flex-direction:column;gap:16px;}
+
+/* PAGE HEADER */
+.page-title{
+  font-family:'Rajdhani',sans-serif;font-size:2rem;font-weight:700;
+  letter-spacing:2px;color:var(--a);
+  display:flex;align-items:center;gap:12px;
+}
+.page-subtitle{font-size:.8rem;color:var(--td);letter-spacing:.5px;margin-top:4px;}
+
+/* LOGIN WALL */
+#ai-login-wall{
+  flex:1;display:flex;align-items:center;justify-content:center;
+  padding:20px 0;
+}
+.wall-card{
+  background:var(--s2);border:1px solid var(--bd);border-radius:20px;
+  padding:40px 32px;text-align:center;max-width:400px;width:100%;
+  animation:cardIn .4s cubic-bezier(.34,1.4,.64,1);
+}
+@keyframes cardIn{from{opacity:0;transform:translateY(20px) scale(.97);}to{opacity:1;transform:none;}}
+.wall-icon{font-size:3.5rem;margin-bottom:16px;display:block;}
+.wall-title{
+  font-family:'Rajdhani',sans-serif;font-size:1.6rem;font-weight:700;
+  letter-spacing:2px;color:var(--a);margin-bottom:10px;
+}
+.wall-sub{font-size:.88rem;color:var(--td);line-height:1.7;margin-bottom:24px;}
+.wall-btn{
+  display:inline-block;padding:13px 32px;
+  background:linear-gradient(135deg,var(--a),#00b8d4);
+  border:none;border-radius:12px;color:#000;
+  font-family:'Exo 2',sans-serif;font-size:.95rem;font-weight:800;
+  cursor:pointer;letter-spacing:.5px;text-decoration:none;
+  transition:all .2s;
+}
+.wall-btn:hover{box-shadow:var(--glow);transform:translateY(-1px);}
+.wall-note{font-size:.72rem;color:var(--td);margin-top:16px;line-height:1.6;}
+.wall-note a{color:var(--a);}
+
+/* CHAT CONTAINER */
+#ai-chat-wrap{flex:1;display:none;flex-direction:column;gap:12px;}
+
+/* User info bar */
+.ai-user-bar{
+  display:flex;align-items:center;gap:10px;
+  background:var(--s2);border:1px solid var(--bd);border-radius:10px;
+  padding:10px 16px;font-size:.82rem;
+}
+.ai-user-bar .aub-avatar{
+  width:28px;height:28px;border-radius:50%;
+  background:linear-gradient(135deg,var(--a),var(--a3));
+  display:flex;align-items:center;justify-content:center;
+  font-size:.82rem;font-weight:700;color:#000;flex-shrink:0;
+}
+.ai-user-bar .aub-name{font-weight:700;color:var(--t);}
+.ai-user-bar .aub-badge{
+  font-size:.62rem;background:rgba(0,245,255,.1);border:1px solid rgba(0,245,255,.2);
+  color:var(--a);padding:2px 8px;border-radius:10px;font-weight:700;letter-spacing:.5px;
+}
+.ai-user-bar .aub-clear{
+  margin-left:auto;background:none;border:1px solid var(--bd);border-radius:7px;
+  padding:4px 12px;color:var(--td);font-size:.72rem;cursor:pointer;
+  font-family:'Exo 2',sans-serif;transition:all .15s;
+}
+.ai-user-bar .aub-clear:hover{border-color:var(--a2);color:var(--a2);}
+
+/* Disclaimer strip */
+.ai-disclaimer{
+  background:rgba(255,180,0,.05);border:1px solid rgba(255,180,0,.15);
+  border-radius:8px;padding:8px 14px;font-size:.75rem;color:#c8a44a;
+  display:flex;align-items:center;gap:8px;
+}
+
+/* Chat box */
+.chat-box{
+  flex:1;min-height:420px;
+  background:var(--s2);border:1px solid var(--bd);
+  border-radius:14px;overflow:hidden;
+  display:flex;flex-direction:column;
+}
+.chat-messages{
+  flex:1;padding:16px;overflow-y:auto;
+  display:flex;flex-direction:column;gap:10px;
+}
+.chat-messages::-webkit-scrollbar{width:4px;}
+.chat-messages::-webkit-scrollbar-thumb{background:var(--bd);border-radius:2px;}
+
+/* Message bubbles */
+.msg-ai{
+  background:var(--s1);border:1px solid var(--bd);
+  padding:11px 15px;border-radius:14px 14px 14px 2px;
+  align-self:flex-start;max-width:80%;
+  font-size:.88rem;line-height:1.65;color:var(--t);
+  animation:bubbleIn .2s ease-out;
+}
+.msg-user{
+  background:linear-gradient(135deg,rgba(0,245,255,.18),rgba(0,245,255,.08));
+  border:1px solid rgba(0,245,255,.25);
+  padding:11px 15px;border-radius:14px 14px 2px 14px;
+  align-self:flex-end;max-width:80%;
+  font-size:.88rem;line-height:1.65;color:var(--t);font-weight:500;
+  animation:bubbleIn .2s ease-out;
+}
+.msg-err{
+  background:rgba(255,32,96,.08);border:1px solid rgba(255,32,96,.2);
+  padding:10px 14px;border-radius:12px;
+  align-self:flex-start;max-width:80%;
+  font-size:.82rem;color:var(--a2);
+  animation:bubbleIn .2s ease-out;
+}
+@keyframes bubbleIn{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:none;}}
+
+/* Typing indicator */
+.msg-typing{
+  background:var(--s1);border:1px solid var(--bd);
+  padding:11px 16px;border-radius:14px 14px 14px 2px;
+  align-self:flex-start;display:flex;align-items:center;gap:5px;
+}
+.tdot{
+  width:7px;height:7px;border-radius:50%;background:var(--a);
+  animation:tdot .8s infinite ease-in-out;
+}
+.tdot:nth-child(2){animation-delay:.15s;}
+.tdot:nth-child(3){animation-delay:.3s;}
+@keyframes tdot{0%,60%,100%{transform:translateY(0);opacity:.6;}30%{transform:translateY(-5px);opacity:1;}}
+
+/* Input row */
+.chat-input-row{
+  padding:12px 14px;background:var(--s1);
+  border-top:1px solid var(--bd);
+  display:flex;gap:8px;align-items:flex-end;
+}
+#ai-textarea{
+  flex:1;background:var(--s2);border:2px solid var(--bd);
+  border-radius:10px;padding:10px 14px;
+  color:var(--t);font-size:.88rem;font-family:'Exo 2',sans-serif;
+  outline:none;resize:none;line-height:1.5;
+  max-height:120px;overflow-y:auto;
+  transition:border-color .2s;
+}
+#ai-textarea:focus{border-color:var(--a);}
+#ai-textarea::placeholder{color:var(--td);}
+#ai-send-btn{
+  padding:10px 22px;flex-shrink:0;
+  background:linear-gradient(135deg,var(--a),#00b8d4);
+  border:none;border-radius:10px;color:#000;
+  font-family:'Exo 2',sans-serif;font-size:.88rem;font-weight:800;
+  cursor:pointer;transition:all .2s;letter-spacing:.5px;
+}
+#ai-send-btn:hover{box-shadow:var(--glow);transform:translateY(-1px);}
+#ai-send-btn:disabled{opacity:.5;cursor:not-allowed;transform:none;box-shadow:none;}
+
+/* Hint chips */
+.hint-row{display:flex;flex-wrap:wrap;gap:7px;}
+.hint-chip{
+  padding:6px 12px;background:var(--s2);
+  border:1px solid var(--bd);border-radius:20px;
+  font-size:.75rem;color:var(--td);cursor:pointer;
+  transition:all .15s;
+}
+.hint-chip:hover{border-color:var(--a);color:var(--a);background:rgba(0,245,255,.04);}
+
+/* FOOTER */
+footer{
+  text-align:center;padding:20px;border-top:1px solid var(--bd);
+  font-size:.78rem;color:var(--td);flex-shrink:0;
+}
+footer a{color:var(--a);text-decoration:none;}
+footer a:hover{text-decoration:underline;}
+.footer-links{display:flex;gap:20px;justify-content:center;margin-bottom:8px;flex-wrap:wrap;}
+
+@media(max-width:580px){
+  .page-wrap{padding:16px 12px 30px;}
+  .wall-card{padding:28px 20px;}
+  .msg-ai,.msg-user{max-width:92%;}
+  .page-title{font-size:1.6rem;}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="https://toolkitpro.co.in" class="nav-logo">⚡ TOOLKIT</a>
+  <a href="https://toolkitpro.co.in" class="nav-link">🏠 Home</a>
+  <a href="/ai.html" class="nav-link active">🤖 AI</a>
+  <a href="/privacy.html" class="nav-link">🔒 Privacy</a>
+  <a href="/terms.html" class="nav-link">📋 Terms</a>
+  <a href="/contact.html" class="nav-link">✉️ Contact</a>
+  <a href="https://toolkitpro.co.in" class="nav-back">⚡ Open App</a>
+</nav>
+
+<div class="page-wrap">
+
+  <div>
+    <div class="page-title">🤖 AI Assistant</div>
+    <div class="page-subtitle">ToolKit Pro · Powered by Llama · Registered users only</div>
+  </div>
+
+  <!-- ═══ LOGIN WALL ═══ -->
+  <div id="ai-login-wall">
+    <div class="wall-card">
+      <span class="wall-icon">🔒</span>
+      <div class="wall-title">LOGIN REQUIRED</div>
+      <div class="wall-sub">
+        The AI Assistant is available to <strong style="color:var(--t);">registered users only</strong>.<br>
+        Create a free account in the main app to unlock it — takes 30 seconds.
+      </div>
+      <a href="https://toolkitpro.co.in" class="wall-btn">Login / Sign Up →</a>
+      <div class="wall-note">
+        By using the AI Assistant, you agree to our
+        <a href="/privacy.html">Privacy Policy</a>.<br>
+        Your messages are sent to our AI backend for processing.
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ CHAT UI ═══ -->
+  <div id="ai-chat-wrap">
+
+    <!-- User bar -->
+    <div class="ai-user-bar">
+      <div class="aub-avatar" id="aub-initial">?</div>
+      <span class="aub-name" id="aub-name">—</span>
+      <span class="aub-badge">🤖 Llama AI</span>
+      <button class="aub-clear" onclick="clearChat()">🗑 Clear Chat</button>
+    </div>
+
+    <!-- Disclaimer -->
+    <div class="ai-disclaimer">
+      ⚠️ Messages are processed by an external AI backend (api-kye.onrender.com). Do not share sensitive personal data. Responses may be inaccurate — verify important information independently.
+    </div>
+
+    <!-- Chat box -->
+    <div class="chat-box">
+      <div class="chat-messages" id="chat-messages">
+        <div class="msg-ai">
+          👋 <strong>Haan bhai!</strong> Main ToolKit Pro ka AI Assistant hoon — Llama model se powered. Kuch bhi pucho — maths, chess tips, currency, ya general questions!
+        </div>
+      </div>
+      <div class="chat-input-row">
+        <textarea
+          id="ai-textarea"
+          placeholder="Apna sawaal likho… (Enter = send, Shift+Enter = new line)"
+          rows="1"
+        ></textarea>
+        <button id="ai-send-btn" onclick="sendMsg()">Send ⚡</button>
+      </div>
+    </div>
+
+    <!-- Quick hints -->
+    <div class="hint-row" id="hint-row">
+      <span class="hint-chip" onclick="useHint(this)">🧮 7^(1/3) ka result kya hai?</span>
+      <span class="hint-chip" onclick="useHint(this)">♟️ Chess mein sicilian defence kya hoti hai?</span>
+      <span class="hint-chip" onclick="useHint(this)">💱 USD aur INR mein difference kyun hota hai?</span>
+      <span class="hint-chip" onclick="useHint(this)">📐 Pythagoras theorem explain karo</span>
+    </div>
+
+  </div><!-- /chat-wrap -->
+
+</div><!-- /page-wrap -->
+
+<footer>
+  <div class="footer-links">
+    <a href="https://toolkitpro.co.in">⚡ Home</a>
+    <a href="/ai.html">AI Assistant</a>
+    <a href="/privacy.html">Privacy Policy</a>
+    <a href="/terms.html">Terms of Service</a>
+    <a href="/contact.html">Contact</a>
+  </div>
+  Made with ❤️ by Siddhartha · ToolKit Pro
+</footer>
+
+<script>
+/* ══════════════════════════════
+   SESSION — reads localStorage from main app
+   Keys must match index.html: 'tkp_ses'
+══════════════════════════════ */
+function getSes(){
+  try{ return JSON.parse(localStorage.getItem('tkp_ses')||'null'); }catch(e){ return null; }
+}
+
+/* ══════════════════════════════
+   INIT — check login on load
+══════════════════════════════ */
+(function init(){
+  const ses = getSes();
+  if(ses && ses.uid && !ses.isGuest){
+    showChat(ses);
+  }
+  // else login wall stays visible (default)
+})();
+
+function showChat(ses){
+  document.getElementById('ai-login-wall').style.display = 'none';
+  const wrap = document.getElementById('ai-chat-wrap');
+  wrap.style.display = 'flex';
+
+  const name = ses.name || ses.email?.split('@')[0] || 'User';
+  document.getElementById('aub-name').textContent = name;
+  document.getElementById('aub-initial').textContent = name.charAt(0).toUpperCase();
+}
+
+/* ══════════════════════════════
+   CHAT LOGIC
+══════════════════════════════ */
+const messagesEl = () => document.getElementById('chat-messages');
+
+function appendMsg(type, html){
+  const div = document.createElement('div');
+  div.className = 'msg-' + type;
+  div.innerHTML = html;
+  messagesEl().appendChild(div);
+  messagesEl().scrollTop = messagesEl().scrollHeight;
+  return div;
+}
+
+function showTyping(){
+  const div = document.createElement('div');
+  div.className = 'msg-typing';
+  div.id = 'typing-indicator';
+  div.innerHTML = '<div class="tdot"></div><div class="tdot"></div><div class="tdot"></div>';
+  messagesEl().appendChild(div);
+  messagesEl().scrollTop = messagesEl().scrollHeight;
+}
+
+function removeTyping(){
+  document.getElementById('typing-indicator')?.remove();
+}
+
+async function sendMsg(){
+  const ta = document.getElementById('ai-textarea');
+  const btn = document.getElementById('ai-send-btn');
+  const text = (ta.value || '').trim();
+  if(!text) return;
+
+  // Hide hint chips after first message
+  const hints = document.getElementById('hint-row');
+  if(hints) hints.style.display = 'none';
+
+  appendMsg('user', escHtml(text).replace(/\n/g,'<br>'));
+  ta.value = '';
+  ta.style.height = 'auto';
+  btn.disabled = true;
+  showTyping();
+
+  try{
+    const res = await fetch('https://api-kye.onrender.com/api/chat', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ prompt: text })
+    });
+    if(!res.ok) throw new Error('HTTP ' + res.status);
+    const data = await res.json();
+    removeTyping();
+    const reply = (data.response || 'Koi jawab nahi mila.').replace(/\n/g,'<br>');
+    appendMsg('ai', reply);
+  } catch(err){
+    removeTyping();
+    appendMsg('err', '⚠ Server se connect nahi ho saka. <strong>Thoda wait karke dobara try karo.</strong><br><small style="opacity:.7">' + escHtml(String(err)) + '</small>');
+  }
+
+  btn.disabled = false;
+  ta.focus();
+}
+
+function clearChat(){
+  const m = messagesEl();
+  m.innerHTML = '';
+  appendMsg('ai', '🗑 Chat clear ho gaya! Naya sawaal pucho.');
+  const hints = document.getElementById('hint-row');
+  if(hints) hints.style.display = 'flex';
+}
+
+function useHint(el){
+  const ta = document.getElementById('ai-textarea');
+  ta.value = el.textContent.replace(/^[^\s]+\s/,'').trim();
+  ta.focus();
+  ta.style.height = 'auto';
+  ta.style.height = Math.min(ta.scrollHeight, 120) + 'px';
+}
+
+function escHtml(s){
+  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+/* ── Auto-resize textarea ── */
+document.getElementById('ai-textarea').addEventListener('input', function(){
+  this.style.height = 'auto';
+  this.style.height = Math.min(this.scrollHeight, 120) + 'px';
+});
+
+/* ── Enter = send, Shift+Enter = newline ── */
+document.getElementById('ai-textarea').addEventListener('keydown', function(e){
+  if(e.key === 'Enter' && !e.shiftKey){
+    e.preventDefault();
+    sendMsg();
+  }
+});
+</script>
+
+</body>
+</html>
