@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="ToolKit Pro Currency Converter — 160+ currencies, live daily rates via 3 API fallbacks. Free, no login needed.">
+<meta name="theme-color" content="#080b12">
+<meta property="og:title" content="Currency Converter — ToolKit Pro">
+<link rel="canonical" href="https://toolkitpro.co.in/currency.html">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%23080b12'/><text y='.9em' font-size='80' x='10'>⚡</text></svg>">
+<title>Currency Converter — ToolKit Pro</title>
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;600;700&family=Exo+2:wght@300;400;600;800&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-SK7Z4P7H7P"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-SK7Z4P7H7P');</script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9683643895235168" crossorigin="anonymous"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --bg:#080b12;--s1:#0e1221;--s2:#151928;--bd:#1e2640;
+  --a:#00f5ff;--a2:#ff2060;
+  --t:#dde4f8;--td:#5a6a90;
+  --glow:0 0 20px rgba(0,245,255,.35);
+}
+body{background:var(--bg);color:var(--t);font-family:'Exo 2',sans-serif;min-height:100vh;display:flex;flex-direction:column;}
+
+nav{display:flex;align-items:center;background:var(--s1);border-bottom:1px solid var(--bd);padding:0 20px;position:sticky;top:0;z-index:100;gap:4px;overflow-x:auto;flex-shrink:0;}
+nav::-webkit-scrollbar{height:0;}
+.nav-logo{font-family:'Rajdhani',sans-serif;font-size:1.3rem;font-weight:700;color:var(--a);letter-spacing:3px;padding:14px 16px 14px 0;white-space:nowrap;border-right:1px solid var(--bd);margin-right:8px;text-decoration:none;flex-shrink:0;}
+.nav-link{padding:14px 10px;color:var(--td);font-size:.78rem;font-weight:600;letter-spacing:.8px;text-transform:uppercase;white-space:nowrap;text-decoration:none;transition:color .2s;border-bottom:2px solid transparent;flex-shrink:0;}
+.nav-link:hover{color:var(--t);}
+.nav-link.active{color:var(--a);border-bottom-color:var(--a);}
+.nav-back{margin-left:auto;padding:8px 16px;flex-shrink:0;background:none;border:1px solid var(--bd);border-radius:8px;color:var(--a);font-family:'Exo 2',sans-serif;font-size:.78rem;font-weight:700;letter-spacing:.5px;text-decoration:none;transition:all .2s;white-space:nowrap;}
+.nav-back:hover{border-color:var(--a);background:rgba(0,245,255,.06);}
+
+.page-wrap{flex:1;max-width:900px;margin:0 auto;padding:28px 20px 48px;width:100%;}
+.page-title{font-family:'Rajdhani',sans-serif;font-size:2rem;font-weight:700;letter-spacing:2px;color:var(--a);margin-bottom:4px;}
+.page-subtitle{font-size:.8rem;color:var(--td);margin-bottom:6px;letter-spacing:.5px;}
+
+/* RATE STATUS BAR */
+.rate-status-bar{
+  background:var(--s2);border:1px solid var(--bd);border-radius:9px;
+  padding:8px 14px;font-size:.74rem;color:var(--td);margin-bottom:20px;
+  display:flex;align-items:center;gap:8px;flex-wrap:wrap;
+}
+.rate-dot{width:7px;height:7px;border-radius:50%;background:var(--td);flex-shrink:0;transition:background .3s;}
+.rate-dot.live{background:#22c55e;box-shadow:0 0 6px #22c55e;}
+.rate-dot.loading{background:#fbbf24;animation:pulse .8s infinite;}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:.4;}}
+
+/* MAIN LAYOUT */
+.curr-shell{display:flex;gap:20px;flex-wrap:wrap;align-items:flex-start;}
+.curr-main{flex:1;min-width:300px;max-width:600px;}
+
+/* CONVERTER CARD */
+.curr-card{
+  background:var(--s2);border:1px solid var(--bd);border-radius:18px;
+  padding:26px;position:relative;overflow:hidden;margin-bottom:14px;
+}
+.curr-card::before{content:'';position:absolute;top:-50px;right:-50px;width:200px;height:200px;background:radial-gradient(circle,rgba(0,245,255,.05) 0%,transparent 70%);pointer-events:none;}
+
+/* FLAG ROW */
+.curr-flag-row{display:flex;align-items:center;gap:12px;margin-bottom:22px;}
+.curr-flag-box{
+  flex:1;background:var(--s1);border:1px solid var(--bd);border-radius:14px;
+  padding:16px;position:relative;transition:border-color .2s;cursor:default;
+}
+.curr-flag-box:hover{border-color:rgba(0,245,255,.2);}
+.curr-flag-label{font-size:.62rem;color:var(--td);letter-spacing:1px;text-transform:uppercase;margin-bottom:10px;}
+.curr-flag-emoji{font-size:2rem;margin-bottom:6px;display:block;line-height:1;}
+.curr-flag-code{font-family:'Rajdhani',sans-serif;font-size:1.5rem;font-weight:700;color:var(--t);letter-spacing:2px;line-height:1;}
+.curr-flag-name{font-size:.68rem;color:var(--td);margin-top:3px;line-height:1.3;}
+.curr-swap-col{display:flex;flex-direction:column;align-items:center;}
+.swap-btn{width:46px;height:46px;border-radius:50%;background:var(--s1);border:1px solid var(--bd);color:var(--a);cursor:pointer;font-size:1.2rem;transition:all .35s;display:flex;align-items:center;justify-content:center;}
+.swap-btn:hover{border-color:var(--a);transform:rotate(180deg);box-shadow:0 0 16px rgba(0,245,255,.2);}
+
+/* INPUTS */
+.curr-inputs-row{display:flex;gap:12px;margin-bottom:18px;flex-wrap:wrap;}
+.curr-input-group{flex:1;min-width:120px;}
+.curr-input-label{font-size:.64rem;color:var(--td);letter-spacing:.8px;text-transform:uppercase;margin-bottom:7px;display:block;}
+.curr-input{
+  width:100%;background:var(--s1);border:2px solid var(--bd);border-radius:11px;
+  padding:12px 14px;color:var(--t);font-size:1.1rem;
+  font-family:'Share Tech Mono',monospace;outline:none;transition:all .2s;
+}
+.curr-input:focus{border-color:var(--a);box-shadow:0 0 0 3px rgba(0,245,255,.08);}
+.curr-select{
+  width:100%;background:var(--s1);border:2px solid var(--bd);border-radius:11px;
+  padding:11px 14px;color:var(--t);font-size:.82rem;
+  font-family:'Exo 2',sans-serif;outline:none;cursor:pointer;transition:border .2s;
+}
+.curr-select:focus{border-color:var(--a);}
+.convert-btn{
+  width:100%;padding:15px;
+  background:linear-gradient(135deg,var(--a),#00b8d4);
+  border:none;border-radius:13px;color:#000;font-weight:800;font-size:.95rem;
+  cursor:pointer;letter-spacing:1.5px;margin-bottom:18px;transition:all .2s;
+  font-family:'Exo 2',sans-serif;text-transform:uppercase;
+}
+.convert-btn:hover{box-shadow:0 4px 24px rgba(0,245,255,.4);transform:translateY(-1px);}
+.convert-btn:active{transform:translateY(0);}
+
+/* RESULT */
+.curr-result{
+  background:linear-gradient(135deg,rgba(0,245,255,.06),rgba(0,245,255,.02));
+  border:1px solid rgba(0,245,255,.2);border-radius:15px;
+  padding:22px;text-align:center;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px;
+  position:relative;overflow:hidden;min-height:90px;
+}
+.curr-result::before{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--a),transparent);}
+.res-val{font-family:'Share Tech Mono',monospace;font-size:2.4rem;color:var(--a);text-shadow:var(--glow);letter-spacing:1px;line-height:1.1;}
+.res-sub{font-size:.78rem;color:var(--td);}
+.res-rate{font-size:.72rem;color:var(--td);}
+.res-placeholder{font-size:.85rem;color:var(--td);opacity:.6;}
+
+/* QUICK RATES PANEL */
+.curr-quick-panel{flex:1;min-width:200px;}
+.quick-title{font-size:.68rem;color:var(--td);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:10px;}
+.curr-quick-search{
+  width:100%;background:var(--s2);border:1px solid var(--bd);border-radius:9px;
+  padding:9px 13px;color:var(--t);font-size:.82rem;font-family:'Exo 2',sans-serif;
+  outline:none;margin-bottom:10px;transition:border .2s;
+}
+.curr-quick-search:focus{border-color:var(--a);}
+.pop-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(88px,1fr));gap:7px;max-height:520px;overflow-y:auto;}
+.pop-grid::-webkit-scrollbar{width:3px;}
+.pop-grid::-webkit-scrollbar-thumb{background:var(--bd);}
+.pop-rate{
+  background:var(--s2);border:1px solid var(--bd);border-radius:10px;
+  padding:10px 8px;text-align:center;cursor:pointer;transition:all .15s;
+}
+.pop-rate:hover{border-color:rgba(0,245,255,.3);transform:translateY(-2px);background:rgba(0,245,255,.03);}
+.pop-rate.active-to{border-color:var(--a);background:rgba(0,245,255,.06);}
+.pop-flag{font-size:1.1rem;margin-bottom:3px;}
+.pop-pair{font-size:.64rem;color:var(--td);margin-bottom:3px;letter-spacing:.4px;}
+.pop-val{font-family:'Share Tech Mono',monospace;font-size:.82rem;color:var(--t);font-weight:600;}
+
+footer{text-align:center;padding:20px;border-top:1px solid var(--bd);font-size:.78rem;color:var(--td);}
+footer a{color:var(--a);text-decoration:none;}
+.footer-links{display:flex;gap:20px;justify-content:center;margin-bottom:8px;flex-wrap:wrap;}
+
+@media(max-width:600px){
+  .curr-quick-panel{min-width:100%;}
+  .res-val{font-size:1.8rem;}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="https://toolkitpro.co.in" class="nav-logo">⚡ TOOLKIT</a>
+  <a href="https://toolkitpro.co.in" class="nav-link">🏠 Home</a>
+  <a href="/calculator.html" class="nav-link">🧮 Calc</a>
+  <a href="/chess.html" class="nav-link">♟️ Chess</a>
+  <a href="/currency.html" class="nav-link active">💱 Currency</a>
+  <a href="/ai.html" class="nav-link">🤖 AI</a>
+  <a href="/about.html" class="nav-link">👤 About</a>
+  <a href="https://toolkitpro.co.in" class="nav-back">⚡ App</a>
+</nav>
+
+<div class="page-wrap">
+  <div class="page-title">💱 Currency Converter</div>
+  <div class="page-subtitle">160+ Currencies · Daily Live Rates · 3 API Fallbacks · Indicative Only</div>
+
+  <!-- Rate status -->
+  <div class="rate-status-bar">
+    <div class="rate-dot loading" id="rate-dot"></div>
+    <span id="curr-rate-info">Fetching live rates…</span>
+  </div>
+
+  <div class="curr-shell">
+    <!-- Main -->
+    <div class="curr-main">
+      <div class="curr-card">
+
+        <!-- Flag preview row -->
+        <div class="curr-flag-row">
+          <div class="curr-flag-box">
+            <div class="curr-flag-label">From</div>
+            <span class="curr-flag-emoji" id="flag-from">🇺🇸</span>
+            <div class="curr-flag-code" id="code-from">USD</div>
+            <div class="curr-flag-name" id="name-from">US Dollar</div>
+          </div>
+          <div class="curr-swap-col">
+            <button class="swap-btn" onclick="swapCurr()" title="Swap currencies">⇄</button>
+          </div>
+          <div class="curr-flag-box">
+            <div class="curr-flag-label">To</div>
+            <span class="curr-flag-emoji" id="flag-to">🇮🇳</span>
+            <div class="curr-flag-code" id="code-to">INR</div>
+            <div class="curr-flag-name" id="name-to">Indian Rupee</div>
+          </div>
+        </div>
+
+        <!-- Inputs -->
+        <div class="curr-inputs-row">
+          <div class="curr-input-group">
+            <label class="curr-input-label">Amount</label>
+            <input type="number" class="curr-input" id="curr-amount" value="1" min="0" step="any" oninput="convertCurr()">
+          </div>
+          <div class="curr-input-group">
+            <label class="curr-input-label">From</label>
+            <select class="curr-select" id="curr-from" onchange="updateFlags();convertCurr()"></select>
+          </div>
+          <div class="curr-input-group">
+            <label class="curr-input-label">To</label>
+            <select class="curr-select" id="curr-to" onchange="updateFlags();convertCurr()"></select>
+          </div>
+        </div>
+
+        <button class="convert-btn" onclick="convertCurr()">⚡ Convert</button>
+
+        <!-- Result -->
+        <div class="curr-result" id="curr-result">
+          <div class="res-placeholder">Enter amount above — result appears here</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Quick rates -->
+    <div class="curr-quick-panel">
+      <div class="quick-title">Quick Rates (vs selected)</div>
+      <input type="text" class="curr-quick-search" id="curr-search" placeholder="🔍 Search currency…" oninput="filterPop()">
+      <div class="pop-grid" id="pop-grid"></div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-links">
+    <a href="https://toolkitpro.co.in">⚡ Home</a>
+    <a href="/calculator.html">🧮 Calc</a>
+    <a href="/chess.html">♟️ Chess</a>
+    <a href="/ai.html">🤖 AI</a>
+    <a href="/privacy.html">Privacy</a>
+    <a href="/terms.html">Terms</a>
+  </div>
+  Rates are indicative only — not for live financial transactions · Made with ❤️ by Siddhartha
+</footer>
+
+<script>
+const CURR={USD:'US Dollar',EUR:'Euro',GBP:'British Pound',JPY:'Japanese Yen',INR:'Indian Rupee',CNY:'Chinese Yuan',AUD:'Australian Dollar',CAD:'Canadian Dollar',CHF:'Swiss Franc',HKD:'Hong Kong Dollar',SGD:'Singapore Dollar',SEK:'Swedish Krona',NOK:'Norwegian Krone',DKK:'Danish Krone',NZD:'New Zealand Dollar',MXN:'Mexican Peso',BRL:'Brazilian Real',ZAR:'South African Rand',RUB:'Russian Ruble',TRY:'Turkish Lira',AED:'UAE Dirham',SAR:'Saudi Riyal',KRW:'South Korean Won',THB:'Thai Baht',IDR:'Indonesian Rupiah',MYR:'Malaysian Ringgit',PHP:'Philippine Peso',PKR:'Pakistani Rupee',BDT:'Bangladeshi Taka',EGP:'Egyptian Pound',NGN:'Nigerian Naira',KES:'Kenyan Shilling',GHS:'Ghanaian Cedi',MAD:'Moroccan Dirham',TZS:'Tanzanian Shilling',UGX:'Ugandan Shilling',ILS:'Israeli Shekel',JOD:'Jordanian Dinar',KWD:'Kuwaiti Dinar',QAR:'Qatari Riyal',BHD:'Bahraini Dinar',OMR:'Omani Rial',LKR:'Sri Lankan Rupee',NPR:'Nepalese Rupee',MMK:'Myanmar Kyat',VND:'Vietnamese Dong',TWD:'Taiwan Dollar',HUF:'Hungarian Forint',PLN:'Polish Zloty',CZK:'Czech Koruna',RON:'Romanian Leu',BGN:'Bulgarian Lev',UAH:'Ukrainian Hryvnia',GEL:'Georgian Lari',KZT:'Kazakhstani Tenge',CLP:'Chilean Peso',COP:'Colombian Peso',PEN:'Peruvian Sol',ARS:'Argentine Peso',BOB:'Bolivian Boliviano',UYU:'Uruguayan Peso',GTQ:'Guatemalan Quetzal',HNL:'Honduran Lempira',CRC:'Costa Rican Colón',DOP:'Dominican Peso',JMD:'Jamaican Dollar',BWP:'Botswana Pula',ZMW:'Zambian Kwacha',ETB:'Ethiopian Birr',TND:'Tunisian Dinar',DZD:'Algerian Dinar',MUR:'Mauritian Rupee',RWF:'Rwandan Franc',XOF:'West African CFA',XAF:'Central African CFA',IQD:'Iraqi Dinar',LYD:'Libyan Dinar',SDG:'Sudanese Pound',SOS:'Somali Shilling',MGA:'Malagasy Ariary',MZN:'Mozambican Metical',AMD:'Armenian Dram',AZN:'Azerbaijani Manat',UZS:'Uzbekistani Som',KHR:'Cambodian Riel',NIO:'Nicaraguan Córdoba',PYG:'Paraguayan Guaraní',TTD:'Trinidad Dollar',BBD:'Barbadian Dollar',VES:'Venezuelan Bolívar',IRR:'Iranian Rial',BTC:'Bitcoin',ETH:'Ethereum'};
+const FLAGS={USD:'🇺🇸',EUR:'🇪🇺',GBP:'🇬🇧',JPY:'🇯🇵',INR:'🇮🇳',CNY:'🇨🇳',AUD:'🇦🇺',CAD:'🇨🇦',CHF:'🇨🇭',HKD:'🇭🇰',SGD:'🇸🇬',SEK:'🇸🇪',NOK:'🇳🇴',DKK:'🇩🇰',NZD:'🇳🇿',MXN:'🇲🇽',BRL:'🇧🇷',ZAR:'🇿🇦',RUB:'🇷🇺',TRY:'🇹🇷',AED:'🇦🇪',SAR:'🇸🇦',KRW:'🇰🇷',THB:'🇹🇭',IDR:'🇮🇩',MYR:'🇲🇾',PHP:'🇵🇭',PKR:'🇵🇰',BDT:'🇧🇩',EGP:'🇪🇬',NGN:'🇳🇬',KES:'🇰🇪',GHS:'🇬🇭',MAD:'🇲🇦',TZS:'🇹🇿',UGX:'🇺🇬',ILS:'🇮🇱',JOD:'🇯🇴',KWD:'🇰🇼',QAR:'🇶🇦',BHD:'🇧🇭',OMR:'🇴🇲',LKR:'🇱🇰',NPR:'🇳🇵',MMK:'🇲🇲',VND:'🇻🇳',TWD:'🇹🇼',HUF:'🇭🇺',PLN:'🇵🇱',CZK:'🇨🇿',RON:'🇷🇴',BGN:'🇧🇬',UAH:'🇺🇦',GEL:'🇬🇪',KZT:'🇰🇿',CLP:'🇨🇱',COP:'🇨🇴',PEN:'🇵🇪',ARS:'🇦🇷',BOB:'🇧🇴',UYU:'🇺🇾',GTQ:'🇬🇹',HNL:'🇭🇳',CRC:'🇨🇷',DOP:'🇩🇴',JMD:'🇯🇲',BWP:'🇧🇼',ZMW:'🇿🇲',ETB:'🇪🇹',TND:'🇹🇳',DZD:'🇩🇿',MUR:'🇲🇺',RWF:'🇷🇼',XOF:'🌍',XAF:'🌍',IQD:'🇮🇶',LYD:'🇱🇾',SDG:'🇸🇩',SOS:'🇸🇴',MGA:'🇲🇬',MZN:'🇲🇿',AMD:'🇦🇲',AZN:'🇦🇿',UZS:'🇺🇿',KHR:'🇰🇭',NIO:'🇳🇮',PYG:'🇵🇾',TTD:'🇹🇹',BBD:'🇧🇧',VES:'🇻🇪',IRR:'🇮🇷',BTC:'₿',ETH:'⟠'};
+const STATIC_RATES={USD:1,EUR:.92,GBP:.79,JPY:149.5,INR:83.5,CNY:7.24,AUD:1.53,CAD:1.36,CHF:.89,HKD:7.82,SGD:1.35,SEK:10.4,NOK:10.6,DKK:6.88,NZD:1.63,MXN:17.1,BRL:4.97,ZAR:18.6,RUB:90.5,TRY:30.4,AED:3.67,SAR:3.75,KRW:1325,THB:35.1,IDR:15600,MYR:4.68,PHP:56.2,PKR:278,BDT:110,EGP:30.9,NGN:1580,KES:154,GHS:12.1,MAD:10.1,TZS:2500,UGX:3750,ILS:3.71,JOD:.71,KWD:.308,QAR:3.64,BHD:.376,OMR:.385,LKR:325,NPR:133,MMK:2100,VND:24500,TWD:31.5,HUF:354,PLN:4.01,CZK:22.7,RON:4.57,BGN:1.8,UAH:37.3,GEL:2.67,KZT:456,CLP:875,COP:3950,PEN:3.74,ARS:900,BOB:6.91,UYU:38.7,GTQ:7.84,HNL:24.7,CRC:530,DOP:57.2,JMD:156,BWP:13.5,ZMW:21.3,ETB:55.9,TND:3.1,DZD:135,MUR:44.8,RWF:1285,XOF:600,XAF:600,IQD:1310,LYD:4.85,SDG:602,SOS:572,MGA:4570,MZN:63.8,AMD:390,AZN:1.7,UZS:12300,KHR:4060,NIO:36.6,PYG:7280,TTD:6.78,BBD:2,VES:36,IRR:42000,BTC:0.0000235,ETH:0.000385};
+
+let RATES={...STATIC_RATES},ratesSource='Loading…';
+
+function setRatesBadge(msg,ok){
+  const el=document.getElementById('curr-rate-info');
+  const dot=document.getElementById('rate-dot');
+  if(dot){dot.className='rate-dot '+(ok?'live':'loading');}
+  if(el)el.innerHTML=ok
+    ?`<strong style="color:#22c55e">✓ Live Rates</strong> · Updated: <strong>${msg}</strong> · via ${ratesSource}`
+    :`<span style="color:var(--a2)">⚠ ${msg}</span>`;
+}
+async function fetchRates(){
+  setRatesBadge('Fetching live rates…',false);
+  const today=new Date().toISOString().slice(0,10);
+  const cdnUrls=[
+    `https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@${today}/v1/currencies/usd.json`,
+    `https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies/usd.json`
+  ];
+  for(const url of cdnUrls){
+    try{
+      const res=await fetch(url);if(!res.ok)continue;
+      const data=await res.json();
+      if(data&&data.usd){const mapped={};for(const[k,v]of Object.entries(data.usd))mapped[k.toUpperCase()]=v;RATES={...STATIC_RATES,...mapped};ratesSource='fawazahmed0/currency-api';setRatesBadge(data.date||today,true);convertCurr();return;}
+    }catch(e){}
+  }
+  try{
+    const res=await fetch('https://api.frankfurter.dev/v1/latest?base=USD');
+    if(res.ok){const data=await res.json();if(data&&data.rates){const mapped={USD:1};for(const[k,v]of Object.entries(data.rates))mapped[k.toUpperCase()]=v;RATES={...STATIC_RATES,...mapped};ratesSource='Frankfurter (ECB)';setRatesBadge(data.date||'today',true);convertCurr();return;}}
+  }catch(e){}
+  try{
+    const res=await fetch('https://open.er-api.com/v6/latest/USD');
+    if(res.ok){const data=await res.json();if(data&&data.rates){RATES={...STATIC_RATES,...data.rates};ratesSource='ExchangeRate-API';setRatesBadge((data.time_last_update_utc||'').slice(0,16),true);convertCurr();return;}}
+  }catch(e){}
+  ratesSource='Static fallback';setRatesBadge('Live fetch failed — using reference rates',false);convertCurr();
+}
+
+function populateCurr(){
+  const opts=Object.entries(CURR).map(([c,n])=>`<option value="${c}">${FLAGS[c]||''} ${c} — ${n}</option>`).join('');
+  document.getElementById('curr-from').innerHTML=opts;
+  document.getElementById('curr-to').innerHTML=opts;
+  document.getElementById('curr-from').value='USD';
+  document.getElementById('curr-to').value='INR';
+  updateFlags();
+}
+function updateFlags(){
+  const from=document.getElementById('curr-from').value;
+  const to=document.getElementById('curr-to').value;
+  document.getElementById('flag-from').textContent=FLAGS[from]||'💰';
+  document.getElementById('code-from').textContent=from;
+  document.getElementById('name-from').textContent=CURR[from]||'';
+  document.getElementById('flag-to').textContent=FLAGS[to]||'💰';
+  document.getElementById('code-to').textContent=to;
+  document.getElementById('name-to').textContent=CURR[to]||'';
+}
+function swapCurr(){
+  const f=document.getElementById('curr-from'),t=document.getElementById('curr-to');
+  [f.value,t.value]=[t.value,f.value];updateFlags();convertCurr();
+}
+function convertCurr(){
+  const amt=parseFloat(document.getElementById('curr-amount').value)||0;
+  const from=document.getElementById('curr-from').value,to=document.getElementById('curr-to').value;
+  const rF=RATES[from]||STATIC_RATES[from]||1,rT=RATES[to]||STATIC_RATES[to]||1;
+  const result=(amt/rF)*rT,rate=rT/rF;
+  const fmtd=result>=1?result.toLocaleString('en-US',{maximumFractionDigits:4}):result.toLocaleString('en-US',{maximumFractionDigits:8});
+  const fmtAmt=amt.toLocaleString('en-US',{maximumFractionDigits:4});
+  document.getElementById('curr-result').innerHTML=`
+    <div class="res-val">${FLAGS[to]||''} ${fmtd} <span style="font-size:1.2rem">${to}</span></div>
+    <div class="res-sub">${FLAGS[from]||''} ${fmtAmt} ${from} = ${FLAGS[to]||''} ${fmtd} ${to}</div>
+    <div class="res-rate">1 ${from} = ${rate.toFixed(6).replace(/\.?0+$/,'')} ${to}</div>
+  `;
+  renderPop(from,'');
+}
+let popSearchTerm='';
+function filterPop(){popSearchTerm=document.getElementById('curr-search').value.toUpperCase();renderPop(document.getElementById('curr-from').value,popSearchTerm);}
+function renderPop(base,search){
+  const rF=RATES[base]||STATIC_RATES[base]||1;
+  const activeTo=document.getElementById('curr-to').value;
+  let pairs=Object.keys(CURR).filter(c=>c!==base);
+  if(search)pairs=pairs.filter(c=>c.includes(search)||CURR[c].toUpperCase().includes(search));
+  pairs=pairs.slice(0,40);
+  document.getElementById('pop-grid').innerHTML=pairs.map(c=>`
+    <div class="pop-rate${c===activeTo?' active-to':''}" onclick="document.getElementById('curr-to').value='${c}';updateFlags();convertCurr()">
+      <div class="pop-flag">${FLAGS[c]||'💰'}</div>
+      <div class="pop-pair">${c}</div>
+      <div class="pop-val">${((RATES[c]||STATIC_RATES[c]||1)/rF).toFixed(3)}</div>
+    </div>`).join('');
+}
+
+populateCurr();fetchRates();
+</script>
+</body>
+</html>
