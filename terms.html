@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="ToolKit Pro Terms of Service — Rules and guidelines for using our free calculator, chess, and currency converter tools.">
+<meta name="description" content="ToolKit Pro Terms of Service — Rules and guidelines for using our free calculator, chess, and currency converter tools. DPDP Act 2023 compliant.">
 <meta name="author" content="Siddhartha Kaithwar">
 <meta name="robots" content="index, follow">
 <meta name="theme-color" content="#080b12">
@@ -35,57 +35,114 @@
   --t:#dde4f8;--td:#5a6a90;
 }
 body{background:var(--bg);color:var(--t);font-family:'Exo 2',sans-serif;min-height:100vh;}
+
+/* NAV */
 nav{
   display:flex;align-items:center;
   background:var(--s1);border-bottom:1px solid var(--bd);
-  padding:0 20px;position:sticky;top:0;z-index:100;gap:6px;
+  padding:0 20px;position:sticky;top:0;z-index:100;
+  gap:4px;overflow-x:auto;
 }
+nav::-webkit-scrollbar{height:0;}
 .nav-logo{
   font-family:'Rajdhani',sans-serif;font-size:1.3rem;font-weight:700;
   color:var(--a);letter-spacing:3px;
   padding:14px 16px 14px 0;white-space:nowrap;
-  border-right:1px solid var(--bd);margin-right:10px;
-  text-decoration:none;
+  border-right:1px solid var(--bd);margin-right:8px;
+  text-decoration:none;flex-shrink:0;
 }
 .nav-link{
-  padding:14px 12px;color:var(--td);font-size:.78rem;font-weight:600;
+  padding:14px 10px;color:var(--td);font-size:.78rem;font-weight:600;
   letter-spacing:.8px;text-transform:uppercase;white-space:nowrap;
-  text-decoration:none;transition:color .2s;border-bottom:2px solid transparent;
+  text-decoration:none;transition:color .2s;border-bottom:2px solid transparent;flex-shrink:0;
 }
 .nav-link:hover{color:var(--t);}
 .nav-link.active{color:var(--a);border-bottom-color:var(--a);}
 .nav-back{
-  margin-left:auto;padding:8px 16px;
+  margin-left:auto;padding:8px 16px;flex-shrink:0;
   background:none;border:1px solid var(--bd);border-radius:8px;
   color:var(--a);font-family:'Exo 2',sans-serif;font-size:.78rem;
   font-weight:700;letter-spacing:.5px;text-decoration:none;
   transition:all .2s;white-space:nowrap;
 }
 .nav-back:hover{border-color:var(--a);background:rgba(0,245,255,.06);}
-.page-wrap{max-width:760px;margin:0 auto;padding:36px 20px 60px;}
+
+/* CONTENT */
+.page-wrap{max-width:800px;margin:0 auto;padding:36px 20px 60px;}
 .page-title{
   font-family:'Rajdhani',sans-serif;font-size:2rem;font-weight:700;
   letter-spacing:2px;color:var(--a);margin-bottom:6px;
   display:flex;align-items:center;gap:12px;
 }
-.page-subtitle{font-size:.8rem;color:var(--td);margin-bottom:28px;letter-spacing:.5px;}
+.page-subtitle{font-size:.8rem;color:var(--td);margin-bottom:8px;letter-spacing:.5px;}
+
+.law-badges{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:28px;}
+.badge{
+  display:inline-flex;align-items:center;gap:5px;
+  padding:4px 12px;border-radius:20px;font-size:.7rem;font-weight:700;
+  letter-spacing:.5px;text-transform:uppercase;
+}
+.badge-in{background:rgba(255,180,0,.08);border:1px solid rgba(255,180,0,.25);color:#ffb400;}
+.badge-it{background:rgba(0,245,255,.1);border:1px solid rgba(0,245,255,.3);color:var(--a);}
+
 .content-card{
   background:var(--s2);border:1px solid var(--bd);
   border-radius:14px;padding:28px 24px;
   line-height:1.9;font-size:.9rem;color:var(--td);
 }
-.content-card p{margin-bottom:16px;}
-.content-card ul{margin-left:20px;margin-bottom:16px;}
+.content-card p{margin-bottom:14px;}
+.content-card ul{margin-left:20px;margin-bottom:14px;}
 .content-card ul li{margin-bottom:6px;}
+.content-card ol{margin-left:20px;margin-bottom:14px;}
+.content-card ol li{margin-bottom:6px;}
 .content-card h3{
   color:var(--a);font-family:'Rajdhani',sans-serif;
   letter-spacing:1px;font-size:1.1rem;
-  margin-bottom:8px;margin-top:24px;
+  margin-bottom:10px;margin-top:28px;
+  padding-bottom:6px;border-bottom:1px solid var(--bd);
 }
 .content-card h3:first-child{margin-top:0;}
 .content-card strong{color:var(--t);}
 .content-card a{color:var(--a);text-decoration:none;}
 .content-card a:hover{text-decoration:underline;}
+
+.summary-box{
+  background:rgba(0,245,255,.06);border:1px solid rgba(0,245,255,.15);
+  border-radius:10px;padding:14px 18px;margin-bottom:24px;
+  font-size:.88rem;color:var(--t);line-height:1.7;
+}
+.highlight-box{
+  background:rgba(255,180,0,.05);border-left:3px solid rgba(255,180,0,.4);
+  border-radius:0 8px 8px 0;padding:12px 16px;margin:12px 0;
+  font-size:.85rem;color:#ffd166;
+}
+.do-dont{
+  display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:12px 0;
+}
+.do-box,.dont-box{border-radius:10px;padding:14px;}
+.do-box{background:rgba(34,197,94,.06);border:1px solid rgba(34,197,94,.2);}
+.dont-box{background:rgba(255,32,96,.06);border:1px solid rgba(255,32,96,.2);}
+.do-box h4{color:#22c55e;font-family:'Rajdhani',sans-serif;font-size:.9rem;letter-spacing:.5px;margin-bottom:8px;}
+.dont-box h4{color:var(--a2);font-family:'Rajdhani',sans-serif;font-size:.9rem;letter-spacing:.5px;margin-bottom:8px;}
+.do-box ul,.dont-box ul{margin-left:16px;font-size:.82rem;}
+.do-box li,.dont-box li{margin-bottom:4px;}
+
+.contact-box{
+  background:var(--s1);border:1px solid var(--bd);
+  border-radius:10px;padding:16px 18px;margin-top:12px;
+  line-height:2;
+}
+.toc{
+  background:var(--s1);border:1px solid var(--bd);border-radius:10px;
+  padding:16px 20px;margin-bottom:24px;
+}
+.toc h4{color:var(--a);font-family:'Rajdhani',sans-serif;font-size:.9rem;letter-spacing:1px;margin-bottom:10px;}
+.toc ol{margin-left:18px;font-size:.82rem;}
+.toc ol li{margin-bottom:4px;}
+.toc a{color:var(--td);text-decoration:none;}
+.toc a:hover{color:var(--a);}
+
+/* FOOTER */
 footer{
   text-align:center;padding:24px 20px;border-top:1px solid var(--bd);
   font-size:.78rem;color:var(--td);
@@ -96,6 +153,7 @@ footer a:hover{text-decoration:underline;}
 @media(max-width:580px){
   .content-card{padding:20px 16px;}
   .page-title{font-size:1.6rem;}
+  .do-dont{grid-template-columns:1fr;}
 }
 </style>
 </head>
@@ -112,38 +170,204 @@ footer a:hover{text-decoration:underline;}
 
 <div class="page-wrap">
   <div class="page-title">📋 Terms of Service</div>
-  <div class="page-subtitle">ToolKit Pro · Last updated: May 13, 2026</div>
+  <div class="page-subtitle">ToolKit Pro · Last updated: June 17, 2026</div>
+
+  <div class="law-badges">
+    <span class="badge badge-in">⚖️ Indian Contract Act 1872</span>
+    <span class="badge badge-it">🛡️ IT Act 2000</span>
+    <span class="badge badge-in">📱 DPDP Act 2023</span>
+  </div>
+
+  <!-- TOC -->
+  <div class="toc">
+    <h4>📑 TABLE OF CONTENTS</h4>
+    <ol>
+      <li><a href="#t1">Acceptance of Terms</a></li>
+      <li><a href="#t2">Description of Service</a></li>
+      <li><a href="#t3">Eligibility & User Accounts</a></li>
+      <li><a href="#t4">Acceptable Use Policy</a></li>
+      <li><a href="#t5">Advertisements</a></li>
+      <li><a href="#t6">Data & Privacy</a></li>
+      <li><a href="#t7">Intellectual Property</a></li>
+      <li><a href="#t8">Disclaimer of Warranties</a></li>
+      <li><a href="#t9">Limitation of Liability</a></li>
+      <li><a href="#t10">Indemnification</a></li>
+      <li><a href="#t11">Termination</a></li>
+      <li><a href="#t12">Governing Law & Disputes</a></li>
+      <li><a href="#t13">Changes to Terms</a></li>
+      <li><a href="#t14">Contact Us</a></li>
+    </ol>
+  </div>
 
   <div class="content-card">
 
-    <h3>1. Acceptance of Terms</h3>
-    <p>By accessing and using ToolKit Pro, you accept and agree to be bound by these Terms of Service. If you do not agree, please do not use this application.</p>
+    <div class="summary-box">
+      <strong>Plain Language Summary:</strong> ToolKit Pro is a free web app offering a calculator, chess game, and currency converter. Use it responsibly for lawful purposes only. We show ads to keep it free. Your data is handled per our Privacy Policy and India's DPDP Act 2023. For disputes, courts in India have jurisdiction.
+    </div>
 
-    <h3>2. Use of Service</h3>
-    <p>ToolKit Pro provides free tools including a calculator, chess game, and currency converter. You agree to use these tools only for lawful purposes and in a way that does not infringe the rights of others.</p>
+    <h3 id="t1">1. Acceptance of Terms</h3>
+    <p>By accessing, browsing, or using ToolKit Pro at <strong>toolkitpro.co.in</strong> (the "Service"), you confirm that you have read, understood, and agree to be legally bound by these Terms of Service ("Terms") and our <a href="/privacy.html">Privacy Policy</a>, which is incorporated herein by reference.</p>
+    <p>If you do not agree to these Terms, please discontinue use of the Service immediately. These Terms constitute a legally binding agreement between you ("User") and <strong>Siddhartha Kaithwar</strong> ("Operator," "we," "us").</p>
+    <p>For users under 18, a parent or legal guardian must review and agree to these Terms on your behalf before you use the Service.</p>
 
-    <h3>3. User Accounts</h3>
-    <p>You are responsible for maintaining the confidentiality of your account credentials. You agree to notify us immediately of any unauthorized use of your account. Guest access is available without registration.</p>
+    <h3 id="t2">2. Description of Service</h3>
+    <p>ToolKit Pro is a free, web-based utility application providing the following tools:</p>
+    <ul>
+      <li><strong>Calculator</strong> — Unlimited precision arithmetic calculator using Big.js decimal engine. Results are mathematical approximations and should not be used for critical financial, medical, legal, or engineering decisions without independent verification.</li>
+      <li><strong>Chess Game</strong> — A browser-based chess game playable against an AI opponent or a second local player, for entertainment purposes only.</li>
+      <li><strong>Currency Converter</strong> — Indicative exchange rate converter using publicly available rate data. Rates are updated daily via third-party APIs and are <em>not real-time</em>. Do not use for live financial transactions.</li>
+    </ul>
+    <p>The Service is provided free of charge and is supported by advertising revenue.</p>
 
-    <h3>4. Advertisements</h3>
-    <p>ToolKit Pro displays advertisements served by Google AdSense. These ads help us keep the service free. We do not control the content of advertisements displayed.</p>
+    <h3 id="t3">3. Eligibility &amp; User Accounts</h3>
+    <p><strong>Age Requirement:</strong> In accordance with the <strong>DPDP Act 2023 (Section 9)</strong>, users must be at least <strong>18 years old</strong> to create a registered account. Users under 18 may use the Service in Guest mode without creating an account or providing personal data.</p>
+    <p><strong>Guest Access:</strong> You may use all tools without creating an account by selecting "Continue as Guest." Guest mode stores no personal data on our servers.</p>
+    <p><strong>Account Responsibilities:</strong> If you create an account, you agree to:</p>
+    <ul>
+      <li>Provide accurate and truthful registration information</li>
+      <li>Maintain the confidentiality of your login credentials</li>
+      <li>Notify us immediately of any unauthorised access at <a href="mailto:support@toolkitpro.co.in">support@toolkitpro.co.in</a></li>
+      <li>Accept responsibility for all activities that occur under your account</li>
+    </ul>
+    <p>We reserve the right to suspend or delete accounts found to be fraudulent, abusive, or in violation of these Terms.</p>
 
-    <h3>5. Disclaimer</h3>
-    <p>ToolKit Pro is provided "as is" without warranties of any kind. We are not responsible for any errors or inaccuracies in the tools provided, including calculator results or currency conversion rates.</p>
+    <h3 id="t4">4. Acceptable Use Policy</h3>
+    <p>You agree to use ToolKit Pro only for lawful purposes and in compliance with all applicable laws, including the <strong>Information Technology Act, 2000</strong> and its amendments. The following Do's and Don'ts apply:</p>
 
-    <h3>6. Intellectual Property</h3>
-    <p>All content, design, and code of ToolKit Pro is the property of Siddhartha Kaithwar. You may not copy, reproduce, or distribute any part of this application without explicit permission.</p>
+    <div class="do-dont">
+      <div class="do-box">
+        <h4>✅ You MAY</h4>
+        <ul>
+          <li>Use the tools for personal, educational, or non-commercial purposes</li>
+          <li>Share the website URL with others</li>
+          <li>Use the currency converter for indicative reference purposes</li>
+          <li>Play chess for recreation</li>
+        </ul>
+      </div>
+      <div class="dont-box">
+        <h4>🚫 You MAY NOT</h4>
+        <ul>
+          <li>Attempt to reverse-engineer, copy, or redistribute the Service's source code</li>
+          <li>Scrape, crawl, or use automated tools to access the Service</li>
+          <li>Use the Service for any unlawful, fraudulent, or harmful activity</li>
+          <li>Attempt to gain unauthorised access to any account or system</li>
+          <li>Use the Service in a way that disrupts or overloads our infrastructure</li>
+          <li>Impersonate any person or entity</li>
+          <li>Use exchange rates for actual financial transactions without independent verification</li>
+        </ul>
+      </div>
+    </div>
 
-    <h3>7. Limitation of Liability</h3>
-    <p>ToolKit Pro shall not be liable for any indirect, incidental, or consequential damages arising from your use of the service. Your sole remedy for dissatisfaction is to stop using the application.</p>
+    <p>Violation of this Acceptable Use Policy may result in immediate termination of your account and may be reported to appropriate legal authorities under the IT Act, 2000.</p>
 
-    <h3>8. Changes to Terms</h3>
-    <p>We reserve the right to modify these terms at any time. Continued use of the service after changes constitutes acceptance of the new terms.</p>
+    <h3 id="t5">5. Advertisements</h3>
+    <p>ToolKit Pro displays advertisements served by <strong>Google AdSense</strong> to support the free service. By using the Service, you acknowledge that:</p>
+    <ul>
+      <li>Ads are served by Google LLC and are governed by Google's own policies</li>
+      <li>We do not control the content of individual advertisements displayed</li>
+      <li>Ad content does not represent our endorsement of any advertised product or service</li>
+      <li>You may manage ad personalisation preferences as described in our <a href="/privacy.html">Privacy Policy</a></li>
+    </ul>
+    <p>The presence of advertisements does not affect the neutrality or accuracy of our tools.</p>
 
-    <h3>9. Contact</h3>
-    <p>Questions about these Terms? Contact us at <a href="mailto:support@toolkitpro.co.in">support@toolkitpro.co.in</a> or on Instagram <a href="https://www.instagram.com/fix_before_flex?igsh=ZW9pMXoyZm9yOWFk" target="_blank" rel="noopener">@fix_before_flex</a></p>
+    <h3 id="t6">6. Data &amp; Privacy</h3>
+    <p>Your use of ToolKit Pro is subject to our <a href="/privacy.html">Privacy Policy</a>, which explains what data we collect, why, how it is stored, and your rights as a Data Principal under the DPDP Act 2023.</p>
+    <p>Key points:</p>
+    <ul>
+      <li>Calculator history and preferences are stored locally on your device only</li>
+      <li>Account data (name, email) is stored on Supabase (secure cloud)</li>
+      <li>We do not sell your personal data to any third party</li>
+      <li>You may request deletion of your account data at any time</li>
+    </ul>
 
-  </div>
+    <h3 id="t7">7. Intellectual Property</h3>
+    <p>All content, design, code, logos, trademarks, and other materials on ToolKit Pro are the exclusive intellectual property of <strong>Siddhartha Kaithwar</strong> and are protected under the <strong>Copyright Act, 1957 (India)</strong> and applicable international copyright laws.</p>
+    <p>You are granted a limited, non-exclusive, non-transferable, revocable licence to access and use the Service for personal, non-commercial purposes only.</p>
+    <div class="highlight-box">
+      ⚠️ You may NOT copy, reproduce, modify, distribute, create derivative works of, or commercially exploit any part of ToolKit Pro without our prior written permission.
+    </div>
+    <p>Open-source libraries used (Big.js, Supabase JS SDK, etc.) retain their respective licences. Chess piece Unicode symbols are part of the Unicode Standard (open standard).</p>
+
+    <h3 id="t8">8. Disclaimer of Warranties</h3>
+    <p>ToolKit Pro is provided <strong>"AS IS"</strong> and <strong>"AS AVAILABLE"</strong> without warranties of any kind, express or implied, to the fullest extent permitted by applicable law.</p>
+    <p>We expressly disclaim:</p>
+    <ul>
+      <li>Any warranty that the Service will be uninterrupted, error-free, or free of viruses or harmful components</li>
+      <li>Any warranty of accuracy, completeness, or reliability of calculator results, currency rates, or chess engine moves</li>
+      <li>Any warranty of fitness for a particular purpose, including financial, legal, medical, or engineering use</li>
+      <li>Any warranty regarding the accuracy of real-time or near-real-time exchange rates (rates are indicative only)</li>
+    </ul>
+    <p>Currency exchange rates are sourced from third-party APIs and may be delayed or inaccurate. <strong>Do not use ToolKit Pro currency rates for actual financial transactions.</strong></p>
+
+    <h3 id="t9">9. Limitation of Liability</h3>
+    <p>To the maximum extent permitted by Indian law, <strong>Siddhartha Kaithwar and ToolKit Pro shall not be liable</strong> for any:</p>
+    <ul>
+      <li>Direct, indirect, incidental, special, consequential, or punitive damages</li>
+      <li>Loss of profits, revenue, data, or goodwill</li>
+      <li>Damages arising from reliance on calculator results, currency rates, or chess moves</li>
+      <li>Damages arising from unauthorised access to or alteration of your data</li>
+      <li>Damages arising from any third-party services (Google, Supabase, GitHub, etc.)</li>
+    </ul>
+    <p>In jurisdictions that do not allow the exclusion of certain warranties or limitation of liability, our liability is limited to the maximum extent permitted by law.</p>
+    <p>If you are dissatisfied with any aspect of the Service, your sole remedy is to discontinue use.</p>
+
+    <h3 id="t10">10. Indemnification</h3>
+    <p>You agree to indemnify, defend, and hold harmless Siddhartha Kaithwar, ToolKit Pro, and its affiliates from and against any claims, liabilities, damages, losses, costs, and expenses (including reasonable legal fees) arising out of or in connection with:</p>
+    <ul>
+      <li>Your violation of these Terms</li>
+      <li>Your use of the Service in an unlawful manner</li>
+      <li>Your infringement of any third-party intellectual property or privacy rights</li>
+      <li>Any content you submit, transmit, or otherwise make available through the Service</li>
+    </ul>
+
+    <h3 id="t11">11. Termination</h3>
+    <p>We reserve the right to suspend or terminate your access to the Service at any time, with or without notice, if you:</p>
+    <ul>
+      <li>Violate any provision of these Terms</li>
+      <li>Engage in conduct that is harmful to other users, the Service, or third parties</li>
+      <li>Engage in fraudulent, abusive, or illegal activity</li>
+    </ul>
+    <p><strong>Account Deletion:</strong> You may delete your account at any time by contacting us at <a href="mailto:support@toolkitpro.co.in">support@toolkitpro.co.in</a>. Upon account deletion, your personal data will be removed from our systems within 30 days, subject to legal retention requirements.</p>
+    <p>Guest mode access is not subject to termination and requires no account.</p>
+
+    <h3 id="t12">12. Governing Law &amp; Dispute Resolution</h3>
+    <p><strong>Governing Law:</strong> These Terms are governed by and construed in accordance with the laws of the <strong>Republic of India</strong>, without regard to conflict of law principles. The following Acts apply where relevant:</p>
+    <ul>
+      <li>Indian Contract Act, 1872</li>
+      <li>Information Technology Act, 2000 (and IT Amendment Act, 2008)</li>
+      <li>Digital Personal Data Protection Act, 2023</li>
+      <li>Copyright Act, 1957</li>
+      <li>Consumer Protection Act, 2019</li>
+    </ul>
+    <p><strong>Dispute Resolution:</strong> In the event of any dispute, claim, or controversy arising from or relating to these Terms or the Service, both parties agree to first attempt resolution through good-faith negotiation for a period of 30 days.</p>
+    <p><strong>Jurisdiction:</strong> If the dispute cannot be resolved through negotiation, you agree to submit to the exclusive jurisdiction of the courts located in <strong>India</strong> for any legal proceedings. For consumer complaints, users in India may also approach the applicable Consumer Disputes Redressal Commission.</p>
+
+    <h3 id="t13">13. Changes to Terms</h3>
+    <p>We reserve the right to modify these Terms at any time to reflect changes in law, new features, or updated practices. When we make material changes:</p>
+    <ul>
+      <li>The "Last updated" date at the top of this page will be revised</li>
+      <li>A notice may be displayed within the app for 14 days after the update</li>
+    </ul>
+    <p>Your continued use of the Service following the posting of revised Terms constitutes acceptance of those changes. If you do not agree with the revised Terms, please stop using the Service and, if applicable, delete your account.</p>
+    <p>For changes that materially affect your rights under the DPDP Act, we will seek your explicit consent before continuing to process your personal data.</p>
+
+    <h3 id="t14">14. Contact Us</h3>
+    <p>For any questions, concerns, or requests related to these Terms of Service, please contact us:</p>
+    <div class="contact-box">
+      <div>👤 <strong>Siddhartha Kaithwar</strong></div>
+      <div>🌐 <strong>Website:</strong> toolkitpro.co.in</div>
+      <div>📧 <a href="mailto:support@toolkitpro.co.in">support@toolkitpro.co.in</a></div>
+      <div>📸 <a href="https://www.instagram.com/fix_before_flex?igsh=ZW9pMXoyZm9yOWFk" target="_blank" rel="noopener">@fix_before_flex</a></div>
+      <div style="margin-top:10px;font-size:.8rem;color:var(--td);">
+        We aim to respond to all queries within 30 days. For urgent matters related to account security or data breaches, please mark your email as <em>"URGENT — Security"</em>.
+      </div>
+    </div>
+
+    <p style="margin-top:20px;font-size:.8rem;color:var(--td);border-top:1px solid var(--bd);padding-top:16px;">
+      These Terms of Service were last reviewed and updated on <strong>June 17, 2026</strong> by Siddhartha Kaithwar. If any provision of these Terms is found to be unenforceable, the remaining provisions shall continue in full force and effect.
+    </p>
+
+  </div><!-- /content-card -->
 </div>
 
 <footer>
