@@ -3,12 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="ToolKit Pro Privacy Policy — How we collect, use, and protect your data. Google AdSense, Analytics, and Supabase disclosures.">
+<meta name="description" content="ToolKit Pro Privacy Policy — DPDP Act 2023 & GDPR compliant. How we collect, use, and protect your data.">
 <meta name="author" content="Siddhartha Kaithwar">
 <meta name="robots" content="index, follow">
 <meta name="theme-color" content="#080b12">
 <meta property="og:title" content="Privacy Policy — ToolKit Pro">
-<meta property="og:description" content="How ToolKit Pro collects, uses, and protects your personal information.">
+<meta property="og:description" content="How ToolKit Pro collects, uses, and protects your personal information under DPDP Act 2023.">
 <meta property="og:url" content="https://toolkitpro.co.in/privacy.html">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="ToolKit Pro">
@@ -40,24 +40,26 @@ body{background:var(--bg);color:var(--t);font-family:'Exo 2',sans-serif;min-heig
 nav{
   display:flex;align-items:center;
   background:var(--s1);border-bottom:1px solid var(--bd);
-  padding:0 20px;position:sticky;top:0;z-index:100;gap:6px;
+  padding:0 20px;position:sticky;top:0;z-index:100;
+  gap:4px;overflow-x:auto;
 }
+nav::-webkit-scrollbar{height:0;}
 .nav-logo{
   font-family:'Rajdhani',sans-serif;font-size:1.3rem;font-weight:700;
   color:var(--a);letter-spacing:3px;
   padding:14px 16px 14px 0;white-space:nowrap;
-  border-right:1px solid var(--bd);margin-right:10px;
-  text-decoration:none;
+  border-right:1px solid var(--bd);margin-right:8px;
+  text-decoration:none;flex-shrink:0;
 }
 .nav-link{
-  padding:14px 12px;color:var(--td);font-size:.78rem;font-weight:600;
+  padding:14px 10px;color:var(--td);font-size:.78rem;font-weight:600;
   letter-spacing:.8px;text-transform:uppercase;white-space:nowrap;
-  text-decoration:none;transition:color .2s;border-bottom:2px solid transparent;
+  text-decoration:none;transition:color .2s;border-bottom:2px solid transparent;flex-shrink:0;
 }
 .nav-link:hover{color:var(--t);}
 .nav-link.active{color:var(--a);border-bottom-color:var(--a);}
 .nav-back{
-  margin-left:auto;padding:8px 16px;
+  margin-left:auto;padding:8px 16px;flex-shrink:0;
   background:none;border:1px solid var(--bd);border-radius:8px;
   color:var(--a);font-family:'Exo 2',sans-serif;font-size:.78rem;
   font-weight:700;letter-spacing:.5px;text-decoration:none;
@@ -66,28 +68,43 @@ nav{
 .nav-back:hover{border-color:var(--a);background:rgba(0,245,255,.06);}
 
 /* CONTENT */
-.page-wrap{max-width:760px;margin:0 auto;padding:36px 20px 60px;}
+.page-wrap{max-width:800px;margin:0 auto;padding:36px 20px 60px;}
 .page-title{
   font-family:'Rajdhani',sans-serif;font-size:2rem;font-weight:700;
   letter-spacing:2px;color:var(--a);margin-bottom:6px;
   display:flex;align-items:center;gap:12px;
 }
-.page-subtitle{font-size:.8rem;color:var(--td);margin-bottom:28px;letter-spacing:.5px;}
+.page-subtitle{font-size:.8rem;color:var(--td);margin-bottom:8px;letter-spacing:.5px;}
+
+/* Law badges */
+.law-badges{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:28px;}
+.badge{
+  display:inline-flex;align-items:center;gap:5px;
+  padding:4px 12px;border-radius:20px;font-size:.7rem;font-weight:700;
+  letter-spacing:.5px;text-transform:uppercase;
+}
+.badge-dpdp{background:rgba(0,245,255,.1);border:1px solid rgba(0,245,255,.3);color:var(--a);}
+.badge-gdpr{background:rgba(100,120,255,.1);border:1px solid rgba(100,120,255,.3);color:#8899ff;}
+.badge-ccpa{background:rgba(255,180,0,.08);border:1px solid rgba(255,180,0,.25);color:#ffb400;}
 
 .content-card{
   background:var(--s2);border:1px solid var(--bd);
   border-radius:14px;padding:28px 24px;
   line-height:1.9;font-size:.9rem;color:var(--td);
 }
-.content-card p{margin-bottom:16px;}
-.content-card ul{margin-left:20px;margin-bottom:16px;}
+.content-card p{margin-bottom:14px;}
+.content-card ul{margin-left:20px;margin-bottom:14px;}
 .content-card ul li{margin-bottom:6px;}
+.content-card ol{margin-left:20px;margin-bottom:14px;}
+.content-card ol li{margin-bottom:8px;}
 .content-card h3{
   color:var(--a);font-family:'Rajdhani',sans-serif;
   letter-spacing:1px;font-size:1.1rem;
-  margin-bottom:8px;margin-top:24px;
+  margin-bottom:10px;margin-top:28px;
+  padding-bottom:6px;border-bottom:1px solid var(--bd);
 }
 .content-card h3:first-child{margin-top:0;}
+.content-card h4{color:var(--t);font-size:.9rem;margin:14px 0 8px;font-family:'Rajdhani',sans-serif;letter-spacing:.5px;}
 .content-card strong{color:var(--t);}
 .content-card a{color:var(--a);text-decoration:none;}
 .content-card a:hover{text-decoration:underline;}
@@ -95,14 +112,56 @@ nav{
 .info-box{
   background:rgba(0,245,255,.06);border:1px solid rgba(0,245,255,.15);
   border-radius:10px;padding:14px 18px;margin-bottom:24px;
-  font-size:.88rem;color:var(--t);
+  font-size:.88rem;color:var(--t);line-height:1.7;
 }
+.warn-box{
+  background:rgba(255,180,0,.06);border:1px solid rgba(255,180,0,.2);
+  border-radius:10px;padding:12px 16px;margin:12px 0;
+  font-size:.85rem;color:#ffd166;
+}
+.rights-grid{
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));
+  gap:10px;margin:12px 0;
+}
+.right-card{
+  background:var(--s1);border:1px solid var(--bd);border-radius:10px;
+  padding:12px 14px;
+}
+.right-card .ri{font-size:1.2rem;margin-bottom:4px;}
+.right-card .rn{font-size:.82rem;font-weight:700;color:var(--t);margin-bottom:2px;}
+.right-card .rd{font-size:.75rem;color:var(--td);}
+
 .contact-box{
   background:var(--s1);border:1px solid var(--bd);
-  border-radius:10px;padding:14px 18px;margin-top:12px;
+  border-radius:10px;padding:16px 18px;margin-top:12px;
   line-height:2;
 }
-.date-tag{font-size:.75rem;color:var(--td);margin-bottom:20px;display:block;}
+.toc{
+  background:var(--s1);border:1px solid var(--bd);border-radius:10px;
+  padding:16px 20px;margin-bottom:24px;
+}
+.toc h4{color:var(--a);font-family:'Rajdhani',sans-serif;font-size:.9rem;letter-spacing:1px;margin-bottom:10px;}
+.toc ol{margin-left:18px;font-size:.82rem;}
+.toc ol li{margin-bottom:4px;}
+.toc a{color:var(--td);text-decoration:none;}
+.toc a:hover{color:var(--a);}
+
+/* Third-party cards */
+.tp-card{background:var(--s1);border:1px solid var(--bd);border-radius:12px;margin-bottom:12px;overflow:hidden;}
+.tp-header{display:flex;align-items:center;gap:10px;padding:12px 16px;background:rgba(0,245,255,.04);border-bottom:1px solid var(--bd);}
+.tp-name{font-family:'Rajdhani',sans-serif;font-size:1rem;font-weight:700;color:var(--t);}
+.tp-tag{font-size:.62rem;font-weight:700;letter-spacing:.5px;text-transform:uppercase;padding:2px 8px;border-radius:10px;margin-left:auto;}
+.tp-tag-db{background:rgba(124,58,237,.15);color:#c4b5fd;border:1px solid rgba(124,58,237,.25);}
+.tp-tag-ads{background:rgba(255,180,0,.1);color:#fbbf24;border:1px solid rgba(255,180,0,.2);}
+.tp-tag-analytics{background:rgba(34,197,94,.1);color:#4ade80;border:1px solid rgba(34,197,94,.2);}
+.tp-tag-host{background:rgba(0,245,255,.1);color:var(--a);border:1px solid rgba(0,245,255,.2);}
+.tp-tag-email{background:rgba(59,130,246,.1);color:#60a5fa;border:1px solid rgba(59,130,246,.2);}
+.tp-tag-ai{background:rgba(255,32,96,.1);color:#ff6b8a;border:1px solid rgba(255,32,96,.2);}
+.tp-tag-api{background:rgba(251,191,36,.1);color:#fcd34d;border:1px solid rgba(251,191,36,.2);}
+.tp-body{padding:10px 16px;}
+.tp-row{display:flex;gap:12px;padding:5px 0;border-bottom:1px solid rgba(30,38,64,.5);font-size:.82rem;}
+.tp-row:last-child{border-bottom:none;}
+.tp-label{min-width:110px;color:var(--td);font-weight:600;font-size:.75rem;text-transform:uppercase;letter-spacing:.4px;padding-top:1px;flex-shrink:0;}
 
 /* FOOTER */
 footer{
@@ -112,10 +171,10 @@ footer{
 footer a{color:var(--a);text-decoration:none;}
 footer a:hover{text-decoration:underline;}
 .footer-links{display:flex;gap:20px;justify-content:center;margin-bottom:10px;flex-wrap:wrap;}
-
 @media(max-width:580px){
   .content-card{padding:20px 16px;}
   .page-title{font-size:1.6rem;}
+  .rights-grid{grid-template-columns:1fr;}
 }
 </style>
 </head>
@@ -132,68 +191,317 @@ footer a:hover{text-decoration:underline;}
 
 <div class="page-wrap">
   <div class="page-title">🔒 Privacy Policy</div>
-  <div class="page-subtitle">ToolKit Pro · Last updated: May 13, 2026</div>
+  <div class="page-subtitle">ToolKit Pro · Last updated: June 17, 2026</div>
+
+  <div class="law-badges">
+    <span class="badge badge-dpdp">✓ DPDP Act 2023</span>
+    <span class="badge badge-gdpr">✓ GDPR Aligned</span>
+    <span class="badge badge-ccpa">✓ CCPA Compliant</span>
+  </div>
+
+  <!-- Table of Contents -->
+  <div class="toc">
+    <h4>📑 TABLE OF CONTENTS</h4>
+    <ol>
+      <li><a href="#s1">Who We Are & Scope</a></li>
+      <li><a href="#s2">Data We Collect & Why</a></li>
+      <li><a href="#s3">Legal Basis for Processing</a></li>
+      <li><a href="#s4">Google AdSense & Advertising</a></li>
+      <li><a href="#s5">Cookies & Tracking</a></li>
+      <li><a href="#s6">Data Storage, Retention & Security</a></li>
+      <li><a href="#s7">Third-Party Services</a></li>
+      <li><a href="#s8">Children's Privacy (Under 18)</a></li>
+      <li><a href="#s9">Your Rights as a Data Principal</a></li>
+      <li><a href="#s10">Cross-Border Data Transfers</a></li>
+      <li><a href="#s11">Changes to This Policy</a></li>
+      <li><a href="#s12">Grievance Officer & Contact</a></li>
+    </ol>
+  </div>
 
   <div class="content-card">
+
     <div class="info-box">
-      This Privacy Policy describes how <strong>ToolKit Pro</strong>, operated by <strong>Siddhartha</strong>, collects, uses, and shares information when you use our app.
+      This Privacy Policy is issued by <strong>Siddhartha Kaithwar</strong> ("Data Fiduciary"), the owner and operator of <strong>ToolKit Pro</strong> (toolkitpro.co.in). This policy governs the collection, processing, storage, and sharing of your personal data in accordance with the <strong>Digital Personal Data Protection Act, 2023 (DPDP Act)</strong> of India, and is aligned with the <strong>EU General Data Protection Regulation (GDPR)</strong> and <strong>California Consumer Privacy Act (CCPA)</strong>.
     </div>
 
-    <h3>1. Information We Collect</h3>
-    <p>We collect the following information when you create an account or use ToolKit Pro:</p>
+    <h3 id="s1">1. Who We Are &amp; Scope</h3>
+    <p><strong>Data Fiduciary:</strong> Siddhartha Kaithwar, India<br>
+    <strong>Website:</strong> toolkitpro.co.in<br>
+    <strong>Contact:</strong> <a href="mailto:support@toolkitpro.co.in">support@toolkitpro.co.in</a></p>
+    <p>This policy applies to all users of ToolKit Pro, including visitors who use the app as a guest, registered account holders, and users who interact with any embedded tools (Calculator, Chess, Currency Converter). It applies to personal data collected digitally through our website.</p>
+
+    <h3 id="s2">2. Data We Collect &amp; Why</h3>
+    <p>We collect <strong>only what is necessary</strong> for the service (data minimisation principle under DPDP Act, Section 6):</p>
+
+    <h4>2a. Data You Provide Voluntarily</h4>
     <ul>
-      <li><strong>Account Information:</strong> Name, email address, and password (managed securely via Supabase Auth)</li>
-      <li><strong>Usage Data:</strong> Calculator history, preferences stored locally on your device via localStorage</li>
-      <li><strong>Analytics Data:</strong> Browser type, device information, and pages visited via Google Analytics</li>
-      <li><strong>Log Data:</strong> IP address and usage patterns collected by our hosting and analytics providers</li>
+      <li><strong>Name & Email Address</strong> — when you register an account (used for authentication via Supabase)</li>
+      <li><strong>Password</strong> — hashed and stored securely via Supabase Auth; we never see your plain-text password</li>
     </ul>
 
-    <h3>2. How We Use Your Information</h3>
+    <h4>2b. Data Collected Automatically</h4>
     <ul>
-      <li>To provide and maintain the ToolKit Pro service</li>
-      <li>To authenticate your identity when you log in</li>
-      <li>To allow admin moderation of user accounts</li>
-      <li>To improve user experience and app functionality</li>
-      <li>To display personalized advertisements via Google AdSense</li>
+      <li><strong>Usage/Analytics Data</strong> — pages visited, device type, browser type, operating system, session duration — collected via Google Analytics for app improvement</li>
+      <li><strong>IP Address & Log Data</strong> — collected by our hosting provider (GitHub Pages) and analytics services for security and performance monitoring</li>
+      <li><strong>Advertising Identifiers</strong> — cookies and similar signals used by Google AdSense for ad personalisation (you may opt out — see Section 4)</li>
     </ul>
 
-    <h3>3. Google AdSense &amp; Advertising</h3>
-    <p>ToolKit Pro uses <strong>Google AdSense</strong> to display advertisements. Google may use cookies to serve ads based on your prior visits to this website or other websites. You can opt out of personalized advertising by visiting <a href="https://www.google.com/settings/ads" target="_blank" rel="noopener">Google Ads Settings</a>.</p>
-    <p>Third-party vendors, including Google, use cookies to serve ads based on a user's prior visits. Google's use of advertising cookies enables it to serve ads based on visits to our site and other sites on the Internet.</p>
-
-    <h3>4. Cookies</h3>
-    <p>ToolKit Pro uses cookies and similar tracking technologies including localStorage to store your login session and preferences. By using our app, you consent to our use of cookies. You can instruct your browser to refuse all cookies or to indicate when a cookie is being sent.</p>
-
-    <h3>5. Data Storage &amp; Security</h3>
-    <p>Your account data is stored securely in your browser's localStorage and in Supabase (secure cloud platform). Passwords are managed by Supabase Auth and never stored in plain text. We implement appropriate security measures to protect your personal information.</p>
-
-    <h3>6. Third-Party Services</h3>
-    <p>ToolKit Pro uses the following third-party services:</p>
+    <h4>2c. Data Stored Locally on Your Device</h4>
     <ul>
-      <li><strong>Supabase</strong> — Authentication &amp; database (<a href="https://supabase.com/privacy" target="_blank" rel="noopener">Privacy Policy</a>)</li>
-      <li><strong>Google AdSense</strong> — Advertising (<a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Privacy Policy</a>)</li>
-      <li><strong>Google Analytics</strong> — Usage tracking (<a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Privacy Policy</a>)</li>
-      <li><strong>GitHub Pages</strong> — Web hosting (<a href="https://docs.github.com/en/site-policy/privacy-policies/github-privacy-statement" target="_blank" rel="noopener">Privacy Policy</a>)</li>
-      <li><strong>Zoho Mail</strong> — Email communication (<a href="https://www.zoho.com/privacy.html" target="_blank" rel="noopener">Privacy Policy</a>)</li>
+      <li><strong>Calculator History & Preferences</strong> — stored in your browser's <code>localStorage</code>; this data never leaves your device and is not accessible by us</li>
+      <li><strong>Login Session</strong> — session token stored in <code>localStorage</code> to keep you logged in</li>
+      <li><strong>Theme Preference</strong> — dark/light mode setting stored locally</li>
     </ul>
 
-    <h3>7. Children's Privacy</h3>
-    <p>ToolKit Pro does not knowingly collect personal information from children under 13. If you are a parent or guardian and believe your child has provided us with personal information, please contact us immediately.</p>
+    <p><strong>Purpose of Processing:</strong> All data is collected solely for operating the service, ensuring security, displaying advertisements to keep the service free, and improving user experience. We do not sell your personal data.</p>
 
-    <h3>8. Your Rights</h3>
-    <p>You have the right to access, update, or delete your personal information at any time. To request deletion of your account and data, please contact us at the email below.</p>
+    <h3 id="s3">3. Legal Basis for Processing</h3>
+    <p>Under the DPDP Act 2023, we process your personal data on the following lawful bases:</p>
+    <ul>
+      <li><strong>Consent (Section 7, DPDP Act)</strong> — You provide free, specific, informed consent when you register an account or accept our Cookie Notice. You may withdraw consent at any time by deleting your account.</li>
+      <li><strong>Legitimate Use</strong> — Processing necessary for operating the service, security monitoring, and fraud prevention</li>
+      <li><strong>Legal Obligation</strong> — Where required by applicable Indian law</li>
+    </ul>
+    <p>For GDPR purposes (EU/EEA users), our lawful bases are <em>consent</em> (Article 6(1)(a)) for advertising cookies, and <em>legitimate interests</em> (Article 6(1)(f)) for analytics and security.</p>
 
-    <h3>9. Changes to This Policy</h3>
-    <p>We may update this Privacy Policy from time to time. We will notify you of any changes by posting the new policy on this page with an updated date.</p>
+    <h3 id="s4">4. Google AdSense &amp; Advertising</h3>
+    <p>ToolKit Pro displays advertisements served by <strong>Google AdSense</strong> (Google LLC, USA). Google may use cookies, web beacons, and similar technologies to serve ads based on your prior visits to this and other websites.</p>
+    <p><strong>What Google may collect:</strong> browsing behaviour, interests, approximate location, device information, and interactions with ads.</p>
+    <p>You can control ad personalisation:</p>
+    <ul>
+      <li>Visit <a href="https://www.google.com/settings/ads" target="_blank" rel="noopener">Google Ads Settings</a> to opt out of personalised ads</li>
+      <li>Visit <a href="https://optout.aboutads.info" target="_blank" rel="noopener">optout.aboutads.info</a> for industry-wide opt-out</li>
+      <li>Use your browser's cookie settings to block third-party cookies</li>
+    </ul>
+    <p>Google's use of your data is governed by <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Google's Privacy Policy</a>.</p>
 
-    <h3>10. Contact Us</h3>
-    <p>If you have any questions about this Privacy Policy, please contact us:</p>
+    <h3 id="s5">5. Cookies &amp; Tracking Technologies</h3>
+    <p>We use the following categories of cookies:</p>
+    <ul>
+      <li><strong>Strictly Necessary Cookies</strong> — login session management, security tokens. These cannot be disabled as the service requires them.</li>
+      <li><strong>Preference Cookies</strong> — remembering your theme (dark/light mode) and settings. You can clear these via browser settings.</li>
+      <li><strong>Analytics Cookies</strong> — Google Analytics collects anonymised usage data to help us understand how our app is used. You can opt out via <a href="https://tools.google.com/dlpage/gaoptout" target="_blank" rel="noopener">Google Analytics Opt-out</a>.</li>
+      <li><strong>Advertising Cookies</strong> — Google AdSense places cookies for personalised advertising. You can opt out as described in Section 4.</li>
+    </ul>
+    <div class="warn-box">
+      ⚠️ <strong>Cookie Consent:</strong> On your first visit, you will be shown a Cookie Consent banner. By clicking "Accept," you consent to analytics and advertising cookies. "Decline" disables non-essential cookies, though basic functionality remains intact.
+    </div>
+    <p>You can also instruct your browser to refuse all cookies or delete existing ones. Note that disabling cookies may affect certain features.</p>
+
+    <h3 id="s6">6. Data Storage, Retention &amp; Security</h3>
+    <h4>Storage</h4>
+    <ul>
+      <li><strong>Account data</strong> (name, email, hashed password) is stored on <strong>Supabase</strong> servers (hosted on AWS, region: auto-assigned)</li>
+      <li><strong>App preferences and calculator history</strong> are stored locally in your browser's <code>localStorage</code> — on your device only</li>
+      <li><strong>The website</strong> is hosted on GitHub Pages (Microsoft, USA)</li>
+    </ul>
+    <h4>Retention Periods</h4>
+    <ul>
+      <li><strong>Account data:</strong> Retained as long as your account is active. Deleted within <strong>30 days</strong> of an account deletion request</li>
+      <li><strong>Analytics data:</strong> Retained by Google Analytics per Google's default retention (14 months)</li>
+      <li><strong>Server logs:</strong> Retained for a maximum of <strong>90 days</strong> by hosting providers</li>
+      <li><strong>Local data (localStorage):</strong> Stored on your device until you clear your browser data</li>
+    </ul>
+    <h4>Security Measures</h4>
+    <ul>
+      <li>All data transmission is encrypted via HTTPS (TLS 1.2+)</li>
+      <li>Passwords are hashed using Supabase's bcrypt-based authentication — never stored in plain text</li>
+      <li>Access to user account data is restricted to the site administrator only</li>
+      <li>We follow responsible disclosure principles for security vulnerabilities</li>
+    </ul>
+    <p>Despite our best efforts, no internet transmission is 100% secure. Please use a strong, unique password for your ToolKit Pro account.</p>
+
+    <h3 id="s7">7. Third-Party Services &amp; Data Processors</h3>
+    <p>ToolKit Pro integrates the following third-party services to deliver its functionality. Each service may collect and process data per their own privacy policies. By using ToolKit Pro, you acknowledge these integrations.</p>
+
+    <!-- Database & Auth -->
+    <h4>🗄️ Database &amp; Authentication</h4>
+    <div class="tp-card">
+      <div class="tp-header">
+        <span class="tp-name">Supabase</span>
+        <span class="tp-tag tp-tag-db">Database · Auth</span>
+      </div>
+      <div class="tp-body">
+        <div class="tp-row"><span class="tp-label">Provider</span><span>Supabase Inc., USA (hosted on AWS)</span></div>
+        <div class="tp-row"><span class="tp-label">Data Collected</span><span>Email address, hashed password, user ID, login timestamps</span></div>
+        <div class="tp-row"><span class="tp-label">Purpose</span><span>User account creation, login/logout, admin management</span></div>
+        <div class="tp-row"><span class="tp-label">Data Location</span><span>Amazon Web Services (AWS) — auto-assigned region</span></div>
+        <div class="tp-row"><span class="tp-label">Retention</span><span>Until account deletion + 30 days</span></div>
+        <div class="tp-row"><span class="tp-label">Privacy Policy</span><span><a href="https://supabase.com/privacy" target="_blank" rel="noopener">supabase.com/privacy ↗</a></span></div>
+      </div>
+    </div>
+
+    <!-- Advertising -->
+    <h4>📢 Advertising</h4>
+    <div class="tp-card">
+      <div class="tp-header">
+        <span class="tp-name">Google AdSense</span>
+        <span class="tp-tag tp-tag-ads">Advertising</span>
+      </div>
+      <div class="tp-body">
+        <div class="tp-row"><span class="tp-label">Provider</span><span>Google LLC, USA</span></div>
+        <div class="tp-row"><span class="tp-label">Data Collected</span><span>Cookies, browsing behaviour, device info, IP address, ad interaction data</span></div>
+        <div class="tp-row"><span class="tp-label">Purpose</span><span>Displaying personalised and contextual advertisements to keep the service free</span></div>
+        <div class="tp-row"><span class="tp-label">Opt-Out</span><span><a href="https://www.google.com/settings/ads" target="_blank" rel="noopener">Google Ads Settings ↗</a> · <a href="https://optout.aboutads.info" target="_blank" rel="noopener">Industry Opt-Out ↗</a></span></div>
+        <div class="tp-row"><span class="tp-label">Privacy Policy</span><span><a href="https://policies.google.com/privacy" target="_blank" rel="noopener">policies.google.com/privacy ↗</a></span></div>
+      </div>
+    </div>
+
+    <!-- Analytics -->
+    <h4>📊 Analytics</h4>
+    <div class="tp-card">
+      <div class="tp-header">
+        <span class="tp-name">Google Analytics (GA4)</span>
+        <span class="tp-tag tp-tag-analytics">Analytics</span>
+      </div>
+      <div class="tp-body">
+        <div class="tp-row"><span class="tp-label">Provider</span><span>Google LLC, USA</span></div>
+        <div class="tp-row"><span class="tp-label">Tracking ID</span><span>G-SK7Z4P7H7P</span></div>
+        <div class="tp-row"><span class="tp-label">Data Collected</span><span>Pages visited, session duration, device type, browser, approximate location (country/city), events</span></div>
+        <div class="tp-row"><span class="tp-label">Purpose</span><span>Understanding how users interact with the app; improving features and performance</span></div>
+        <div class="tp-row"><span class="tp-label">Anonymisation</span><span>IP addresses are anonymised before storage</span></div>
+        <div class="tp-row"><span class="tp-label">Retention</span><span>14 months (Google default)</span></div>
+        <div class="tp-row"><span class="tp-label">Opt-Out</span><span><a href="https://tools.google.com/dlpage/gaoptout" target="_blank" rel="noopener">GA Opt-out Browser Add-on ↗</a></span></div>
+        <div class="tp-row"><span class="tp-label">Privacy Policy</span><span><a href="https://policies.google.com/privacy" target="_blank" rel="noopener">policies.google.com/privacy ↗</a></span></div>
+      </div>
+    </div>
+
+    <!-- Hosting -->
+    <h4>🌐 Web Hosting</h4>
+    <div class="tp-card">
+      <div class="tp-header">
+        <span class="tp-name">GitHub Pages</span>
+        <span class="tp-tag tp-tag-host">Hosting</span>
+      </div>
+      <div class="tp-body">
+        <div class="tp-row"><span class="tp-label">Provider</span><span>GitHub Inc. (Microsoft), USA</span></div>
+        <div class="tp-row"><span class="tp-label">Data Collected</span><span>IP address, request logs, server-side access logs</span></div>
+        <div class="tp-row"><span class="tp-label">Purpose</span><span>Serving the website files to your browser</span></div>
+        <div class="tp-row"><span class="tp-label">Retention</span><span>Per GitHub's policy (typically 90 days for logs)</span></div>
+        <div class="tp-row"><span class="tp-label">Privacy Policy</span><span><a href="https://docs.github.com/en/site-policy/privacy-policies/github-privacy-statement" target="_blank" rel="noopener">GitHub Privacy Statement ↗</a></span></div>
+      </div>
+    </div>
+
+    <!-- Email -->
+    <h4>📧 Email Communication</h4>
+    <div class="tp-card">
+      <div class="tp-header">
+        <span class="tp-name">Zoho Mail</span>
+        <span class="tp-tag tp-tag-email">Email</span>
+      </div>
+      <div class="tp-body">
+        <div class="tp-row"><span class="tp-label">Provider</span><span>Zoho Corporation Pvt. Ltd., India/USA</span></div>
+        <div class="tp-row"><span class="tp-label">Data Collected</span><span>Email address, message content when you contact us</span></div>
+        <div class="tp-row"><span class="tp-label">Purpose</span><span>Receiving and responding to support requests, grievances, and data rights requests</span></div>
+        <div class="tp-row"><span class="tp-label">Privacy Policy</span><span><a href="https://www.zoho.com/privacy.html" target="_blank" rel="noopener">zoho.com/privacy ↗</a></span></div>
+      </div>
+    </div>
+
+    <!-- AI -->
+    <h4>🤖 AI Assistant</h4>
+    <div class="tp-card">
+      <div class="tp-header">
+        <span class="tp-name">Llama AI Backend (api-kye.onrender.com)</span>
+        <span class="tp-tag tp-tag-ai">AI · API</span>
+      </div>
+      <div class="tp-body">
+        <div class="tp-row"><span class="tp-label">Provider</span><span>Custom API hosted on Render.com</span></div>
+        <div class="tp-row"><span class="tp-label">Access</span><span><strong>Logged-in users only</strong> — not available to guests</span></div>
+        <div class="tp-row"><span class="tp-label">Data Sent</span><span>Your chat messages (prompts) are sent to the API endpoint for processing</span></div>
+        <div class="tp-row"><span class="tp-label">Purpose</span><span>Powering the in-app AI chat assistant</span></div>
+        <div class="tp-row"><span class="tp-label">Data Storage</span><span>Chat messages are not stored on our servers. Render.com may log request metadata.</span></div>
+        <div class="tp-row"><span class="tp-label">Render Privacy</span><span><a href="https://render.com/privacy" target="_blank" rel="noopener">render.com/privacy ↗</a></span></div>
+      </div>
+    </div>
+
+    <!-- Currency APIs -->
+    <h4>💱 Currency Exchange Rate APIs</h4>
+    <div class="tp-card">
+      <div class="tp-header">
+        <span class="tp-name">Exchange Rate APIs (No Personal Data Shared)</span>
+        <span class="tp-tag tp-tag-api">API · Data</span>
+      </div>
+      <div class="tp-body">
+        <div class="tp-row"><span class="tp-label">APIs Used</span><span>fawazahmed0/currency-api (via jsDelivr CDN) · Frankfurter API (ECB data) · open.er-api.com</span></div>
+        <div class="tp-row"><span class="tp-label">Data Sent</span><span>No personal data is sent. Only a standard HTTP request for exchange rate data.</span></div>
+        <div class="tp-row"><span class="tp-label">Purpose</span><span>Fetching daily foreign exchange rates for the Currency Converter tool</span></div>
+        <div class="tp-row"><span class="tp-label">Note</span><span>If APIs fail, a static fallback rate table is used locally with no external call.</span></div>
+      </div>
+    </div>
+
+    <p style="margin-top:16px;">We do not sell, rent, or share your personal data with any third party for their own marketing purposes. All third-party processors are bound by data processing agreements or their published privacy policies.</p>
+
+    <h3 id="s8">8. Children's Privacy (Under 18)</h3>
+    <p>In compliance with the <strong>DPDP Act 2023 (Section 9)</strong>, ToolKit Pro does not knowingly collect or process personal data of children under the age of <strong>18 years</strong> without verifiable parental consent.</p>
+    <p>If you are under 18, please do not register an account or provide any personal information. You may use the app as a <strong>Guest</strong> without creating an account.</p>
+    <p>If a parent or guardian believes their child under 18 has provided us with personal data, please contact us immediately at <a href="mailto:support@toolkitpro.co.in">support@toolkitpro.co.in</a> and we will delete the data within 30 days.</p>
+    <div class="warn-box">
+      ⚠️ Under the DPDP Act 2023, processing of children's data without parental consent is prohibited. ToolKit Pro does not direct advertising at children.
+    </div>
+
+    <h3 id="s9">9. Your Rights as a Data Principal</h3>
+    <p>Under the <strong>DPDP Act 2023</strong> (Sections 11–14) and applicable international laws, you have the following rights:</p>
+    <div class="rights-grid">
+      <div class="right-card">
+        <div class="ri">📋</div>
+        <div class="rn">Right to Information</div>
+        <div class="rd">Know what personal data we hold about you and how it is processed (DPDP S.11)</div>
+      </div>
+      <div class="right-card">
+        <div class="ri">✏️</div>
+        <div class="rn">Right to Correction</div>
+        <div class="rd">Request correction of inaccurate or incomplete personal data (DPDP S.12)</div>
+      </div>
+      <div class="right-card">
+        <div class="ri">🗑️</div>
+        <div class="rn">Right to Erasure</div>
+        <div class="rd">Request deletion of your personal data ("Right to be Forgotten") (DPDP S.12)</div>
+      </div>
+      <div class="right-card">
+        <div class="ri">🛑</div>
+        <div class="rn">Right to Withdraw Consent</div>
+        <div class="rd">Withdraw consent for processing at any time without affecting prior processing (DPDP S.13)</div>
+      </div>
+      <div class="right-card">
+        <div class="ri">📤</div>
+        <div class="rn">Right to Nominate</div>
+        <div class="rd">Nominate another individual to exercise rights on your behalf in case of incapacity (DPDP S.14)</div>
+      </div>
+      <div class="right-card">
+        <div class="ri">⚖️</div>
+        <div class="rn">Right to Grievance</div>
+        <div class="rd">File a complaint with us or the Data Protection Board of India (DPDP S.13)</div>
+      </div>
+    </div>
+    <p style="margin-top:12px;">To exercise any of these rights, email us at <a href="mailto:support@toolkitpro.co.in">support@toolkitpro.co.in</a> with subject line <em>"Data Principal Rights Request"</em>. We will respond within <strong>30 days</strong> as required by the DPDP Act.</p>
+    <p><strong>EU/EEA users (GDPR):</strong> You additionally have the right to data portability (Article 20) and the right to lodge a complaint with your local supervisory authority.</p>
+    <p><strong>California residents (CCPA):</strong> You have the right to know, delete, and opt out of the sale of personal information. We do not sell personal information.</p>
+
+    <h3 id="s10">10. Cross-Border Data Transfers</h3>
+    <p>Your data may be transferred to and processed in countries outside India, including the United States (Supabase/AWS, Google, GitHub, Zoho) and the European Union. These transfers occur because our third-party service providers operate globally.</p>
+    <p>We ensure that such transfers comply with applicable law. For transfers from India, we rely on data processing agreements with our service providers. For EU data, standard contractual clauses (SCCs) or adequacy decisions apply.</p>
+
+    <h3 id="s11">11. Changes to This Policy</h3>
+    <p>We may update this Privacy Policy when required by changes in law, new features, or updated processing activities. When we make material changes, we will:</p>
+    <ul>
+      <li>Update the "Last updated" date at the top of this page</li>
+      <li>Display a notice in the app or on the website for at least 14 days</li>
+    </ul>
+    <p>Your continued use of ToolKit Pro after any changes constitutes your acceptance of the updated policy. If the changes require re-consent under the DPDP Act, we will seek your explicit consent before processing.</p>
+
+    <h3 id="s12">12. Grievance Officer &amp; Contact</h3>
+    <p>In accordance with <strong>DPDP Act 2023</strong> and the Information Technology Act, 2000, the details of the Grievance Officer are:</p>
     <div class="contact-box">
-      <div>👤 <strong>Siddhartha</strong></div>
-      <div>📧 <a href="mailto:support@toolkitpro.co.in">support@toolkitpro.co.in</a></div>
-      <div>📸 <a href="https://www.instagram.com/fix_before_flex?igsh=ZW9pMXoyZm9yOWFk" target="_blank" rel="noopener">@fix_before_flex</a></div>
+      <div>👤 <strong>Grievance Officer: Siddhartha Kaithwar</strong></div>
+      <div>🌐 <strong>Website:</strong> toolkitpro.co.in</div>
+      <div>📧 <strong>Email:</strong> <a href="mailto:support@toolkitpro.co.in">support@toolkitpro.co.in</a></div>
+      <div>⏱️ <strong>Response Time:</strong> Within 30 days of receipt of complaint</div>
+      <div style="margin-top:10px;font-size:.8rem;color:var(--td);">
+        If your grievance is not resolved to your satisfaction within 30 days, you may approach the <strong>Data Protection Board of India</strong> once it is constituted under the DPDP Act 2023.
+      </div>
     </div>
-  </div>
+
+  </div><!-- /content-card -->
 </div>
 
 <footer>
