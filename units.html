@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="ToolKit Pro Unit Converter — 10 categories, 100+ units. Length, Weight, Temperature, Speed, Area, Volume, Data, Time, Energy, Pressure.">
+<meta name="theme-color" content="#080b12">
+<meta property="og:title" content="Unit Converter — ToolKit Pro">
+<link rel="canonical" href="https://toolkitpro.co.in/units.html">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%23080b12'/><text y='.9em' font-size='80' x='10'>⚡</text></svg>">
+<title>Unit Converter — ToolKit Pro</title>
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;600;700&family=Exo+2:wght@300;400;600;800&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-SK7Z4P7H7P"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-SK7Z4P7H7P');</script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9683643895235168" crossorigin="anonymous"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --bg:#080b12;--s1:#0e1221;--s2:#151928;--bd:#1e2640;
+  --a:#00f5ff;--a2:#ff2060;--a3:#7c3aed;
+  --t:#dde4f8;--td:#5a6a90;
+  --glow:0 0 20px rgba(0,245,255,.35);
+}
+body{background:var(--bg);color:var(--t);font-family:'Exo 2',sans-serif;min-height:100vh;display:flex;flex-direction:column;}
+
+/* noise grain */
+body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.025;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-size:200px;}
+
+/* ambient orbs */
+.bg-orb{position:fixed;border-radius:50%;filter:blur(80px);pointer-events:none;z-index:0;}
+.orb1{width:420px;height:420px;background:radial-gradient(circle,rgba(0,245,255,.055),transparent 70%);top:-120px;left:-80px;animation:oF1 13s ease-in-out infinite alternate;}
+.orb2{width:360px;height:360px;background:radial-gradient(circle,rgba(124,58,237,.05),transparent 70%);bottom:-80px;right:-60px;animation:oF2 11s ease-in-out infinite alternate;}
+@keyframes oF1{to{transform:translate(35px,25px);}}
+@keyframes oF2{to{transform:translate(-28px,-32px);}}
+
+/* NAV */
+nav{display:flex;align-items:center;background:rgba(14,18,33,.92);backdrop-filter:blur(14px);border-bottom:1px solid var(--bd);padding:0 16px;position:sticky;top:0;z-index:100;gap:2px;overflow-x:auto;flex-shrink:0;}
+nav::-webkit-scrollbar{height:0;}
+.nav-logo{font-family:'Rajdhani',sans-serif;font-size:1.2rem;font-weight:700;color:var(--a);letter-spacing:3px;padding:12px 14px 12px 0;white-space:nowrap;border-right:1px solid var(--bd);margin-right:6px;text-decoration:none;flex-shrink:0;}
+.nav-link{padding:12px 9px;color:var(--td);font-size:.72rem;font-weight:600;letter-spacing:.6px;text-transform:uppercase;white-space:nowrap;text-decoration:none;transition:color .2s;border-bottom:2px solid transparent;flex-shrink:0;}
+.nav-link:hover{color:var(--t);}
+.nav-link.active{color:var(--a);border-bottom-color:var(--a);}
+.nav-back{margin-left:auto;padding:7px 13px;flex-shrink:0;background:none;border:1px solid var(--bd);border-radius:7px;color:var(--a);font-size:.72rem;font-weight:700;text-decoration:none;transition:all .2s;white-space:nowrap;}
+.nav-back:hover{border-color:var(--a);background:rgba(0,245,255,.06);}
+
+/* LAYOUT */
+.page{flex:1;display:flex;flex-direction:column;position:relative;z-index:1;max-width:640px;margin:0 auto;width:100%;padding:16px 14px 40px;}
+
+/* ── COMPACT HEADER ── */
+.uc-header{display:flex;align-items:center;gap:10px;margin-bottom:14px;animation:fU .4s ease-out both;}
+.uc-icon{font-size:1.6rem;filter:drop-shadow(0 0 10px rgba(0,245,255,.4));}
+.uc-title{font-family:'Rajdhani',sans-serif;font-size:1.5rem;font-weight:700;letter-spacing:2px;color:var(--a);line-height:1;}
+.uc-badge{font-size:.58rem;padding:2px 8px;border-radius:8px;font-weight:700;letter-spacing:.8px;background:rgba(0,245,255,.08);border:1px solid rgba(0,245,255,.18);color:var(--a);font-family:'Exo 2',sans-serif;margin-left:auto;flex-shrink:0;}
+@keyframes fU{from{opacity:0;transform:translateY(-10px);}to{opacity:1;transform:none;}}
+
+/* ── CATEGORY CHIPS — icon only style ── */
+.cats{overflow-x:auto;margin-bottom:14px;animation:fU .4s .05s ease-out both;}
+.cats::-webkit-scrollbar{height:0;}
+.cats-inner{display:flex;gap:6px;min-width:max-content;padding-bottom:2px;}
+.cat{
+  display:flex;align-items:center;gap:5px;
+  padding:6px 12px;border-radius:20px;
+  border:1px solid var(--bd);background:var(--s2);
+  color:var(--td);font-size:.7rem;font-weight:700;
+  cursor:pointer;font-family:'Exo 2',sans-serif;
+  white-space:nowrap;transition:all .2s;letter-spacing:.3px;
+  position:relative;overflow:hidden;
+}
+.cat::after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(0,245,255,.09),transparent);transform:translateX(-100%);transition:transform .4s;}
+.cat:hover{border-color:rgba(0,245,255,.3);color:var(--t);transform:translateY(-1px);}
+.cat:hover::after{transform:translateX(100%);}
+.cat.on{background:rgba(0,245,255,.1);border-color:var(--a);color:var(--a);box-shadow:0 0 14px rgba(0,245,255,.12);}
+
+/* ── MAIN CONVERTER BLOCK ── */
+.uc-block{
+  background:var(--s2);border:1px solid var(--bd);border-radius:18px;
+  padding:16px;margin-bottom:14px;
+  position:relative;overflow:hidden;
+  box-shadow:0 8px 32px rgba(0,0,0,.3),inset 0 1px 0 rgba(255,255,255,.04);
+  animation:fU .4s .1s ease-out both;
+  transition:border-color .3s;
+}
+/* 3D top edge */
+.uc-block::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(0,245,255,.2),rgba(255,255,255,.06),transparent);pointer-events:none;}
+/* diagonal texture */
+.uc-block::after{content:'';position:absolute;inset:0;opacity:.025;pointer-events:none;background:repeating-linear-gradient(45deg,rgba(0,245,255,1) 0px,rgba(0,245,255,1) 1px,transparent 1px,transparent 16px);border-radius:18px;}
+.uc-block:hover{border-color:rgba(0,245,255,.15);}
+
+/* moving glow that follows mouse */
+.block-glow{position:absolute;width:180px;height:180px;border-radius:50%;background:radial-gradient(circle,rgba(0,245,255,.07),transparent 70%);pointer-events:none;transition:top .15s,left .15s;top:-60px;right:-60px;}
+
+/* ── FROM/TO ROWS — bulletproof no-overlap ── */
+.uc-field{margin-bottom:10px;}
+.uc-label{font-size:.58rem;color:var(--td);letter-spacing:1.2px;text-transform:uppercase;font-weight:700;margin-bottom:5px;display:block;}
+
+/* Amount + From on one line */
+.uc-row1{display:grid;grid-template-columns:100px 1fr;gap:8px;margin-bottom:10px;}
+
+/* swap line */
+.uc-swap-row{display:flex;align-items:center;gap:10px;margin-bottom:10px;}
+.swap-line{flex:1;height:1px;background:linear-gradient(90deg,transparent,var(--bd),transparent);}
+.uc-swap{
+  width:36px;height:36px;border-radius:50%;flex-shrink:0;
+  background:linear-gradient(145deg,var(--s1),var(--s2));
+  border:1px solid var(--bd);color:var(--a);cursor:pointer;font-size:.95rem;
+  display:flex;align-items:center;justify-content:center;
+  transition:all .3s cubic-bezier(.34,1.56,.64,1);
+  box-shadow:0 3px 10px rgba(0,0,0,.25),inset 0 1px 0 rgba(255,255,255,.05);
+}
+.uc-swap:hover{transform:rotate(180deg);border-color:var(--a);box-shadow:0 0 16px rgba(0,245,255,.3);}
+
+/* To: full width */
+.uc-row2{margin-bottom:14px;}
+
+/* inputs */
+.uc-input{
+  width:100%;background:var(--s1);border:1.5px solid var(--bd);border-radius:10px;
+  padding:10px 12px;color:var(--t);font-size:1rem;
+  font-family:'Share Tech Mono',monospace;outline:none;
+  transition:border-color .2s,box-shadow .2s;
+  box-shadow:inset 0 2px 5px rgba(0,0,0,.2);
+}
+.uc-input:focus{border-color:var(--a);box-shadow:0 0 0 2px rgba(0,245,255,.1),inset 0 2px 5px rgba(0,0,0,.2);}
+.uc-select{
+  width:100%;background:var(--s1);border:1.5px solid var(--bd);border-radius:10px;
+  padding:10px 32px 10px 12px;color:var(--t);font-size:.82rem;
+  font-family:'Exo 2',sans-serif;outline:none;cursor:pointer;
+  transition:border-color .2s;appearance:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%235a6a90' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 11px center;
+  box-shadow:inset 0 2px 5px rgba(0,0,0,.2);
+}
+.uc-select:focus{border-color:var(--a);}
+
+/* ── RESULT PANEL ── */
+.uc-result{
+  background:linear-gradient(135deg,rgba(0,245,255,.09),rgba(0,245,255,.02),rgba(124,58,237,.04));
+  border:1px solid rgba(0,245,255,.2);border-radius:14px;
+  padding:14px 16px;
+  display:flex;align-items:center;justify-content:space-between;gap:10px;
+  position:relative;overflow:hidden;
+}
+.uc-result::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(0,245,255,.5),transparent);animation:holo 4s ease-in-out infinite;}
+@keyframes holo{0%,100%{opacity:.4;}50%{opacity:1;}}
+.uc-result::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--a),transparent);animation:scan 3s ease-in-out infinite;}
+@keyframes scan{0%,100%{opacity:.25;transform:scaleX(.2);}50%{opacity:1;transform:scaleX(1);}}
+
+.result-left{flex:1;min-width:0;}
+.result-num{
+  font-family:'Share Tech Mono',monospace;font-size:1.8rem;color:var(--a);
+  text-shadow:0 0 18px rgba(0,245,255,.5);line-height:1.1;word-break:break-all;
+  animation:pop .25s cubic-bezier(.34,1.4,.64,1);
+}
+@keyframes pop{from{opacity:0;transform:scale(.93);}to{opacity:1;transform:none;}}
+.result-eq{font-size:.72rem;color:var(--td);margin-top:4px;letter-spacing:.3px;}
+.copy-btn{
+  padding:8px 14px;flex-shrink:0;
+  background:rgba(0,245,255,.07);border:1px solid rgba(0,245,255,.2);border-radius:9px;
+  color:var(--a);font-size:.7rem;font-weight:700;cursor:pointer;
+  font-family:'Exo 2',sans-serif;transition:all .18s;letter-spacing:.5px;
+  box-shadow:inset 0 1px 0 rgba(0,245,255,.1);
+}
+.copy-btn:hover{background:rgba(0,245,255,.14);border-color:var(--a);transform:translateY(-1px);}
+.copy-btn.ok{border-color:#22c55e;color:#22c55e;background:rgba(34,197,94,.07);}
+
+/* ── QUICK REF ── */
+.qref{animation:fU .4s .2s ease-out both;}
+.qref-title{font-size:.62rem;color:var(--td);letter-spacing:2px;text-transform:uppercase;font-weight:700;margin-bottom:10px;display:flex;align-items:center;gap:10px;}
+.qref-title::after{content:'';flex:1;height:1px;background:var(--bd);}
+.qref-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.qref-chip{
+  background:linear-gradient(145deg,var(--s2),var(--s1));
+  border:1px solid var(--bd);border-radius:12px;
+  padding:11px 12px;cursor:pointer;
+  transition:all .22s cubic-bezier(.34,1.4,.64,1);
+  position:relative;overflow:hidden;
+  box-shadow:0 3px 10px rgba(0,0,0,.18),inset 0 1px 0 rgba(255,255,255,.04);
+}
+.qref-chip::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(0,245,255,.12),transparent);}
+.qref-chip:hover{border-color:rgba(0,245,255,.35);transform:translateY(-3px);box-shadow:0 8px 22px rgba(0,0,0,.3);}
+.qchip-from{font-size:.65rem;color:var(--td);margin-bottom:3px;}
+.qchip-val{font-family:'Share Tech Mono',monospace;font-size:.84rem;color:var(--a);font-weight:600;text-shadow:0 0 10px rgba(0,245,255,.2);}
+
+footer{text-align:center;padding:18px;border-top:1px solid var(--bd);font-size:.76rem;color:var(--td);position:relative;z-index:1;}
+footer a{color:var(--a);text-decoration:none;}
+.footer-links{display:flex;gap:16px;justify-content:center;margin-bottom:7px;flex-wrap:wrap;}
+</style>
+</head>
+<body>
+<div class="bg-orb orb1"></div>
+<div class="bg-orb orb2"></div>
+
+<nav>
+  <a href="https://toolkitpro.co.in" class="nav-logo">⚡ TOOLKIT</a>
+  <a href="https://toolkitpro.co.in" class="nav-link">🏠 Home</a>
+  <a href="/calculator.html" class="nav-link">🧮 Calc</a>
+  <a href="/chess.html" class="nav-link">♟️ Chess</a>
+  <a href="/currency.html" class="nav-link">💱 Currency</a>
+  <a href="/units.html" class="nav-link active">📐 Units</a>
+  <a href="/password.html" class="nav-link">🔐 Pass</a>
+  <a href="/ai.html" class="nav-link">🤖 AI</a>
+  <a href="https://toolkitpro.co.in" class="nav-back">⚡ App</a>
+</nav>
+
+<div class="page">
+
+  <!-- Header -->
+  <div class="uc-header">
+    <span class="uc-icon">📐</span>
+    <span class="uc-title">Unit Converter</span>
+    <span class="uc-badge">FREE</span>
+  </div>
+
+  <!-- Category chips -->
+  <div class="cats">
+    <div class="cats-inner" id="cat-row"></div>
+  </div>
+
+  <!-- Converter block -->
+  <div class="uc-block" id="uc-block">
+    <div class="block-glow" id="block-glow"></div>
+
+    <!-- Row 1: Amount | From -->
+    <div class="uc-row1">
+      <div>
+        <label class="uc-label">Amount</label>
+        <input class="uc-input" type="number" id="uc-input" value="1" step="any" oninput="convert()">
+      </div>
+      <div>
+        <label class="uc-label">From</label>
+        <select class="uc-select" id="uc-from" onchange="convert()"></select>
+      </div>
+    </div>
+
+    <!-- Swap divider -->
+    <div class="uc-swap-row">
+      <div class="swap-line"></div>
+      <button class="uc-swap" onclick="swapUnits()" title="Swap">⇄</button>
+      <div class="swap-line"></div>
+    </div>
+
+    <!-- Row 2: To -->
+    <div class="uc-row2">
+      <label class="uc-label">To</label>
+      <select class="uc-select" id="uc-to" onchange="convert()"></select>
+    </div>
+
+    <!-- Result -->
+    <div class="uc-result">
+      <div class="result-left">
+        <div class="result-num" id="res-num">—</div>
+        <div class="result-eq" id="res-unit"></div>
+      </div>
+      <button class="copy-btn" id="copy-btn" onclick="copyResult()">📋 Copy</button>
+    </div>
+  </div>
+
+  <!-- Quick ref -->
+  <div class="qref">
+    <div class="qref-title" id="qref-title">Common Conversions</div>
+    <div class="qref-grid" id="ref-grid"></div>
+  </div>
+
+</div>
+
+<footer>
+  <div class="footer-links">
+    <a href="https://toolkitpro.co.in">⚡ Home</a>
+    <a href="/calculator.html">🧮 Calc</a>
+    <a href="/currency.html">💱 Currency</a>
+    <a href="/password.html">🔐 Password</a>
+    <a href="/privacy.html">Privacy</a>
+    <a href="/terms.html">Terms</a>
+  </div>
+  Made with ❤️ by Siddhartha · ToolKit Pro
+</footer>
+
+<script>
+const CATS = {
+  '📏 Length':{base:'Meter',units:{'Kilometer':{m:1e3},'Meter':{m:1},'Centimeter':{m:1e-2},'Millimeter':{m:1e-3},'Micrometer':{m:1e-6},'Nanometer':{m:1e-9},'Mile':{m:1609.344},'Yard':{m:0.9144},'Foot':{m:0.3048},'Inch':{m:0.0254},'Nautical Mile':{m:1852},'Light Year':{m:9.461e15},'Astronomical Unit':{m:1.496e11}},quick:[{from:'1 Mile',c:'1.609 km'},{from:'1 Foot',c:'30.48 cm'},{from:'1 Inch',c:'2.54 cm'},{from:'1 km',c:'1000 m'}]},
+  '⚖️ Weight':{base:'Kilogram',units:{'Kilogram':{m:1},'Gram':{m:1e-3},'Milligram':{m:1e-6},'Metric Ton':{m:1e3},'Pound':{m:0.45359237},'Ounce':{m:0.028349523},'Stone':{m:6.35029318},'US Ton':{m:907.18474},'Carat':{m:2e-4}},quick:[{from:'1 kg',c:'2.2046 lbs'},{from:'1 lb',c:'0.4536 kg'},{from:'1 oz',c:'28.35 g'},{from:'1 stone',c:'6.350 kg'}]},
+  '🌡️ Temp':{base:'Celsius',nonlinear:true,units:['Celsius','Fahrenheit','Kelvin','Rankine'],toBase:{'Celsius':v=>v,'Fahrenheit':v=>(v-32)*5/9,'Kelvin':v=>v-273.15,'Rankine':v=>(v-491.67)*5/9},fromBase:{'Celsius':v=>v,'Fahrenheit':v=>v*9/5+32,'Kelvin':v=>v+273.15,'Rankine':v=>(v+273.15)*9/5},quick:[{from:'0°C',c:'32 °F'},{from:'100°C',c:'212 °F'},{from:'37°C body',c:'98.6 °F'},{from:'0 K',c:'-273.15 °C'}]},
+  '🚗 Speed':{base:'m/s',units:{'m/s':{m:1},'km/h':{m:1/3.6},'mph':{m:0.44704},'knot':{m:0.514444},'ft/s':{m:0.3048},'Mach':{m:343}},quick:[{from:'1 km/h',c:'0.6214 mph'},{from:'1 mph',c:'1.6093 km/h'},{from:'1 knot',c:'1.852 km/h'},{from:'Mach 1',c:'1234.8 km/h'}]},
+  '📐 Area':{base:'sq meter',units:{'sq kilometer':{m:1e6},'sq meter':{m:1},'sq centimeter':{m:1e-4},'sq millimeter':{m:1e-6},'sq mile':{m:2589988.11},'sq yard':{m:0.83612736},'sq foot':{m:0.09290304},'sq inch':{m:6.4516e-4},'Hectare':{m:10000},'Acre':{m:4046.8564}},quick:[{from:'1 acre',c:'4046.86 m²'},{from:'1 hectare',c:'2.471 acres'},{from:'1 sq mile',c:'2.590 km²'},{from:'1 sq ft',c:'0.0929 m²'}]},
+  '🧪 Volume':{base:'Liter',units:{'Liter':{m:1},'Milliliter':{m:1e-3},'Cubic meter':{m:1000},'Cubic cm':{m:1e-3},'Gallon (US)':{m:3.785411784},'Gallon (UK)':{m:4.54609},'Quart (US)':{m:0.946352946},'Pint (US)':{m:0.473176473},'Cup (US)':{m:0.2365882365},'Fluid oz (US)':{m:0.0295735296},'Tablespoon':{m:0.0147867648},'Teaspoon':{m:0.00492892159}},quick:[{from:'1 gallon US',c:'3.785 L'},{from:'1 L',c:'33.81 fl oz'},{from:'1 cup',c:'236.6 mL'},{from:'1 tbsp',c:'14.79 mL'}]},
+  '💾 Data':{base:'Byte',units:{'Bit':{m:0.125},'Byte':{m:1},'Kilobyte':{m:1024},'Megabyte':{m:1048576},'Gigabyte':{m:1073741824},'Terabyte':{m:1099511627776},'Petabyte':{m:1125899906842624}},quick:[{from:'1 GB',c:'1024 MB'},{from:'1 TB',c:'1024 GB'},{from:'1 MB',c:'1024 KB'},{from:'1 GB',c:'1,073,741,824 B'}]},
+  '⏱️ Time':{base:'Second',units:{'Nanosecond':{m:1e-9},'Microsecond':{m:1e-6},'Millisecond':{m:1e-3},'Second':{m:1},'Minute':{m:60},'Hour':{m:3600},'Day':{m:86400},'Week':{m:604800},'Month':{m:2629746},'Year':{m:31556952},'Decade':{m:315569520},'Century':{m:3155695200}},quick:[{from:'1 hour',c:'60 minutes'},{from:'1 day',c:'24 hours'},{from:'1 year',c:'365.25 days'},{from:'1 week',c:'168 hours'}]},
+  '⚡ Energy':{base:'Joule',units:{'Joule':{m:1},'Kilojoule':{m:1000},'Calorie':{m:4.184},'Kilocalorie':{m:4184},'Watt-hour':{m:3600},'kWh':{m:3600000},'BTU':{m:1055.05585},'eV':{m:1.602176634e-19},'Erg':{m:1e-7}},quick:[{from:'1 kcal',c:'4.184 kJ'},{from:'1 kWh',c:'3.6 MJ'},{from:'1 BTU',c:'1055.1 J'},{from:'1 cal',c:'4.184 J'}]},
+  '📦 Pressure':{base:'Pascal',units:{'Pascal':{m:1},'Kilopascal':{m:1000},'Megapascal':{m:1e6},'Bar':{m:100000},'Millibar':{m:100},'Atmosphere':{m:101325},'PSI':{m:6894.757},'Torr':{m:133.322},'mmHg':{m:133.322}},quick:[{from:'1 atm',c:'101,325 Pa'},{from:'1 bar',c:'0.9869 atm'},{from:'1 PSI',c:'6.895 kPa'},{from:'1 torr',c:'133.3 Pa'}]},
+};
+
+const DEFAULTS={'📏 Length':['Meter','Foot'],'⚖️ Weight':['Kilogram','Pound'],'🌡️ Temp':['Celsius','Fahrenheit'],'🚗 Speed':['km/h','mph'],'📐 Area':['sq meter','sq foot'],'🧪 Volume':['Liter','Gallon (US)'],'💾 Data':['Gigabyte','Megabyte'],'⏱️ Time':['Hour','Minute'],'⚡ Energy':['Kilocalorie','Kilojoule'],'📦 Pressure':['Atmosphere','PSI']};
+
+let activeCat = Object.keys(CATS)[0];
+
+function buildCats(){
+  const row = document.getElementById('cat-row');
+  row.innerHTML = '';
+  Object.keys(CATS).forEach(cat => {
+    const b = document.createElement('button');
+    b.className = 'cat' + (cat === activeCat ? ' on' : '');
+    b.textContent = cat;
+    b.onclick = () => { activeCat = cat; buildCats(); buildSelects(); convert(); };
+    row.appendChild(b);
+  });
+}
+
+function buildSelects(){
+  const cat = CATS[activeCat];
+  const units = cat.nonlinear ? cat.units : Object.keys(cat.units);
+  const opts = units.map(u => `<option value="${u}">${u}</option>`).join('');
+  document.getElementById('uc-from').innerHTML = opts;
+  document.getElementById('uc-to').innerHTML   = opts;
+  const [df, dt] = DEFAULTS[activeCat] || [units[0], units[1]];
+  document.getElementById('uc-from').value = df;
+  document.getElementById('uc-to').value   = dt;
+  buildQuickRef();
+}
+
+function convert(){
+  const cat  = CATS[activeCat];
+  const val  = parseFloat(document.getElementById('uc-input').value);
+  const from = document.getElementById('uc-from').value;
+  const to   = document.getElementById('uc-to').value;
+  if(isNaN(val)){ document.getElementById('res-num').textContent='—'; return; }
+  let result;
+  try{
+    if(cat.nonlinear){ result = cat.fromBase[to](cat.toBase[from](val)); }
+    else { result = val * cat.units[from].m / cat.units[to].m; }
+  }catch(e){ document.getElementById('res-num').textContent='Error'; return; }
+  const fmt = fmtN(result);
+  const rn = document.getElementById('res-num');
+  rn.textContent = fmt;
+  rn.style.animation = 'none'; rn.offsetHeight; rn.style.animation = '';
+  document.getElementById('res-unit').textContent = `${val} ${from} = ${fmt} ${to}`;
+  document.getElementById('copy-btn').textContent = '📋 Copy';
+  document.getElementById('copy-btn').classList.remove('ok');
+}
+
+function fmtN(n){
+  if(n===0) return '0';
+  const abs = Math.abs(n);
+  if(abs>=1e15||(abs<1e-9&&abs!==0)) return n.toExponential(5);
+  if(abs>=1000) return n.toLocaleString('en-US',{maximumFractionDigits:4});
+  if(abs>=1)    return +n.toPrecision(7)+'';
+  return +n.toPrecision(5)+'';
+}
+
+function swapUnits(){
+  const f=document.getElementById('uc-from'), t=document.getElementById('uc-to');
+  [f.value,t.value]=[t.value,f.value]; convert();
+}
+
+function copyResult(){
+  const v = document.getElementById('res-num').textContent;
+  if(v==='—'||v==='Error') return;
+  navigator.clipboard.writeText(v).then(()=>{
+    const b = document.getElementById('copy-btn');
+    b.textContent='✓ Copied'; b.classList.add('ok');
+    setTimeout(()=>{b.textContent='📋 Copy'; b.classList.remove('ok');},1800);
+  });
+}
+
+function buildQuickRef(){
+  const cat = CATS[activeCat];
+  const grid = document.getElementById('ref-grid');
+  if(!cat.quick){ grid.innerHTML=''; return; }
+  grid.innerHTML = cat.quick.map(q=>`
+    <div class="qref-chip">
+      <div class="qchip-from">${q.from}</div>
+      <div class="qchip-val">= ${q.c}</div>
+    </div>`).join('');
+}
+
+/* 3D tilt on block */
+(function(){
+  const block = document.getElementById('uc-block');
+  const glow  = document.getElementById('block-glow');
+  if(!block) return;
+  block.addEventListener('mousemove', e => {
+    const r = block.getBoundingClientRect();
+    const dx = (e.clientX-r.left-r.width/2)/r.width;
+    const dy = (e.clientY-r.top-r.height/2)/r.height;
+    block.style.transform = `perspective(800px) rotateX(${-dy*4}deg) rotateY(${dx*4}deg)`;
+    if(glow){ glow.style.left=(e.clientX-r.left-90)+'px'; glow.style.top=(e.clientY-r.top-90)+'px'; glow.style.right='auto'; }
+  });
+  block.addEventListener('mouseleave',()=>{ block.style.transform=''; if(glow){glow.style.left='auto';glow.style.right='-60px';glow.style.top='-60px';} });
+})();
+
+document.addEventListener('keydown',e=>{ if(e.key==='Enter') convert(); });
+buildCats(); buildSelects(); convert();
+</script>
+</body>
+</html>
