@@ -452,6 +452,199 @@ nav::-webkit-scrollbar{height:0;}
   -webkit-tap-highlight-color:rgba(0,0,0,0);touch-action:manipulation;
 }
 .panel{display:none;padding:22px 16px 40px;max-width:980px;margin:0 auto;}
+
+/* ══ HOME HERO 3D ══ */
+#panel-home{padding:0;max-width:100%;}
+.home-hero{
+  position:relative;min-height:420px;display:flex;align-items:center;justify-content:center;
+  overflow:hidden;background:var(--bg);
+  border-bottom:1px solid var(--bd);margin-bottom:32px;
+}
+#hero-canvas{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;}
+.hero-orb{position:absolute;border-radius:50%;filter:blur(60px);pointer-events:none;animation:orbDrift 8s ease-in-out infinite alternate;}
+.orb1{width:340px;height:340px;background:radial-gradient(circle,rgba(0,245,255,.12),transparent 70%);top:-80px;left:-60px;animation-delay:0s;}
+.orb2{width:280px;height:280px;background:radial-gradient(circle,rgba(124,58,237,.1),transparent 70%);bottom:-60px;right:-40px;animation-delay:-3s;}
+.orb3{width:200px;height:200px;background:radial-gradient(circle,rgba(255,32,96,.08),transparent 70%);top:50%;left:50%;transform:translate(-50%,-50%);animation-delay:-6s;}
+@keyframes orbDrift{from{transform:translate(0,0) scale(1);}to{transform:translate(30px,20px) scale(1.1);}}
+.orb3{animation:orbDrift3 10s ease-in-out infinite alternate;}
+@keyframes orbDrift3{from{transform:translate(-50%,-50%) scale(1);}to{transform:translate(calc(-50% + 20px),calc(-50% - 15px)) scale(1.15);}}
+.hero-grid{
+  position:absolute;inset:0;pointer-events:none;opacity:.06;
+  background-image:linear-gradient(rgba(0,245,255,.5) 1px,transparent 1px),linear-gradient(90deg,rgba(0,245,255,.5) 1px,transparent 1px);
+  background-size:40px 40px;
+  mask-image:radial-gradient(ellipse 80% 80% at 50% 50%,black 40%,transparent 100%);
+}
+.hero-content{position:relative;z-index:2;text-align:center;padding:40px 24px;}
+.hero-badge{
+  display:inline-block;padding:4px 14px;border-radius:20px;font-size:.68rem;font-weight:700;
+  letter-spacing:1.5px;text-transform:uppercase;margin-bottom:20px;
+  background:rgba(0,245,255,.08);border:1px solid rgba(0,245,255,.2);color:var(--a);
+  animation:fadeSlideUp .6s ease-out both;
+}
+.hero-logo{
+  display:flex;align-items:center;justify-content:center;gap:14px;
+  margin-bottom:16px;
+  animation:fadeSlideUp .6s .1s ease-out both;
+}
+.hero-bolt{
+  font-size:3rem;
+  filter:drop-shadow(0 0 20px rgba(0,245,255,.8));
+  animation:boltPulse 2s ease-in-out infinite;
+}
+@keyframes boltPulse{0%,100%{filter:drop-shadow(0 0 16px rgba(0,245,255,.6));}50%{filter:drop-shadow(0 0 32px rgba(0,245,255,1));}}
+.hero-wordmark{
+  font-family:'Rajdhani',sans-serif;font-size:2.8rem;font-weight:700;
+  letter-spacing:4px;color:var(--t);line-height:1;
+}
+.hero-pro{
+  color:var(--a);text-shadow:var(--glow);margin-left:4px;
+}
+.hero-sub{
+  font-size:.9rem;color:var(--td);line-height:1.8;max-width:440px;margin:0 auto 24px;
+  animation:fadeSlideUp .6s .2s ease-out both;
+}
+.hero-sub-accent{color:var(--a);font-weight:600;}
+.hero-ai-teaser{
+  display:inline-flex;align-items:center;gap:8px;
+  background:rgba(124,58,237,.12);border:1px solid rgba(124,58,237,.3);
+  border-radius:20px;padding:6px 16px;font-size:.76rem;color:#c4b5fd;
+  margin-bottom:18px;animation:fadeSlideUp .6s .25s ease-out both;
+  letter-spacing:.3px;
+}
+.hero-ai-dot{
+  width:6px;height:6px;border-radius:50%;background:#a855f7;flex-shrink:0;
+  box-shadow:0 0 8px #a855f7;animation:aiDotPulse 1.5s ease-in-out infinite;
+}
+@keyframes aiDotPulse{0%,100%{opacity:1;transform:scale(1);}50%{opacity:.4;transform:scale(.7);}}
+.hero-cta-row{
+  display:flex;gap:10px;justify-content:center;flex-wrap:wrap;
+  animation:fadeSlideUp .6s .3s ease-out both;
+}
+.hero-cta-btn{
+  padding:10px 22px;border-radius:10px;font-weight:700;font-size:.82rem;
+  text-decoration:none;letter-spacing:.4px;transition:all .22s;font-family:'Exo 2',sans-serif;
+  white-space:nowrap;
+}
+.hero-cta-btn.primary{background:linear-gradient(135deg,var(--a),#00b8d4);color:#000;}
+.hero-cta-btn.primary:hover{box-shadow:0 4px 20px rgba(0,245,255,.4);transform:translateY(-2px);}
+.hero-cta-btn.secondary{background:none;border:1px solid var(--bd);color:var(--td);}
+.hero-cta-btn.secondary:hover{border-color:var(--a);color:var(--a);background:rgba(0,245,255,.05);}
+@keyframes fadeSlideUp{from{opacity:0;transform:translateY(18px);}to{opacity:1;transform:none;}}
+
+/* Floating icons */
+.float-icon{
+  position:absolute;font-size:1.8rem;opacity:.18;pointer-events:none;
+  animation:floatDrift 6s ease-in-out infinite alternate;
+  animation-delay:var(--delay);filter:blur(.5px);
+}
+.fi1{top:12%;left:6%;}  .fi2{top:20%;right:8%;}
+.fi3{bottom:20%;left:10%;} .fi4{bottom:12%;right:6%;}
+.fi5{top:60%;left:3%;}  .fi6{top:55%;right:3%;}
+@keyframes floatDrift{
+  from{transform:translateY(0) rotate(-5deg);}
+  to{transform:translateY(-18px) rotate(5deg);}
+}
+
+/* SECTION LABEL */
+.home-section-label{
+  display:flex;align-items:center;gap:14px;padding:0 20px;margin-bottom:18px;max-width:980px;margin-left:auto;margin-right:auto;
+}
+.hsl-line{flex:1;height:1px;background:var(--bd);}
+.hsl-text{font-size:.68rem;color:var(--td);letter-spacing:2px;text-transform:uppercase;white-space:nowrap;font-weight:700;}
+
+/* TOOLS GRID */
+.home-tools-grid{
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));
+  gap:10px;padding:0 20px;max-width:980px;margin:0 auto 24px;
+}
+.htool-card{
+  display:flex;align-items:center;gap:12px;
+  background:var(--s2);border:1px solid var(--bd);border-radius:14px;
+  padding:14px 14px;text-decoration:none;
+  position:relative;overflow:hidden;
+  transition:transform .25s cubic-bezier(.34,1.56,.64,1),border-color .2s,box-shadow .2s;
+  cursor:pointer;
+  transform-style:preserve-3d;
+  will-change:transform;
+  animation:cardReveal .5s ease-out both;
+}
+.htool-card:nth-child(1){animation-delay:.05s;}
+.htool-card:nth-child(2){animation-delay:.1s;}
+.htool-card:nth-child(3){animation-delay:.15s;}
+.htool-card:nth-child(4){animation-delay:.2s;}
+.htool-card:nth-child(5){animation-delay:.25s;}
+.htool-card:nth-child(6){animation-delay:.3s;}
+@keyframes cardReveal{from{opacity:0;transform:translateY(20px) scale(.97);}to{opacity:1;transform:translateY(0) scale(1);}}
+.htool-glow{
+  position:absolute;inset:0;border-radius:16px;opacity:0;
+  background:radial-gradient(circle at var(--mx,50%) var(--my,50%),rgba(var(--card-color,0,245,255),.12),transparent 60%);
+  transition:opacity .3s;pointer-events:none;
+}
+.htool-card:hover .htool-glow{opacity:1;}
+.htool-icon-wrap{
+  width:52px;height:52px;border-radius:14px;flex-shrink:0;
+  background:var(--s1);border:1px solid var(--bd);
+  display:flex;align-items:center;justify-content:center;
+  transition:transform .25s,box-shadow .25s;
+}
+.htool-card:hover .htool-icon-wrap{transform:scale(1.1) rotate(-4deg);}
+.htool-icon{font-size:1.6rem;line-height:1;}
+.htool-body{flex:1;min-width:0;}
+.htool-name{font-family:'Rajdhani',sans-serif;font-size:1rem;font-weight:700;color:var(--t);letter-spacing:.5px;margin-bottom:3px;}
+.htool-desc{font-size:.71rem;color:var(--td);line-height:1.5;margin-bottom:6px;}
+.htool-tag{display:inline-block;padding:2px 9px;border-radius:20px;font-size:.6rem;font-weight:700;letter-spacing:.5px;text-transform:uppercase;}
+.htool-tag.free{background:rgba(0,245,255,.08);border:1px solid rgba(0,245,255,.2);color:var(--a);}
+.htool-tag.locked{background:rgba(255,32,96,.08);border:1px solid rgba(255,32,96,.2);color:var(--a2);}
+.htool-tag.save{background:rgba(124,58,237,.08);border:1px solid rgba(124,58,237,.25);color:#c4b5fd;}
+.htool-arrow{font-size:1.1rem;color:var(--bd);transition:color .2s,transform .2s;flex-shrink:0;}
+.htool-card:hover .htool-arrow{color:var(--a);transform:translateX(4px);}
+.htool-card:hover{border-color:rgba(0,245,255,.28);box-shadow:0 6px 24px rgba(0,0,0,.3),0 0 0 1px rgba(0,245,255,.08);}
+
+/* STATS */
+.home-stats{
+  display:flex;align-items:center;justify-content:center;gap:0;
+  background:var(--s2);border:1px solid var(--bd);border-radius:16px;
+  padding:18px 24px;margin:0 20px 20px;max-width:940px;
+  margin-left:auto;margin-right:auto;
+}
+.hstat{text-align:center;flex:1;}
+.hstat-num{
+  font-family:'Rajdhani',sans-serif;font-size:1.8rem;font-weight:700;
+  color:var(--a);letter-spacing:1px;line-height:1;
+  text-shadow:var(--glow);
+}
+.hstat-label{font-size:.64rem;color:var(--td);letter-spacing:1px;text-transform:uppercase;margin-top:4px;}
+.hstat-div{width:1px;height:36px;background:var(--bd);flex-shrink:0;margin:0 8px;}
+
+/* FOOTER LINKS */
+.home-footer-links{
+  display:flex;gap:8px;flex-wrap:wrap;justify-content:center;
+  padding:0 20px 20px;
+}
+.home-footer-links a{
+  padding:7px 14px;background:var(--s2);border:1px solid var(--bd);
+  border-radius:8px;color:var(--td);font-size:.76rem;font-weight:600;
+  text-decoration:none;transition:all .15s;
+}
+.home-footer-links a:hover{border-color:var(--a);color:var(--a);}
+
+@media(max-width:560px){
+  .home-hero{min-height:340px;}
+  .hero-wordmark{font-size:1.8rem;}
+  .hero-bolt{font-size:2rem;}
+  .hero-sub{font-size:.82rem;}
+  .hero-cta-row{gap:8px;}
+  .hero-cta-btn{padding:9px 18px;font-size:.78rem;}
+  .home-tools-grid{grid-template-columns:1fr 1fr;padding:0 12px;gap:8px;}
+  .htool-card{flex-direction:column;text-align:center;padding:14px 10px;gap:8px;}
+  .htool-icon-wrap{width:44px;height:44px;}
+  .htool-icon{font-size:1.4rem;}
+  .htool-arrow{display:none;}
+  .htool-desc{font-size:.66rem;}
+  .home-stats{flex-wrap:wrap;gap:10px;margin:0 12px 14px;}
+  .hstat-div{display:none;}
+  .hstat-num{font-size:1.5rem;}
+}
 .panel.active{display:block;animation:panelIn .3s cubic-bezier(.25,.46,.45,.94);}
 @keyframes panelIn{from{opacity:0;transform:translateY(12px);}to{opacity:1;transform:none;}}
 .panel-header{
@@ -1623,6 +1816,8 @@ function showToast(msg){
   <button class="nav-btn" onclick="window.location.href='/calculator.html'"><span>🧮</span> Calc</button>
   <button class="nav-btn" onclick="window.location.href='/chess.html'"><span>♟️</span> Chess</button>
   <button class="nav-btn" onclick="window.location.href='/currency.html'"><span>💱</span> Currency</button>
+  <button class="nav-btn" onclick="window.location.href='/units.html'"><span>📐</span> Units</button>
+  <button class="nav-btn" onclick="window.location.href='/password.html'"><span>🔐</span> Pass</button>
   <button class="nav-btn" onclick="showPanel('ai',this)"><span>🤖</span> AI</button>
   <button class="nav-btn" onclick="window.location.href='/about.html'"><span>👤</span> About</button>
   <a href="/manual.html" class="nav-btn" style="text-decoration:none;"><span>📖</span> Manual</a>
@@ -1638,65 +1833,158 @@ function showToast(msg){
   </div>
 </nav>
 
-<!-- ═══ CALCULATOR ═══ -->
+<!-- ═══ HOME ═══ -->
 <div class="panel active" id="panel-home">
-  <div class="panel-header">⚡ ToolKit Pro <span>/ Free Tools · No Install Needed</span></div>
 
-  <!-- Welcome hero -->
-  <div style="background:linear-gradient(135deg,rgba(0,245,255,.06),rgba(124,58,237,.04));border:1px solid rgba(0,245,255,.12);border-radius:18px;padding:28px 24px;text-align:center;margin-bottom:20px;position:relative;overflow:hidden;">
-    <div style="position:absolute;top:-60px;left:50%;transform:translateX(-50%);width:280px;height:280px;background:radial-gradient(circle,rgba(0,245,255,.07) 0%,transparent 70%);pointer-events:none;"></div>
-    <div style="font-size:2.8rem;margin-bottom:10px;">⚡</div>
-    <div style="font-family:'Rajdhani',sans-serif;font-size:1.6rem;font-weight:700;letter-spacing:3px;color:var(--a);margin-bottom:6px;">TOOLKIT PRO</div>
-    <div style="font-size:.84rem;color:var(--td);line-height:1.7;max-width:480px;margin:0 auto;">
-      Free online tools — Calculator, Chess, Currency Converter, and AI Assistant.<br>
-      No install, no subscription. Open a tool below to get started.
+  <!-- 3D HERO -->
+  <div class="home-hero" id="home-hero">
+    <!-- Animated background orbs -->
+    <div class="hero-orb orb1"></div>
+    <div class="hero-orb orb2"></div>
+    <div class="hero-orb orb3"></div>
+    <!-- Particle canvas -->
+    <canvas id="hero-canvas"></canvas>
+    <!-- Grid lines overlay -->
+    <div class="hero-grid"></div>
+
+    <div class="hero-content">
+      <div class="hero-badge">v1.2 · 6 Tools · Free Forever</div>
+      <div class="hero-logo" id="hero-logo">
+        <span class="hero-bolt">⚡</span>
+        <span class="hero-wordmark">TOOLKIT<span class="hero-pro">PRO</span></span>
+      </div>
+      <div class="hero-sub">
+        Professional-grade tools. Zero cost. No install.<br>
+        <span class="hero-sub-accent">Built for students, developers & everyone.</span>
+      </div>
+      <div class="hero-ai-teaser">
+        <span class="hero-ai-dot"></span>
+        Ask anything — maths, chess tips, conversions, or anything else.
+      </div>
+      <div class="hero-cta-row">
+        <a href="/ai.html" class="hero-cta-btn primary">🤖 Try our new AI Assistant →</a>
+      </div>
+    </div>
+
+    <!-- Floating 3D icons -->
+    <div class="float-icon fi1" style="--delay:0s">🧮</div>
+    <div class="float-icon fi2" style="--delay:.8s">♟️</div>
+    <div class="float-icon fi3" style="--delay:1.6s">💱</div>
+    <div class="float-icon fi4" style="--delay:2.4s">🔐</div>
+    <div class="float-icon fi5" style="--delay:3.2s">📐</div>
+    <div class="float-icon fi6" style="--delay:4s">🤖</div>
+  </div>
+
+  <!-- TOOLS GRID -->
+  <div class="home-section-label">
+    <span class="hsl-line"></span>
+    <span class="hsl-text">Choose Your Tool</span>
+    <span class="hsl-line"></span>
+  </div>
+
+  <div class="home-tools-grid" id="home-tools-grid">
+
+    <a href="/calculator.html" class="htool-card" data-color="0,245,255">
+      <div class="htool-glow"></div>
+      <div class="htool-icon-wrap"><span class="htool-icon">🧮</span></div>
+      <div class="htool-body">
+        <div class="htool-name">Calculator</div>
+        <div class="htool-desc">Unlimited precision · Basic & Scientific · No scientific notation</div>
+        <div class="htool-tag free">Free · No Login</div>
+      </div>
+      <div class="htool-arrow">→</div>
+    </a>
+
+    <a href="/chess.html" class="htool-card" data-color="0,245,255">
+      <div class="htool-glow"></div>
+      <div class="htool-icon-wrap"><span class="htool-icon">♟️</span></div>
+      <div class="htool-body">
+        <div class="htool-name">Chess</div>
+        <div class="htool-desc">vs AI (Easy/Med/Hard) or 2 players locally · Minimax engine</div>
+        <div class="htool-tag free">Free · No Login</div>
+      </div>
+      <div class="htool-arrow">→</div>
+    </a>
+
+    <a href="/currency.html" class="htool-card" data-color="0,245,255">
+      <div class="htool-glow"></div>
+      <div class="htool-icon-wrap"><span class="htool-icon">💱</span></div>
+      <div class="htool-body">
+        <div class="htool-name">Currency</div>
+        <div class="htool-desc">160+ currencies · Daily live rates · 3 API fallbacks</div>
+        <div class="htool-tag free">Free · No Login</div>
+      </div>
+      <div class="htool-arrow">→</div>
+    </a>
+
+    <a href="/units.html" class="htool-card" data-color="0,245,255">
+      <div class="htool-glow"></div>
+      <div class="htool-icon-wrap"><span class="htool-icon">📐</span></div>
+      <div class="htool-body">
+        <div class="htool-name">Unit Converter</div>
+        <div class="htool-desc">Length · Weight · Temp · Speed · Area · Volume · Data · Time</div>
+        <div class="htool-tag free">Free · No Login</div>
+      </div>
+      <div class="htool-arrow">→</div>
+    </a>
+
+    <a href="/password.html" class="htool-card" data-color="124,58,237">
+      <div class="htool-glow"></div>
+      <div class="htool-icon-wrap"><span class="htool-icon">🔐</span></div>
+      <div class="htool-body">
+        <div class="htool-name">Password Generator</div>
+        <div class="htool-desc">Cryptographically secure · Save once, view once · No plain-text storage</div>
+        <div class="htool-tag save">Save = Login</div>
+      </div>
+      <div class="htool-arrow">→</div>
+    </a>
+
+    <a href="/ai.html" class="htool-card" data-color="255,32,96">
+      <div class="htool-glow"></div>
+      <div class="htool-icon-wrap"><span class="htool-icon">🤖</span></div>
+      <div class="htool-body">
+        <div class="htool-name">AI Assistant</div>
+        <div class="htool-desc">Llama-powered · Ask anything · Maths, chess tips, general knowledge</div>
+        <div class="htool-tag locked">🔒 Login Required</div>
+      </div>
+      <div class="htool-arrow">→</div>
+    </a>
+
+  </div>
+
+  <!-- STATS ROW -->
+  <div class="home-stats">
+    <div class="hstat">
+      <div class="hstat-num" data-target="6">0</div>
+      <div class="hstat-label">Tools</div>
+    </div>
+    <div class="hstat-div"></div>
+    <div class="hstat">
+      <div class="hstat-num" data-target="160">0</div>
+      <div class="hstat-label">Currencies</div>
+    </div>
+    <div class="hstat-div"></div>
+    <div class="hstat">
+      <div class="hstat-num">∞</div>
+      <div class="hstat-label">Precision</div>
+    </div>
+    <div class="hstat-div"></div>
+    <div class="hstat">
+      <div class="hstat-num">₹0</div>
+      <div class="hstat-label">Cost</div>
     </div>
   </div>
 
-  <!-- Tools grid -->
-  <div style="font-size:.68rem;color:var(--td);letter-spacing:2px;text-transform:uppercase;margin-bottom:12px;">Choose a Tool</div>
-  <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:12px;margin-bottom:24px;">
-
-    <a href="/calculator.html" style="text-decoration:none;background:var(--s2);border:1px solid var(--bd);border-radius:14px;padding:22px 16px;text-align:center;transition:all .2s;display:block;" onmouseover="this.style.borderColor='var(--a)';this.style.transform='translateY(-3px)'" onmouseout="this.style.borderColor='var(--bd)';this.style.transform='none'">
-      <div style="font-size:2.2rem;margin-bottom:10px;">🧮</div>
-      <div style="font-family:'Rajdhani',sans-serif;font-size:1.05rem;font-weight:700;color:var(--t);letter-spacing:.5px;">Calculator</div>
-      <div style="font-size:.72rem;color:var(--td);margin-top:4px;line-height:1.5;">Unlimited precision · Basic & Scientific</div>
-      <div style="display:inline-block;margin-top:8px;padding:2px 10px;border-radius:20px;font-size:.62rem;font-weight:700;letter-spacing:.5px;text-transform:uppercase;background:rgba(0,245,255,.08);border:1px solid rgba(0,245,255,.2);color:var(--a);">Free · No Login</div>
-    </a>
-
-    <a href="/chess.html" style="text-decoration:none;background:var(--s2);border:1px solid var(--bd);border-radius:14px;padding:22px 16px;text-align:center;transition:all .2s;display:block;" onmouseover="this.style.borderColor='var(--a)';this.style.transform='translateY(-3px)'" onmouseout="this.style.borderColor='var(--bd)';this.style.transform='none'">
-      <div style="font-size:2.2rem;margin-bottom:10px;">♟️</div>
-      <div style="font-family:'Rajdhani',sans-serif;font-size:1.05rem;font-weight:700;color:var(--t);letter-spacing:.5px;">Chess</div>
-      <div style="font-size:.72rem;color:var(--td);margin-top:4px;line-height:1.5;">vs AI or 2 Players · Minimax Engine</div>
-      <div style="display:inline-block;margin-top:8px;padding:2px 10px;border-radius:20px;font-size:.62rem;font-weight:700;letter-spacing:.5px;text-transform:uppercase;background:rgba(0,245,255,.08);border:1px solid rgba(0,245,255,.2);color:var(--a);">Free · No Login</div>
-    </a>
-
-    <a href="/currency.html" style="text-decoration:none;background:var(--s2);border:1px solid var(--bd);border-radius:14px;padding:22px 16px;text-align:center;transition:all .2s;display:block;" onmouseover="this.style.borderColor='var(--a)';this.style.transform='translateY(-3px)'" onmouseout="this.style.borderColor='var(--bd)';this.style.transform='none'">
-      <div style="font-size:2.2rem;margin-bottom:10px;">💱</div>
-      <div style="font-family:'Rajdhani',sans-serif;font-size:1.05rem;font-weight:700;color:var(--t);letter-spacing:.5px;">Currency</div>
-      <div style="font-size:.72rem;color:var(--td);margin-top:4px;line-height:1.5;">160+ Currencies · Daily Live Rates</div>
-      <div style="display:inline-block;margin-top:8px;padding:2px 10px;border-radius:20px;font-size:.62rem;font-weight:700;letter-spacing:.5px;text-transform:uppercase;background:rgba(0,245,255,.08);border:1px solid rgba(0,245,255,.2);color:var(--a);">Free · No Login</div>
-    </a>
-
-    <a href="/ai.html" style="text-decoration:none;background:var(--s2);border:1px solid var(--bd);border-radius:14px;padding:22px 16px;text-align:center;transition:all .2s;display:block;" onmouseover="this.style.borderColor='var(--a2)';this.style.transform='translateY(-3px)'" onmouseout="this.style.borderColor='var(--bd)';this.style.transform='none'">
-      <div style="font-size:2.2rem;margin-bottom:10px;">🤖</div>
-      <div style="font-family:'Rajdhani',sans-serif;font-size:1.05rem;font-weight:700;color:var(--t);letter-spacing:.5px;">AI Assistant</div>
-      <div style="font-size:.72rem;color:var(--td);margin-top:4px;line-height:1.5;">Llama AI · Ask anything</div>
-      <div style="display:inline-block;margin-top:8px;padding:2px 10px;border-radius:20px;font-size:.62rem;font-weight:700;letter-spacing:.5px;text-transform:uppercase;background:rgba(255,32,96,.08);border:1px solid rgba(255,32,96,.2);color:var(--a2);">🔒 Login Required</div>
-    </a>
-
+  <!-- QUICK LINKS -->
+  <div class="home-footer-links">
+    <a href="/about.html">👤 About</a>
+    <a href="/privacy.html">🔒 Privacy</a>
+    <a href="/terms.html">📋 Terms</a>
+    <a href="/contact.html">✉️ Contact</a>
   </div>
 
-  <!-- Quick links -->
-  <div style="display:flex;gap:10px;flex-wrap:wrap;">
-    <a href="/about.html" style="padding:8px 16px;background:var(--s2);border:1px solid var(--bd);border-radius:8px;color:var(--td);font-size:.78rem;font-weight:600;text-decoration:none;transition:all .15s;" onmouseover="this.style.borderColor='var(--a)';this.style.color='var(--a)'" onmouseout="this.style.borderColor='var(--bd)';this.style.color='var(--td)'">👤 About</a>
-    <a href="/privacy.html" style="padding:8px 16px;background:var(--s2);border:1px solid var(--bd);border-radius:8px;color:var(--td);font-size:.78rem;font-weight:600;text-decoration:none;transition:all .15s;" onmouseover="this.style.borderColor='var(--a)';this.style.color='var(--a)'" onmouseout="this.style.borderColor='var(--bd)';this.style.color='var(--td)'">🔒 Privacy</a>
-    <a href="/terms.html" style="padding:8px 16px;background:var(--s2);border:1px solid var(--bd);border-radius:8px;color:var(--td);font-size:.78rem;font-weight:600;text-decoration:none;transition:all .15s;" onmouseover="this.style.borderColor='var(--a)';this.style.color='var(--a)'" onmouseout="this.style.borderColor='var(--bd)';this.style.color='var(--td)'">📋 Terms</a>
-    <a href="/contact.html" style="padding:8px 16px;background:var(--s2);border:1px solid var(--bd);border-radius:8px;color:var(--td);font-size:.78rem;font-weight:600;text-decoration:none;transition:all .15s;" onmouseover="this.style.borderColor='var(--a)';this.style.color='var(--a)'" onmouseout="this.style.borderColor='var(--bd)';this.style.color='var(--td)'">✉️ Contact</a>
-  </div>
 </div>
 
-<!-- ═══ ABOUT ═══ -->
 <!-- ═══ PROFILE ═══ -->
 <div class="panel" id="panel-profile">
   <div class="panel-header">👤 My Profile</div>
@@ -1781,14 +2069,109 @@ function showToast(msg){
 /* ─────────────────────────────────────────
    NAV
 ───────────────────────────────────────── */
+/* ══════════════════════════════
+   HOME PANEL — 3D EFFECTS, PARTICLES, TILT, COUNTER
+══════════════════════════════ */
+
+/* Particle system */
+(function initParticles(){
+  const canvas = document.getElementById('hero-canvas');
+  if(!canvas) return;
+  const ctx = canvas.getContext('2d');
+  let W, H, particles=[], animId;
+  const N=55;
+  function resize(){
+    const hero=document.getElementById('home-hero');
+    if(!hero) return;
+    W=canvas.width=hero.offsetWidth;
+    H=canvas.height=hero.offsetHeight;
+  }
+  function Particle(){
+    this.x=Math.random()*W; this.y=Math.random()*H;
+    this.vx=(Math.random()-.5)*.4; this.vy=(Math.random()-.5)*.4;
+    this.r=Math.random()*1.8+.4; this.a=Math.random()*.5+.1;
+    this.c=Math.random()>.6?'0,245,255':Math.random()>.5?'124,58,237':'255,32,96';
+  }
+  function draw(){
+    ctx.clearRect(0,0,W,H);
+    particles.forEach(p=>{
+      p.x+=p.vx; p.y+=p.vy;
+      if(p.x<0)p.x=W; if(p.x>W)p.x=0;
+      if(p.y<0)p.y=H; if(p.y>H)p.y=0;
+      ctx.beginPath(); ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+      ctx.fillStyle=`rgba(${p.c},${p.a})`; ctx.fill();
+    });
+    for(let i=0;i<particles.length;i++)for(let j=i+1;j<particles.length;j++){
+      const dx=particles[i].x-particles[j].x, dy=particles[i].y-particles[j].y;
+      const dist=Math.sqrt(dx*dx+dy*dy);
+      if(dist<90){
+        ctx.beginPath(); ctx.moveTo(particles[i].x,particles[i].y); ctx.lineTo(particles[j].x,particles[j].y);
+        ctx.strokeStyle=`rgba(0,245,255,${.09*(1-dist/90)})`; ctx.lineWidth=.5; ctx.stroke();
+      }
+    }
+    animId=requestAnimationFrame(draw);
+  }
+  function start(){ resize(); particles=Array.from({length:N},()=>new Particle()); if(animId)cancelAnimationFrame(animId); draw(); }
+  window.addEventListener('resize',resize);
+  setTimeout(start,80);
+})();
+
+/* 3D mouse-tracking tilt on tool cards */
+(function init3DTilt(){
+  document.addEventListener('mousemove',e=>{
+    document.querySelectorAll('.htool-card').forEach(card=>{
+      const r=card.getBoundingClientRect();
+      const dx=(e.clientX-r.left-r.width/2)/r.width;
+      const dy=(e.clientY-r.top-r.height/2)/r.height;
+      if(Math.sqrt(dx*dx+dy*dy)<1.3){
+        card.style.transform=`perspective(600px) rotateX(${-dy*9}deg) rotateY(${dx*9}deg) translateZ(6px)`;
+        card.style.setProperty('--mx',((e.clientX-r.left)/r.width*100).toFixed(1)+'%');
+        card.style.setProperty('--my',((e.clientY-r.top)/r.height*100).toFixed(1)+'%');
+        card.style.setProperty('--card-color',card.dataset.color||'0,245,255');
+      }
+    });
+  });
+  document.querySelectorAll('.htool-card').forEach(c=>c.addEventListener('mouseleave',()=>c.style.transform=''));
+})();
+
+/* Hero logo 3D tilt */
+(function heroTilt(){
+  const hero=document.getElementById('home-hero');
+  const logo=document.getElementById('hero-logo');
+  if(!hero||!logo) return;
+  hero.addEventListener('mousemove',e=>{
+    const r=hero.getBoundingClientRect();
+    const dx=(e.clientX-r.left-r.width/2)/r.width;
+    const dy=(e.clientY-r.top-r.height/2)/r.height;
+    logo.style.transform=`perspective(800px) rotateX(${-dy*8}deg) rotateY(${dx*8}deg)`;
+  });
+  hero.addEventListener('mouseleave',()=>logo.style.transform='');
+})();
+
+/* Animated counters */
+function animateCounters(){
+  document.querySelectorAll('.hstat-num[data-target]').forEach(el=>{
+    const target=parseInt(el.dataset.target);
+    let cur=0; const step=Math.ceil(target/40);
+    const iv=setInterval(()=>{
+      cur=Math.min(cur+step,target);
+      el.textContent=cur+(target===160?'+':'');
+      if(cur>=target)clearInterval(iv);
+    },28);
+  });
+}
+
 function showPanel(id,btn){
   document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
   document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
   document.getElementById('panel-'+id).classList.add('active');
   if(btn) btn.classList.add('active');
+  if(id==='home') setTimeout(animateCounters,200);
   if(id==='profile') loadProfilePanel();
   if(id==='ai') loadAIPanel();
 }
+
+setTimeout(animateCounters,700);
 
 /* ─────────────────────────────────────────
    AI ASSISTANT PANEL
