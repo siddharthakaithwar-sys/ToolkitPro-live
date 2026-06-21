@@ -108,218 +108,195 @@ body{
 }
 
 /* ════════════════════════════════
-   LOGIN PAGE
+   LOGIN PAGE — FULL REDESIGN
 ════════════════════════════════ */
 #login-page{
-  min-height:100vh;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  padding:20px;
-  background:var(--bg);
+  min-height:100vh;display:flex;align-items:center;justify-content:center;
+  padding:20px;background:var(--bg);position:relative;overflow:hidden;
 }
 #login-page.hidden{display:none !important;}
 
-.lp-card{
-  width:100%;
-  max-width:420px;
-  background:var(--s2);
-  border:1px solid var(--bd);
-  border-radius:20px;
-  padding:36px 32px 28px;
-  box-shadow:0 24px 60px rgba(0,0,0,.5);
-  animation:cardIn .45s cubic-bezier(.34,1.4,.64,1);
+/* Animated background */
+.lp-bg-orb{position:absolute;border-radius:50%;filter:blur(70px);pointer-events:none;}
+.lp-orb1{width:480px;height:480px;background:radial-gradient(circle,rgba(0,245,255,.07),transparent 70%);top:-160px;left:-120px;animation:lpO1 13s ease-in-out infinite alternate;}
+.lp-orb2{width:380px;height:380px;background:radial-gradient(circle,rgba(124,58,237,.06),transparent 70%);bottom:-100px;right:-80px;animation:lpO2 11s ease-in-out infinite alternate;}
+.lp-orb3{width:240px;height:240px;background:radial-gradient(circle,rgba(255,32,96,.04),transparent 70%);top:50%;left:50%;transform:translate(-50%,-50%);animation:lpO3 9s ease-in-out infinite alternate;}
+@keyframes lpO1{to{transform:translate(40px,28px);}}
+@keyframes lpO2{to{transform:translate(-30px,-35px);}}
+@keyframes lpO3{to{transform:translate(calc(-50% + 20px),calc(-50% - 15px));}}
+
+/* Grid overlay */
+.lp-grid{
+  position:absolute;inset:0;pointer-events:none;opacity:.04;
+  background-image:linear-gradient(rgba(0,245,255,.6) 1px,transparent 1px),linear-gradient(90deg,rgba(0,245,255,.6) 1px,transparent 1px);
+  background-size:44px 44px;
+  mask-image:radial-gradient(ellipse 70% 70% at 50% 50%,black 30%,transparent 100%);
 }
-@keyframes cardIn{from{opacity:0;transform:translateY(28px) scale(.97);}to{opacity:1;transform:none;}}
+
+/* Card */
+.lp-wrap{position:relative;z-index:1;width:100%;max-width:400px;}
+.lp-card{
+  background:var(--s2);border:1px solid var(--bd);border-radius:24px;
+  padding:0;overflow:hidden;
+  box-shadow:0 40px 100px rgba(0,0,0,.65),0 0 0 1px rgba(255,255,255,.04);
+  animation:lpCardIn .55s cubic-bezier(.34,1.3,.64,1);
+}
+@keyframes lpCardIn{from{opacity:0;transform:translateY(36px) scale(.95);}to{opacity:1;transform:none;}}
+
+/* Card top accent bar */
+.lp-accent-bar{
+  height:3px;width:100%;
+  background:linear-gradient(90deg,transparent,var(--a),rgba(0,245,255,.4),var(--a3),transparent);
+  animation:lpBarShift 4s ease-in-out infinite;
+}
+@keyframes lpBarShift{0%,100%{background-position:0%;}50%{background-position:100%;}}
+
+/* Card inner */
+.lp-inner{padding:32px 28px 28px;}
 
 /* Logo */
-.lp-logo{
-  text-align:center;
-  margin-bottom:28px;
+.lp-logo{text-align:center;margin-bottom:28px;}
+.lp-bolt{
+  font-size:2.6rem;display:block;margin-bottom:10px;
+  filter:drop-shadow(0 0 16px rgba(0,245,255,.7));
+  animation:boltGlow 2.5s ease-in-out infinite;
 }
-.lp-logo-icon{
-  font-size:3rem;
-  display:block;
-  margin-bottom:8px;
+@keyframes boltGlow{0%,100%{filter:drop-shadow(0 0 12px rgba(0,245,255,.5));}50%{filter:drop-shadow(0 0 28px rgba(0,245,255,1));}}
+.lp-logo-title{
+  font-family:'Rajdhani',sans-serif;font-size:2rem;font-weight:700;
+  letter-spacing:4px;color:var(--a);text-shadow:0 0 28px rgba(0,245,255,.3);
+  line-height:1;
 }
-.lp-logo h1{
-  font-family:'Rajdhani',sans-serif;
-  font-size:2.2rem;
-  font-weight:700;
-  letter-spacing:3px;
-  color:var(--a);
+.lp-logo-sub{font-size:.65rem;color:var(--td);letter-spacing:2.5px;text-transform:uppercase;margin-top:7px;display:block;}
+
+/* Mode pills */
+.lp-mode{
+  display:flex;background:var(--s1);border:1px solid var(--bd);
+  border-radius:16px;padding:4px;gap:4px;margin-bottom:24px;
 }
-.lp-logo p{
-  font-size:.75rem;
-  color:var(--td);
-  letter-spacing:1.5px;
-  text-transform:uppercase;
-  margin-top:4px;
+.lp-mode-btn{
+  flex:1;padding:10px 8px;border:none;background:transparent;
+  color:var(--td);border-radius:13px;
+  font-family:'Exo 2',sans-serif;font-size:.78rem;font-weight:700;
+  letter-spacing:.8px;text-transform:uppercase;cursor:pointer;
+  transition:all .28s cubic-bezier(.34,1.4,.64,1);
+  -webkit-tap-highlight-color:transparent;touch-action:manipulation;
+}
+.lp-mode-btn.on{
+  background:linear-gradient(135deg,var(--a),#00c8d4);color:#000;
+  box-shadow:0 4px 18px rgba(0,245,255,.3);
 }
 
-/* Tab buttons */
-.lp-tabs{
-  display:flex;
-  background:var(--s1);
-  border:1px solid var(--bd);
-  border-radius:12px;
-  padding:4px;
-  gap:4px;
-  margin-bottom:22px;
-}
-.lp-tab{
-  flex:1;
-  padding:10px;
-  border:none;
-  background:transparent;
-  color:var(--td);
-  border-radius:9px;
-  font-family:'Exo 2',sans-serif;
-  font-size:.82rem;
-  font-weight:700;
-  letter-spacing:.5px;
-  text-transform:uppercase;
-  cursor:pointer;
-  transition:all .2s;
-  /* Important: ensure clickable on mobile */
-  -webkit-tap-highlight-color:rgba(0,0,0,0);
-  touch-action:manipulation;
-}
-.lp-tab.on{
-  background:var(--a);
-  color:#000;
-}
+/* Form */
+.lp-form{display:flex;flex-direction:column;gap:14px;}
 
-/* Form fields */
-.lp-form{
-  display:flex;
-  flex-direction:column;
-  gap:14px;
+/* Field */
+.lp-field{display:flex;flex-direction:column;gap:6px;}
+.lp-field-label{
+  font-size:.62rem;color:var(--td);letter-spacing:1.2px;
+  text-transform:uppercase;font-weight:700;
 }
-.lp-field{
-  display:flex;
-  flex-direction:column;
-  gap:5px;
-}
-.lp-field label{
-  font-size:.7rem;
-  color:var(--td);
-  letter-spacing:.8px;
-  text-transform:uppercase;
-}
+.lp-input-wrap{position:relative;}
 .lp-input{
-  width:100%;
-  padding:13px 15px;
-  background:var(--s1);
-  border:2px solid var(--bd);
-  border-radius:11px;
-  color:var(--t);
-  font-size:.95rem;
-  font-family:'Exo 2',sans-serif;
-  outline:none;
-  transition:border-color .2s;
-  /* Mobile: ensure keyboard opens */
-  -webkit-appearance:none;
-  appearance:none;
+  width:100%;padding:13px 16px;
+  background:var(--s1);border:1.5px solid var(--bd);border-radius:13px;
+  color:var(--t);font-size:.92rem;font-family:'Exo 2',sans-serif;
+  outline:none;transition:all .22s;
+  box-shadow:inset 0 2px 6px rgba(0,0,0,.2);
+  -webkit-appearance:none;appearance:none;
 }
 .lp-input:focus{
   border-color:var(--a);
+  box-shadow:0 0 0 3px rgba(0,245,255,.12),inset 0 2px 6px rgba(0,0,0,.2);
 }
 .lp-input::placeholder{color:var(--td);}
+.lp-input.has-icon{padding-right:48px;}
+.lp-input-icon{
+  position:absolute;right:14px;top:50%;transform:translateY(-50%);
+  background:none;border:none;color:var(--td);cursor:pointer;
+  font-size:.95rem;padding:4px;line-height:1;
+  transition:color .15s;
+}
+.lp-input-icon:hover{color:var(--a);}
 
-/* Name field — hidden until signup */
+/* Name row */
 #lp-name-row{display:none;}
-#lp-name-row.show{display:flex;flex-direction:column;gap:5px;}
+#lp-name-row.show{display:flex;flex-direction:column;gap:6px;}
 
-/* Error box */
+/* Error */
 #lp-error{
-  display:none;
-  padding:11px 13px;
-  background:rgba(255,32,96,.1);
-  border:1px solid rgba(255,32,96,.35);
-  border-radius:9px;
-  color:#ff5577;
-  font-size:.82rem;
-  line-height:1.5;
+  display:none;padding:11px 14px;margin-bottom:2px;
+  background:rgba(255,32,96,.09);border:1px solid rgba(255,32,96,.28);
+  border-radius:11px;color:#ff6680;font-size:.8rem;line-height:1.5;
 }
-#lp-error.show{display:block;}
+#lp-error.show{display:block;animation:errShake .35s ease;}
+@keyframes errShake{0%,100%{transform:none;}20%{transform:translateX(-5px);}60%{transform:translateX(5px);}80%{transform:translateX(-3px);}}
 
-/* Submit button */
-.lp-btn-main{
-  width:100%;
-  padding:14px;
-  background:linear-gradient(135deg,#00f5ff,#00c8d4);
-  border:none;
-  border-radius:11px;
-  color:#000;
-  font-family:'Exo 2',sans-serif;
-  font-size:1rem;
-  font-weight:800;
-  letter-spacing:1px;
-  cursor:pointer;
-  transition:opacity .2s, transform .1s;
-  -webkit-tap-highlight-color:rgba(0,0,0,0);
-  touch-action:manipulation;
+/* Loading */
+#lp-loading{display:none;text-align:center;font-size:.78rem;color:var(--td);padding:4px 0;}
+#lp-loading.show{display:block;}
+
+/* Terms checkbox */
+#lp-terms-row{display:none;}
+.lp-terms-check{
+  display:flex;align-items:flex-start;gap:10px;
+  background:rgba(0,245,255,.04);border:1px solid rgba(0,245,255,.14);
+  border-radius:12px;padding:12px 14px;
 }
-.lp-btn-main:active{opacity:.85;transform:scale(.98);}
-.lp-btn-main:disabled{opacity:.5;cursor:not-allowed;}
+.lp-terms-check input[type=checkbox]{
+  width:16px;height:16px;accent-color:var(--a);
+  cursor:pointer;flex-shrink:0;margin-top:2px;
+}
+.lp-terms-check label{
+  font-size:.74rem;color:var(--td);cursor:pointer;
+  line-height:1.65;user-select:none;
+}
+.lp-terms-check a{color:var(--a);text-decoration:underline;}
+
+/* Forgot */
+.lp-forgot{text-align:right;}
+.lp-forgot a{font-size:.72rem;color:var(--a);cursor:pointer;text-decoration:underline;letter-spacing:.2px;}
+
+/* Primary button */
+.lp-btn-primary{
+  width:100%;padding:14px;
+  background:linear-gradient(135deg,var(--a),#00b8d4);
+  border:none;border-radius:14px;color:#000;
+  font-family:'Exo 2',sans-serif;font-size:.95rem;font-weight:800;
+  letter-spacing:1px;cursor:pointer;position:relative;overflow:hidden;
+  transition:all .22s;
+  box-shadow:0 4px 22px rgba(0,245,255,.28);
+  -webkit-tap-highlight-color:transparent;touch-action:manipulation;
+}
+.lp-btn-primary::before{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.18),transparent);
+  transform:translateX(-100%);transition:transform .55s;
+}
+.lp-btn-primary:hover{box-shadow:0 6px 30px rgba(0,245,255,.45);transform:translateY(-2px);}
+.lp-btn-primary:hover::before{transform:translateX(100%);}
+.lp-btn-primary:active{opacity:.9;transform:scale(.98);box-shadow:none;}
+.lp-btn-primary:disabled{opacity:.45;cursor:not-allowed;transform:none;box-shadow:none;}
 
 /* Divider */
-.lp-divider{
-  display:flex;
-  align-items:center;
-  gap:12px;
-  margin:2px 0;
-}
-.lp-divider span{font-size:.72rem;color:var(--td);}
-.lp-divider::before,.lp-divider::after{
-  content:'';flex:1;height:1px;background:var(--bd);
-}
+.lp-divider{display:flex;align-items:center;gap:12px;}
+.lp-divider span{font-size:.68rem;color:var(--td);letter-spacing:.8px;flex-shrink:0;}
+.lp-divider::before,.lp-divider::after{content:'';flex:1;height:1px;background:var(--bd);}
 
-/* Google button */
-.lp-btn-google{
-  width:100%;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  gap:10px;
-  padding:13px;
-  background:var(--s1);
-  border:2px solid var(--bd);
-  border-radius:11px;
-  color:var(--t);
-  font-family:'Exo 2',sans-serif;
-  font-size:.88rem;
-  font-weight:600;
-  cursor:pointer;
-  transition:background .2s;
-  -webkit-tap-highlight-color:rgba(0,0,0,0);
-  touch-action:manipulation;
+/* Guest button */
+.lp-btn-guest{
+  width:100%;padding:13px;
+  background:none;border:1.5px solid var(--bd);border-radius:14px;
+  color:var(--td);font-family:'Exo 2',sans-serif;font-size:.86rem;font-weight:600;
+  letter-spacing:.5px;cursor:pointer;transition:all .2s;
+  -webkit-tap-highlight-color:transparent;touch-action:manipulation;
 }
-.lp-btn-google:active{background:#1a1f30;}
+.lp-btn-guest:hover{border-color:rgba(0,245,255,.3);color:var(--t);}
+.lp-guest-note{text-align:center;font-size:.64rem;color:var(--td);margin-top:-8px;}
 
-/* Forgot password */
-.lp-forgot{
-  text-align:right;
-  margin-top:-4px;
-  margin-bottom:-4px;
-}
-.lp-forgot a{
-  font-size:.75rem;
-  color:var(--a);
-  cursor:pointer;
-  text-decoration:underline;
-}
+/* Responsive */
+@media(max-width:440px){.lp-inner{padding:24px 18px 22px;}.lp-logo-title{font-size:1.7rem;}}
 
-/* Loading spinner text */
-#lp-loading{
-  display:none;
-  text-align:center;
-  font-size:.78rem;
-  color:var(--td);
-  padding:4px 0;
-}
-#lp-loading.show{display:block;}
 
 /* ════════════════════════════════
    FORGOT PASSWORD MODAL
@@ -1010,96 +987,112 @@ body.light-mode .chess-sq.dark{background:#4a6fa5;}
 <body>
 
 <!-- ══════════════════════════════════
-     LOGIN PAGE
+     LOGIN PAGE — REDESIGNED
 ══════════════════════════════════ -->
 <div id="login-page" class="hidden">
-  <div class="lp-card">
 
-    <!-- Logo -->
-    <div class="lp-logo">
-      <span class="lp-logo-icon">⚡</span>
-      <h1>TOOLKIT PRO</h1>
-      <p>Sign in to continue</p>
-    </div>
+  <!-- Animated BG -->
+  <div class="lp-bg-orb lp-orb1"></div>
+  <div class="lp-bg-orb lp-orb2"></div>
+  <div class="lp-bg-orb lp-orb3"></div>
+  <div class="lp-grid"></div>
 
-    <!-- Login / Sign Up tabs -->
-    <div class="lp-tabs">
-      <button class="lp-tab on" id="tab-login"  onclick="lpTab('login')">Login</button>
-      <button class="lp-tab"    id="tab-signup" onclick="lpTab('signup')">Sign Up</button>
-    </div>
+  <div class="lp-wrap">
+    <div class="lp-card">
 
-    <!-- Error message -->
-    <div id="lp-error"></div>
-    <!-- Loading -->
-    <div id="lp-loading">⏳ Please wait…</div>
+      <!-- Top accent bar -->
+      <div class="lp-accent-bar"></div>
 
-    <!-- Form -->
-    <div class="lp-form">
+      <div class="lp-inner">
 
-      <!-- Name — only for signup -->
-      <div class="lp-field" id="lp-name-row">
-        <label>Full Name</label>
-        <input class="lp-input" type="text" id="lp-name"
-               placeholder="Your name"
-               autocomplete="name"
-               inputmode="text">
-      </div>
-
-      <!-- Email -->
-      <div class="lp-field">
-        <label>Email Address</label>
-        <input class="lp-input" type="email" id="lp-email"
-               placeholder="you@example.com"
-               autocomplete="email"
-               inputmode="email">
-      </div>
-
-      <!-- Password -->
-      <div class="lp-field">
-        <label>Password</label>
-        <input class="lp-input" type="password" id="lp-pass"
-               placeholder="Min. 6 characters"
-               autocomplete="current-password">
-      </div>
-
-      <!-- Forgot password link -->
-      <div class="lp-forgot" id="lp-forgot-row">
-        <a onclick="showForgot()">Forgot Password?</a>
-      </div>
-
-      <!-- Terms checkbox — only shown for signup -->
-      <div id="lp-terms-row" style="display:none;align-items:flex-start;gap:10px;background:rgba(0,245,255,.04);border:1px solid rgba(0,245,255,.12);border-radius:10px;padding:12px 14px;">
-        <input type="checkbox" id="lp-terms-chk" style="margin-top:3px;width:16px;height:16px;accent-color:var(--a);cursor:pointer;flex-shrink:0;">
-        <label for="lp-terms-chk" style="font-size:.78rem;color:var(--td);cursor:pointer;line-height:1.6;">
-          I am 18 years or older and I agree to the
-          <a href="/terms.html" target="_blank" style="color:var(--a);text-decoration:underline;">Terms of Service</a>
-          and
-          <a href="/privacy.html" target="_blank" style="color:var(--a);text-decoration:underline;">Privacy Policy</a>,
-          including the use of cookies and processing of my personal data.
-        </label>
-      </div>
-
-      <!-- Submit -->
-      <button class="lp-btn-main" id="lp-submit" onclick="lpSubmit()">
-        Sign In
-      </button>
-
-      <div style="text-align:center;margin-top:12px;">
-        <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;">
-          <div style="flex:1;height:1px;background:var(--bd);"></div>
-          <span style="color:var(--td);font-size:.72rem;letter-spacing:1px;">OR</span>
-          <div style="flex:1;height:1px;background:var(--bd);"></div>
+        <!-- Logo -->
+        <div class="lp-logo">
+          <span class="lp-bolt">⚡</span>
+          <div class="lp-logo-title">TOOLKIT PRO</div>
+          <span class="lp-logo-sub">Professional Tools · Free Forever</span>
         </div>
-        <button onclick="guestLogin()" style="width:100%;padding:13px;background:transparent;border:1px solid var(--bd);border-radius:12px;color:var(--t);font-size:.88rem;cursor:pointer;font-family:'Exo 2',sans-serif;font-weight:600;letter-spacing:.5px;transition:all .2s;" onmouseover="this.style.borderColor='var(--a)';this.style.color='var(--a)'" onmouseout="this.style.borderColor='var(--bd)';this.style.color='var(--t)'">
-          👤 Continue as Guest
-        </button>
-        <div style="font-size:.68rem;color:var(--td);margin-top:6px;">No account needed — explore freely</div>
-      </div>
 
+        <!-- Mode toggle -->
+        <div class="lp-mode">
+          <button class="lp-mode-btn on" id="tab-login"  onclick="lpTab('login')">Sign In</button>
+          <button class="lp-mode-btn"    id="tab-signup" onclick="lpTab('signup')">Create Account</button>
+        </div>
 
+        <!-- Error / Loading -->
+        <div id="lp-error"></div>
+        <div id="lp-loading">Please wait…</div>
 
-    </div>
-  </div>
+        <!-- Form -->
+        <div class="lp-form">
+
+          <!-- Full Name (signup only) -->
+          <div class="lp-field" id="lp-name-row">
+            <span class="lp-field-label">Full Name</span>
+            <div class="lp-input-wrap">
+              <input class="lp-input" type="text" id="lp-name"
+                placeholder="Your full name"
+                autocomplete="name" inputmode="text">
+            </div>
+          </div>
+
+          <!-- Email -->
+          <div class="lp-field">
+            <span class="lp-field-label">Email Address</span>
+            <div class="lp-input-wrap">
+              <input class="lp-input" type="email" id="lp-email"
+                placeholder="you@example.com"
+                autocomplete="email" inputmode="email">
+            </div>
+          </div>
+
+          <!-- Password -->
+          <div class="lp-field">
+            <span class="lp-field-label">Password</span>
+            <div class="lp-input-wrap">
+              <input class="lp-input has-icon" type="password" id="lp-pass"
+                placeholder="Minimum 6 characters"
+                autocomplete="current-password">
+              <button type="button" class="lp-input-icon" id="lp-eye" onclick="togglePassVis()">👁</button>
+            </div>
+          </div>
+
+          <!-- Forgot password (login only) -->
+          <div class="lp-forgot" id="lp-forgot-row">
+            <a onclick="showForgot()">Forgot your password?</a>
+          </div>
+
+          <!-- Terms & Conditions (signup only) -->
+          <div id="lp-terms-row">
+            <div class="lp-terms-check">
+              <input type="checkbox" id="lp-terms-chk">
+              <label for="lp-terms-chk">
+                I confirm that I am <strong>18 years of age or older</strong> and I agree to the
+                <a href="/terms.html" target="_blank">Terms of Service</a>
+                and
+                <a href="/privacy.html" target="_blank">Privacy Policy</a>,
+                including the processing of my personal data and the use of cookies as described therein.
+              </label>
+            </div>
+          </div>
+
+          <!-- Submit -->
+          <button class="lp-btn-primary" id="lp-submit" onclick="lpSubmit()">
+            Sign In
+          </button>
+
+          <!-- Divider -->
+          <div class="lp-divider"><span>OR</span></div>
+
+          <!-- Guest -->
+          <button class="lp-btn-guest" onclick="guestLogin()">
+            Continue as Guest
+          </button>
+          <div class="lp-guest-note">No account needed — all free tools available</div>
+
+        </div><!-- /lp-form -->
+      </div><!-- /lp-inner -->
+    </div><!-- /lp-card -->
+  </div><!-- /lp-wrap -->
 </div>
 
 <!-- ══════════════════════════════════
@@ -1174,6 +1167,19 @@ function lpLoad(on){
 }
 
 // ── Tab switch ──
+function togglePassVis(){
+  const inp = document.getElementById('lp-pass');
+  const btn = document.getElementById('lp-eye');
+  if(!inp) return;
+  if(inp.type === 'password'){
+    inp.type = 'text';
+    if(btn) btn.textContent = '🙈';
+  } else {
+    inp.type = 'password';
+    if(btn) btn.textContent = '👁';
+  }
+}
+
 function lpTab(tab){
   _tab = tab;
   document.getElementById('tab-login').classList.toggle('on',  tab==='login');
@@ -1185,14 +1191,15 @@ function lpTab(tab){
   if(tab === 'signup'){
     nr.classList.add('show');
     btn.textContent = 'Create Account';
-    fr.style.display = 'none';
-    if(tr) tr.style.display = 'flex';
+    if(fr) fr.style.display = 'none';
+    if(tr) tr.style.display = 'block';
   } else {
     nr.classList.remove('show');
     btn.textContent = 'Sign In';
-    fr.style.display = 'block';
-    document.getElementById('lp-name').value = '';
+    if(fr) fr.style.display = 'block';
     if(tr) tr.style.display = 'none';
+    const nm = document.getElementById('lp-name');
+    if(nm) nm.value = '';
     const chk = document.getElementById('lp-terms-chk');
     if(chk) chk.checked = false;
   }
@@ -1217,9 +1224,23 @@ async function lpSubmit(){
   const name  = (document.getElementById('lp-name').value  || '').trim();
 
   if(!email)           { lpErr('Please enter your email address.'); return; }
-  if(!email.includes('@')) { lpErr('Please enter a valid email address.'); return; }
+
+  // Proper email format validation
+  const emailRegex = /^[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}$/;
+  if(!emailRegex.test(email)){ lpErr('Please enter a valid email address (e.g. name@gmail.com).'); return; }
+
+  // Block obvious fake/disposable domains on signup
+  if(_tab === 'signup'){
+    const fakeDomains = ['mailinator.com','guerrillamail.com','tempmail.com','throwam.com','yopmail.com','trashmail.com','sharklasers.com','guerrillamailblock.com','grr.la','guerrillamail.info','spam4.me','temp-mail.org','dispostable.com','maildrop.cc','mailnull.com'];
+    const domain = email.split('@')[1] || '';
+    if(fakeDomains.includes(domain)){ lpErr('Please use a real email address to sign up.'); return; }
+
+    // Name must be real — min 2 chars, only letters/spaces
+    if(!name || name.length < 2){ lpErr('Please enter your full name (at least 2 characters).'); return; }
+    if(!/^[a-zA-Z\s'-]{2,40}$/.test(name)){ lpErr('Name can only contain letters and spaces.'); return; }
+  }
+
   if(!pass)            { lpErr('Please enter your password.'); return; }
-  if(_tab==='signup' && !name){ lpErr('Please enter your full name.'); return; }
   if(pass.length < 6)  { lpErr('Password must be at least 6 characters.'); return; }
   if(_tab==='signup'){
     const chk = document.getElementById('lp-terms-chk');
@@ -1443,36 +1464,71 @@ function loadProfilePanel(){
 // Profile panel tab switch
 function profileTab(tab){
   const isLogin = tab === 'login';
-  const tl = document.getElementById('ptab-login');
-  const ts = document.getElementById('ptab-signup');
-  const nf = document.getElementById('profile-name-field');
-  const fr = document.getElementById('profile-forgot-row');
+  const tl  = document.getElementById('ptab-login');
+  const ts  = document.getElementById('ptab-signup');
+  const nf  = document.getElementById('profile-name-field');
+  const fr  = document.getElementById('profile-forgot-row');
+  const tr  = document.getElementById('profile-terms-row');
   const btn = document.getElementById('profile-login-btn');
-  if(tl){ tl.style.background = isLogin ? 'var(--accent)' : 'transparent'; tl.style.color = isLogin ? '#000' : 'var(--text-dim)'; }
-  if(ts){ ts.style.background = !isLogin ? 'var(--accent)' : 'transparent'; ts.style.color = !isLogin ? '#000' : 'var(--text-dim)'; }
-  if(nf) nf.style.display = isLogin ? 'none' : 'block';
-  if(fr) fr.style.display = isLogin ? 'block' : 'none';
-  if(btn) btn.textContent = isLogin ? 'Sign In' : 'Create Account';
-  document.getElementById('profile-login-err').style.display = 'none';
+  const chk = document.getElementById('profile-terms-chk');
+
+  // Style active tab
+  const onStyle  = 'background:linear-gradient(135deg,var(--a),#00b8d4);color:#000;box-shadow:0 4px 16px rgba(0,245,255,.25);';
+  const offStyle = 'background:transparent;color:var(--td);box-shadow:none;';
+  if(tl) tl.style.cssText = tl.style.cssText + (isLogin ? onStyle : offStyle);
+  if(ts) ts.style.cssText = ts.style.cssText + (!isLogin ? onStyle : offStyle);
+
+  if(nf)  nf.style.display  = isLogin ? 'none' : 'block';
+  if(fr)  fr.style.display  = isLogin ? 'block' : 'none';
+  if(tr)  tr.style.display  = isLogin ? 'none' : 'block';
+  if(btn) btn.textContent   = isLogin ? 'Sign In' : 'Create Account';
+  if(chk && isLogin) chk.checked = false;
+
+  const errEl = document.getElementById('profile-login-err');
+  if(errEl) errEl.style.display = 'none';
   window._profileTab = tab;
+}
+
+function toggleProfilePassVis(){
+  const inp = document.getElementById('profile-login-pass');
+  const btn = document.getElementById('profile-eye');
+  if(!inp) return;
+  inp.type = inp.type === 'password' ? 'text' : 'password';
+  if(btn) btn.textContent = inp.type === 'password' ? '👁' : '🙈';
 }
 
 // Profile panel login/signup submit
 async function profileLoginSubmit(){
   const tab   = window._profileTab || 'login';
-  const email = (document.getElementById('profile-login-email').value || '').trim().toLowerCase();
-  const pass  = (document.getElementById('profile-login-pass').value  || '').trim();
-  const name  = (document.getElementById('profile-login-name')?.value || '').trim();
+  const email = (document.getElementById('profile-login-email')?.value || '').trim().toLowerCase();
+  const pass  = (document.getElementById('profile-login-pass')?.value  || '').trim();
+  const name  = (document.getElementById('profile-login-name')?.value  || '').trim();
   const errEl = document.getElementById('profile-login-err');
   const btn   = document.getElementById('profile-login-btn');
   const load  = document.getElementById('profile-login-loading');
 
+  const showErr = msg => { errEl.textContent = msg; errEl.style.display = 'block'; errEl.style.animation='none'; errEl.offsetHeight; errEl.style.animation='errShake .35s ease'; };
   errEl.style.display = 'none';
-  if(!email || !pass){ errEl.textContent = 'Please enter email and password.'; errEl.style.display = 'block'; return; }
-  if(tab === 'signup' && !name){ errEl.textContent = 'Please enter your name.'; errEl.style.display = 'block'; return; }
+
+  // Validate
+  const emailRe = /^[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}$/;
+  if(!email)               { showErr('Please enter your email address.'); return; }
+  if(!emailRe.test(email)) { showErr('Please enter a valid email address (e.g. name@gmail.com).'); return; }
+  if(!pass)                { showErr('Please enter your password.'); return; }
+  if(pass.length < 6)      { showErr('Password must be at least 6 characters.'); return; }
+
+  if(tab === 'signup'){
+    if(!name || name.length < 2) { showErr('Please enter your full name (at least 2 characters).'); return; }
+    if(!/^[a-zA-Z\s'\-]{2,40}$/.test(name)) { showErr('Name can only contain letters and spaces.'); return; }
+    const chk = document.getElementById('profile-terms-chk');
+    if(!chk || !chk.checked) { showErr('Please accept the Terms of Service and Privacy Policy to create an account.'); return; }
+    const fakeDomains = ['mailinator.com','guerrillamail.com','tempmail.com','yopmail.com','trashmail.com','sharklasers.com','spam4.me','temp-mail.org','dispostable.com','maildrop.cc'];
+    const domain = email.split('@')[1] || '';
+    if(fakeDomains.includes(domain)) { showErr('Please use a real email address to sign up.'); return; }
+  }
 
   btn.disabled = true;
-  load.style.display = 'block';
+  if(load) load.style.display = 'block';
 
   try {
     if(!window._supa) throw new Error('Auth not ready');
@@ -1989,43 +2045,116 @@ function showToast(msg){
 <div class="panel" id="panel-profile">
   <div class="panel-header">👤 My Profile</div>
 
-  <!-- GUEST VIEW: Login/Signup form -->
+  <!-- GUEST VIEW: Redesigned Login/Signup -->
   <div id="profile-guest-view" style="display:none;max-width:420px;">
-    <div style="background:var(--s2);border:1px solid var(--bd);border-radius:16px;padding:28px 24px;">
-      <div style="text-align:center;margin-bottom:22px;">
-        <div style="font-size:2.5rem;margin-bottom:8px;">👤</div>
-        <div style="font-family:'Rajdhani',sans-serif;font-size:1.4rem;font-weight:700;color:var(--a);letter-spacing:2px;">LOGIN / SIGN UP</div>
-        <div style="font-size:.78rem;color:var(--td);margin-top:4px;">Account banao ya login karo</div>
+
+    <!-- Card -->
+    <div style="background:var(--s2);border:1px solid var(--bd);border-radius:22px;overflow:hidden;box-shadow:0 12px 40px rgba(0,0,0,.35),inset 0 1px 0 rgba(255,255,255,.04);">
+
+      <!-- Accent bar -->
+      <div style="height:3px;background:linear-gradient(90deg,transparent,var(--a),rgba(0,245,255,.4),var(--a3),transparent);"></div>
+
+      <div style="padding:28px 24px 24px;position:relative;">
+
+        <!-- Logo -->
+        <div style="text-align:center;margin-bottom:24px;">
+          <div style="font-size:2.4rem;filter:drop-shadow(0 0 16px rgba(0,245,255,.7));margin-bottom:8px;animation:boltGlow 2.5s ease-in-out infinite;">⚡</div>
+          <div style="font-family:'Rajdhani',sans-serif;font-size:1.7rem;font-weight:700;color:var(--a);letter-spacing:3px;text-shadow:0 0 24px rgba(0,245,255,.3);">TOOLKIT PRO</div>
+          <div style="font-size:.65rem;color:var(--td);letter-spacing:2px;text-transform:uppercase;margin-top:5px;">Sign in to your account</div>
+        </div>
+
+        <!-- Tabs -->
+        <div style="display:flex;background:var(--s1);border:1px solid var(--bd);border-radius:14px;padding:4px;gap:4px;margin-bottom:20px;">
+          <button id="ptab-login" onclick="profileTab('login')"
+            style="flex:1;padding:10px;border:none;border-radius:11px;background:linear-gradient(135deg,var(--a),#00b8d4);color:#000;font-family:'Exo 2',sans-serif;font-size:.78rem;font-weight:800;cursor:pointer;letter-spacing:.8px;text-transform:uppercase;box-shadow:0 4px 16px rgba(0,245,255,.25);transition:all .25s;">
+            Sign In
+          </button>
+          <button id="ptab-signup" onclick="profileTab('signup')"
+            style="flex:1;padding:10px;border:none;border-radius:11px;background:transparent;color:var(--td);font-family:'Exo 2',sans-serif;font-size:.78rem;font-weight:700;cursor:pointer;letter-spacing:.8px;text-transform:uppercase;transition:all .25s;">
+            Create Account
+          </button>
+        </div>
+
+        <!-- Error -->
+        <div id="profile-login-err"
+          style="display:none;padding:10px 13px;background:rgba(255,32,96,.09);border:1px solid rgba(255,32,96,.28);border-radius:11px;color:#ff6680;font-size:.8rem;margin-bottom:14px;line-height:1.5;animation:errShake .35s ease;">
+        </div>
+
+        <!-- Name (signup only) -->
+        <div id="profile-name-field" style="display:none;margin-bottom:13px;">
+          <div style="font-size:.62rem;color:var(--td);letter-spacing:1.2px;text-transform:uppercase;font-weight:700;margin-bottom:6px;">Full Name</div>
+          <input type="text" id="profile-login-name" class="profile-input"
+            placeholder="Your full name" autocomplete="name"
+            style="width:100%;padding:12px 15px;background:var(--s1);border:1.5px solid var(--bd);border-radius:12px;color:var(--t);font-size:.9rem;font-family:'Exo 2',sans-serif;outline:none;box-shadow:inset 0 2px 5px rgba(0,0,0,.2);">
+        </div>
+
+        <!-- Email -->
+        <div style="margin-bottom:13px;">
+          <div style="font-size:.62rem;color:var(--td);letter-spacing:1.2px;text-transform:uppercase;font-weight:700;margin-bottom:6px;">Email Address</div>
+          <input type="email" id="profile-login-email" class="profile-input"
+            placeholder="you@example.com" autocomplete="email" inputmode="email"
+            style="width:100%;padding:12px 15px;background:var(--s1);border:1.5px solid var(--bd);border-radius:12px;color:var(--t);font-size:.9rem;font-family:'Exo 2',sans-serif;outline:none;box-shadow:inset 0 2px 5px rgba(0,0,0,.2);">
+        </div>
+
+        <!-- Password -->
+        <div style="margin-bottom:8px;">
+          <div style="font-size:.62rem;color:var(--td);letter-spacing:1.2px;text-transform:uppercase;font-weight:700;margin-bottom:6px;">Password</div>
+          <div style="position:relative;">
+            <input type="password" id="profile-login-pass" class="profile-input"
+              placeholder="Minimum 6 characters" autocomplete="current-password"
+              style="width:100%;padding:12px 46px 12px 15px;background:var(--s1);border:1.5px solid var(--bd);border-radius:12px;color:var(--t);font-size:.9rem;font-family:'Exo 2',sans-serif;outline:none;box-shadow:inset 0 2px 5px rgba(0,0,0,.2);">
+            <button type="button" onclick="toggleProfilePassVis()"
+              style="position:absolute;right:13px;top:50%;transform:translateY(-50%);background:none;border:none;color:var(--td);cursor:pointer;font-size:.95rem;padding:4px;line-height:1;"
+              id="profile-eye">👁</button>
+          </div>
+        </div>
+
+        <!-- Forgot -->
+        <div id="profile-forgot-row" style="text-align:right;margin-bottom:16px;">
+          <a onclick="showForgot()" style="font-size:.72rem;color:var(--a);cursor:pointer;text-decoration:underline;letter-spacing:.2px;">Forgot your password?</a>
+        </div>
+
+        <!-- Terms checkbox (signup only) -->
+        <div id="profile-terms-row" style="display:none;margin-bottom:14px;">
+          <div style="display:flex;align-items:flex-start;gap:10px;background:rgba(0,245,255,.04);border:1px solid rgba(0,245,255,.13);border-radius:12px;padding:12px 13px;">
+            <input type="checkbox" id="profile-terms-chk"
+              style="width:16px;height:16px;accent-color:var(--a);cursor:pointer;flex-shrink:0;margin-top:2px;">
+            <label for="profile-terms-chk" style="font-size:.73rem;color:var(--td);cursor:pointer;line-height:1.65;">
+              I confirm I am <strong style="color:var(--t);">18+</strong> and agree to the
+              <a href="/terms.html" target="_blank" style="color:var(--a);text-decoration:underline;">Terms of Service</a>
+              and
+              <a href="/privacy.html" target="_blank" style="color:var(--a);text-decoration:underline;">Privacy Policy</a>,
+              including processing of my personal data.
+            </label>
+          </div>
+        </div>
+
+        <!-- Submit -->
+        <button id="profile-login-btn" onclick="profileLoginSubmit()"
+          style="width:100%;padding:14px;background:linear-gradient(135deg,var(--a),#00b8d4);border:none;border-radius:13px;color:#000;font-family:'Exo 2',sans-serif;font-size:.94rem;font-weight:800;cursor:pointer;letter-spacing:.8px;margin-bottom:10px;box-shadow:0 4px 20px rgba(0,245,255,.25);transition:all .22s;">
+          Sign In
+        </button>
+
+        <!-- Loading -->
+        <div id="profile-login-loading" style="display:none;text-align:center;font-size:.76rem;color:var(--td);padding:4px 0;">Please wait…</div>
+
+        <!-- Divider -->
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:10px;">
+          <div style="flex:1;height:1px;background:var(--bd);"></div>
+          <span style="font-size:.66rem;color:var(--td);letter-spacing:.8px;">OR</span>
+          <div style="flex:1;height:1px;background:var(--bd);"></div>
+        </div>
+
+        <!-- Guest -->
+        <button onclick="guestLogin()"
+          style="width:100%;padding:12px;background:none;border:1.5px solid var(--bd);border-radius:13px;color:var(--td);font-family:'Exo 2',sans-serif;font-size:.85rem;font-weight:600;cursor:pointer;letter-spacing:.4px;transition:all .2s;"
+          onmouseover="this.style.borderColor='rgba(0,245,255,.3)';this.style.color='var(--t)'"
+          onmouseout="this.style.borderColor='var(--bd)';this.style.color='var(--td)'">
+          Continue as Guest
+        </button>
+        <div style="text-align:center;font-size:.63rem;color:var(--td);margin-top:6px;">No account needed — all free tools available</div>
+
       </div>
-      <!-- Tabs -->
-      <div style="display:flex;background:var(--s1);border:1px solid var(--bd);border-radius:10px;padding:3px;gap:3px;margin-bottom:18px;">
-        <button id="ptab-login" onclick="profileTab('login')" style="flex:1;padding:9px;border:none;border-radius:7px;background:var(--a);color:#000;font-family:'Exo 2',sans-serif;font-size:.8rem;font-weight:800;cursor:pointer;letter-spacing:.5px;text-transform:uppercase;">Login</button>
-        <button id="ptab-signup" onclick="profileTab('signup')" style="flex:1;padding:9px;border:none;border-radius:7px;background:transparent;color:var(--td);font-family:'Exo 2',sans-serif;font-size:.8rem;font-weight:700;cursor:pointer;letter-spacing:.5px;text-transform:uppercase;">Sign Up</button>
-      </div>
-      <!-- Error -->
-      <div id="profile-login-err" style="display:none;padding:10px 13px;background:rgba(255,32,96,.1);border:1px solid rgba(255,32,96,.3);border-radius:9px;color:#ff5577;font-size:.82rem;margin-bottom:12px;"></div>
-      <!-- Name (signup only) -->
-      <div id="profile-name-field" style="display:none;margin-bottom:12px;">
-        <label style="font-size:.68rem;color:var(--text-dim);letter-spacing:.8px;text-transform:uppercase;display:block;margin-bottom:5px;">Full Name</label>
-        <input type="text" id="profile-login-name" class="profile-input" placeholder="Your name" autocomplete="name">
-      </div>
-      <!-- Email -->
-      <div style="margin-bottom:12px;">
-        <label style="font-size:.68rem;color:var(--text-dim);letter-spacing:.8px;text-transform:uppercase;display:block;margin-bottom:5px;">Email Address</label>
-        <input type="email" id="profile-login-email" class="profile-input" placeholder="you@example.com" autocomplete="email" inputmode="email">
-      </div>
-      <!-- Password -->
-      <div style="margin-bottom:6px;">
-        <label style="font-size:.68rem;color:var(--text-dim);letter-spacing:.8px;text-transform:uppercase;display:block;margin-bottom:5px;">Password</label>
-        <input type="password" id="profile-login-pass" class="profile-input" placeholder="Min. 6 characters" autocomplete="current-password">
-      </div>
-      <!-- Forgot -->
-      <div id="profile-forgot-row" style="text-align:right;margin-bottom:14px;">
-        <a onclick="showForgot()" style="font-size:.74rem;color:var(--accent);cursor:pointer;text-decoration:underline;">Forgot Password?</a>
-      </div>
-      <!-- Submit -->
-      <button id="profile-login-btn" onclick="profileLoginSubmit()" style="width:100%;padding:13px;background:linear-gradient(135deg,var(--accent),#00b8d4);border:none;border-radius:11px;color:#000;font-family:'Exo 2',sans-serif;font-size:.95rem;font-weight:800;cursor:pointer;letter-spacing:.5px;margin-bottom:10px;">Sign In</button>
-      <div id="profile-login-loading" style="display:none;text-align:center;font-size:.78rem;color:var(--text-dim);padding:4px 0;">⏳ Please wait…</div>
     </div>
   </div>
 
