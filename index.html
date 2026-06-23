@@ -1405,9 +1405,10 @@ function toggleDarkMode(){
 function setTheme(theme){
   const isLight = theme === 'light';
   document.body.classList.toggle('light-mode', isLight);
-  document.getElementById('dark-mode-btn').textContent = isLight ? '🌙' : '☀️';
+  document.body.setAttribute('data-theme', theme); // shared CSS compatibility
+  const dmb = document.getElementById('dark-mode-btn');
+  if(dmb) dmb.textContent = isLight ? '🌙' : '☀️';
   localStorage.setItem('tkp_theme', theme);
-  // Update theme buttons in profile
   const db = document.getElementById('theme-dark-btn');
   const lb = document.getElementById('theme-light-btn');
   if(db && lb){
@@ -1420,7 +1421,7 @@ function setTheme(theme){
   }
 }
 // Apply saved theme on load
-(function(){ const t = localStorage.getItem('tkp_theme'); if(t==='light') setTheme('light'); })();
+(function(){ const t = localStorage.getItem('tkp_theme'); if(t) setTheme(t); })();
 
 // ── Profile Panel ──
 function loadProfilePanel(){
