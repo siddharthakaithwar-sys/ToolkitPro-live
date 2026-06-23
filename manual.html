@@ -17,6 +17,26 @@
 <link rel="canonical" href="https://toolkitpro.co.in/manual.html">
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%23080b12'/><text y='.9em' font-family='Arial' font-size='60' font-weight='bold' fill='%2300f5ff' text-anchor='middle' x='50'>⚡</text></svg>">
 <title>Complete Manual — ToolKit Pro</title>
+<!-- Shared theme CSS -->
+<style id="theme-shared">
+:root{--bg:#080b12;--s1:#0e1221;--s2:#151928;--bd:#1e2640;--a:#00f5ff;--a2:#ff2060;--a3:#7c3aed;--t:#dde4f8;--td:#5a6a90;}
+body[data-theme="light"]{--bg:#f0f4ff;--s1:#e4eaf8;--s2:#dde4f5;--bd:#c4cde8;--t:#1a2040;--td:#4a5480;--a:#0088aa;--a2:#cc1050;--a3:#5a20c0;}
+body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.025;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-size:200px;}
+.bg-orb{position:fixed;border-radius:50%;filter:blur(80px);pointer-events:none;z-index:0;}
+.orb-page1{width:420px;height:420px;background:radial-gradient(circle,rgba(0,245,255,.055),transparent 70%);top:-120px;left:-80px;animation:oF1 13s ease-in-out infinite alternate;}
+.orb-page2{width:360px;height:360px;background:radial-gradient(circle,rgba(124,58,237,.05),transparent 70%);bottom:-80px;right:-60px;animation:oF2 11s ease-in-out infinite alternate;}
+@keyframes oF1{to{transform:translate(35px,25px);}}
+@keyframes oF2{to{transform:translate(-28px,-32px);}}
+nav{backdrop-filter:blur(14px)!important;background:rgba(14,18,33,.92)!important;}
+body[data-theme="light"] nav{background:rgba(220,228,248,.95)!important;}
+/* Theme toggle button */
+.theme-toggle{background:none;border:1px solid var(--bd);border-radius:8px;color:var(--td);padding:6px 11px;cursor:pointer;font-size:.85rem;transition:all .2s;flex-shrink:0;}
+.theme-toggle:hover{border-color:var(--a);color:var(--a);}
+</style>
+<script>
+// Apply saved theme immediately to prevent flash
+(function(){const t=localStorage.getItem('tkp_theme');if(t)document.body.setAttribute('data-theme',t);})();
+</script>
 <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Exo+2:wght@300;400;600;800&family=Share+Tech+Mono&display=swap" rel="stylesheet">
 <!-- Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-SK7Z4P7H7P"></script>
@@ -157,6 +177,8 @@ nav::-webkit-scrollbar{height:0;}
 .section-tag.pink{color:var(--a2);}
 .section-tag.purple{color:#a78bfa;}
 .section-tag.white{color:var(--t);}
+.section-tag.gold{color:#fbbf24;}
+.section-tag.green{color:#22c55e;}
 .section-icon{font-size:1.6rem;}
 
 /* ── FEATURE BLOCKS ── */
@@ -214,6 +236,8 @@ nav::-webkit-scrollbar{height:0;}
 }
 .kv-key.pink{color:var(--a2);}
 .kv-key.purple{color:#a78bfa;}
+.kv-key.green{color:#22c55e;}
+.kv-key.gold{color:#fbbf24;}
 .kv-val{color:var(--td);line-height:1.6;}
 .kv-val strong{color:var(--t);}
 
@@ -341,7 +365,10 @@ footer a:hover{text-decoration:underline;}
     <div class="hero-tools">
       <a href="#calculator" class="hero-tool-tag cyan">🧮 Calculator</a>
       <a href="#chess" class="hero-tool-tag pink">♟️ Chess</a>
-      <a href="#currency" class="hero-tool-tag purple">💱 Currency Converter</a>
+      <a href="#currency" class="hero-tool-tag purple">💱 Currency</a>
+      <a href="#units" class="hero-tool-tag gold">📐 Units</a>
+      <a href="#password" class="hero-tool-tag green">🔐 Password</a>
+      <a href="#ai-section" class="hero-tool-tag ai">🤖 AI</a>
     </div>
   </div>
 
@@ -369,6 +396,12 @@ footer a:hover{text-decoration:underline;}
       <a href="#ui" class="toc-item"><span class="toc-num">18</span>UI Features & Dark/Light Mode</a>
       <a href="#profile" class="toc-item"><span class="toc-num">19</span>Profile & Settings</a>
       <a href="#tips" class="toc-item"><span class="toc-num">20</span>Pro Tips & Shortcuts</a>
+      <a href="#units" class="toc-item"><span class="toc-num">21</span>Unit Converter — Overview</a>
+      <a href="#units-how" class="toc-item"><span class="toc-num">22</span>Unit Converter — How to Use</a>
+      <a href="#password" class="toc-item"><span class="toc-num">23</span>Password Generator — Overview</a>
+      <a href="#password-save" class="toc-item"><span class="toc-num">24</span>Password Generator — Save & Reveal</a>
+      <a href="#ai-section" class="toc-item"><span class="toc-num">25</span>AI Assistant — Overview</a>
+      <a href="#ai-tips" class="toc-item"><span class="toc-num">26</span>AI Assistant — Tips & Examples</a>
     </div>
   </div>
 
@@ -379,7 +412,7 @@ footer a:hover{text-decoration:underline;}
   </div>
 
   <div class="section-intro">
-    <strong>ToolKit Pro</strong> is a free, browser-based web application that brings three powerful tools to one place: an <strong>unlimited-precision calculator</strong>, a full-featured <strong>chess game</strong> with AI, and a <strong>currency converter</strong> supporting 160+ currencies with live rates.
+    <strong>ToolKit Pro</strong> is a free, browser-based web application that brings six powerful tools to one place: an <strong>unlimited-precision Calculator</strong>, a full-featured <strong>Chess game</strong> with AI, a <strong>Currency Converter</strong> supporting 160+ currencies, a <strong>Unit Converter</strong> with 100+ units across 10 categories, a <strong>Password Generator</strong> with secure one-time save, and a <strong>Llama-powered AI Assistant</strong>.
     <br><br>
     No app installation needed. No ads to distract you from work. Just open your browser and get started. Pure HTML, CSS, and JavaScript — no React, no Vue, no complex frameworks. Works on desktop, tablet, and mobile. Works offline too (with fallbacks).
   </div>
@@ -1015,6 +1048,138 @@ footer a:hover{text-decoration:underline;}
 </footer>
 
 <!-- BACK TO TOP BUTTON -->
+
+
+  <!-- ══════════════ UNIT CONVERTER ══════════════ -->
+  <div id="units" class="section-divider">
+    <span class="section-icon">📐</span>
+    <span class="section-tag gold">Unit Converter</span>
+  </div>
+
+  <div class="section-intro" style="border-color:rgba(251,191,36,.15);background:linear-gradient(135deg,rgba(251,191,36,.04),rgba(251,191,36,.01));">
+    The <strong>Unit Converter</strong> supports <strong>100+ units across 10 categories</strong> — all processed locally in your browser. No login needed, completely free.
+  </div>
+
+  <div class="feature-card" id="units-how">
+    <div class="feature-header">
+      <div class="feature-icon-box gold">📐</div>
+      <div>
+        <div class="feature-title">10 Categories Available</div>
+        <div class="feature-sub">Length · Weight · Temperature · Speed · Area · Volume · Data · Time · Energy · Pressure</div>
+      </div>
+    </div>
+    <div class="feature-body">
+      <p>Select a category from the tab row. Enter your <strong>Amount</strong>, choose <strong>From</strong> and <strong>To</strong> units — result updates instantly. Click <strong>⇄</strong> to swap direction.</p>
+    </div>
+    <div class="steps">
+      <div class="step"><div class="step-num">1</div><div class="step-text">Select a <strong>category tab</strong> (e.g. Length, Temperature)</div></div>
+      <div class="step"><div class="step-num">2</div><div class="step-text">Enter your <strong>Amount</strong> in the first field</div></div>
+      <div class="step"><div class="step-num">3</div><div class="step-text">Choose <strong>From</strong> and <strong>To</strong> units from the dropdowns</div></div>
+      <div class="step"><div class="step-num">4</div><div class="step-text">Result appears instantly. Use <strong>⇄ Swap</strong> to reverse</div></div>
+      <div class="step"><div class="step-num">5</div><div class="step-text">Click <strong>📋 Copy</strong> to copy result to clipboard</div></div>
+    </div>
+    <div class="callout info">
+      <span class="callout-icon">ℹ️</span>
+      <span class="callout-text"><strong>Temperature:</strong> Celsius, Fahrenheit, Kelvin and Rankine use non-linear formulas — always mathematically precise.</span>
+    </div>
+    <ul class="detail-list">
+      <li><strong>Quick Reference chips</strong> — Common conversions shown below for fast lookup</li>
+      <li><strong>No internet needed</strong> — All conversions run entirely in your browser</li>
+    </ul>
+  </div>
+
+  <!-- ══════════════ PASSWORD GENERATOR ══════════════ -->
+  <div id="password" class="section-divider">
+    <span class="section-icon">🔐</span>
+    <span class="section-tag green">Password Generator</span>
+  </div>
+
+  <div class="section-intro" style="border-color:rgba(34,197,94,.15);background:linear-gradient(135deg,rgba(34,197,94,.04),rgba(34,197,94,.01));">
+    The <strong>Password Generator</strong> creates cryptographically random passwords using your browser's <code>crypto.getRandomValues()</code> API — the strongest randomness available. No passwords are stored in plain text.
+  </div>
+
+  <div class="feature-card">
+    <div class="feature-header">
+      <div class="feature-icon-box green">⚡</div>
+      <div>
+        <div class="feature-title">Generating a Password</div>
+        <div class="feature-sub">Cryptographically secure · Fully customisable</div>
+      </div>
+    </div>
+    <div class="feature-body">
+      <p>Click <strong>Generate New Password</strong> — a new random password appears instantly, blurred by default. Click the 👁 eye icon to reveal it temporarily.</p>
+    </div>
+    <div class="kv-table-wrap"><table class="kv-table">
+      <tr><td class="kv-key green">Length</td><td class="kv-val">Drag slider: 6 to 64 characters. Longer = stronger.</td></tr>
+      <tr><td class="kv-key green">A–Z / a–z</td><td class="kv-val">Uppercase and lowercase letters</td></tr>
+      <tr><td class="kv-key green">0–9</td><td class="kv-val">Numbers</td></tr>
+      <tr><td class="kv-key green">Symbols</td><td class="kv-val">Special characters — greatly increases strength</td></tr>
+      <tr><td class="kv-key green">No Ambiguous</td><td class="kv-val">Excludes O, 0, l, 1, I — easier to read/type</td></tr>
+      <tr><td class="kv-key green">No Repeat</td><td class="kv-val">Each character used at most once</td></tr>
+      <tr><td class="kv-key green">Exclude</td><td class="kv-val">Type characters to exclude (e.g. " / & &lt; &gt;)</td></tr>
+    </table></div>
+  </div>
+
+  <div class="feature-card" id="password-save">
+    <div class="feature-header">
+      <div class="feature-icon-box pink">🔒</div>
+      <div>
+        <div class="feature-title">Save & Reveal — One Time Only</div>
+        <div class="feature-sub">Login required · Reveal = permanent delete from database</div>
+      </div>
+    </div>
+    <div class="callout warn">
+      <span class="callout-icon">⚠️</span>
+      <span class="callout-text"><strong>Critical:</strong> Once you click <strong>👁 Reveal</strong>, the password shows for <strong>30 seconds</strong> then is <strong>permanently deleted</strong> from our database. Copy it immediately. No second chance.</span>
+    </div>
+    <div class="steps">
+      <div class="step"><div class="step-num">1</div><div class="step-text">Generate a password — enter a <strong>Label</strong> and click <strong>Save</strong></div></div>
+      <div class="step"><div class="step-num">2</div><div class="step-text">When ready, click <strong>👁 Reveal</strong> — 30-second countdown begins</div></div>
+      <div class="step"><div class="step-num">3</div><div class="step-text"><strong>Copy immediately</strong> and paste where needed</div></div>
+      <div class="step"><div class="step-num">4</div><div class="step-text">After 30 seconds — <strong>deleted from database forever</strong></div></div>
+    </div>
+    <ul class="detail-list pink">
+      <li>Nobody — including ToolKit Pro — can read your saved passwords after reveal</li>
+      <li>Login required to use the save feature — guest users can still generate passwords</li>
+    </ul>
+  </div>
+
+  <!-- ══════════════ AI ASSISTANT ══════════════ -->
+  <div id="ai-section" class="section-divider">
+    <span class="section-icon">🤖</span>
+    <span class="section-tag purple">AI Assistant</span>
+  </div>
+
+  <div class="section-intro purple">
+    The <strong>AI Assistant</strong> is ToolKit Pro's premium feature — a <strong>Llama-powered conversational AI</strong> available to registered users only. Ask anything — maths, chess strategy, science, history, coding help, or general knowledge.
+  </div>
+
+  <div class="feature-card" id="ai-tips">
+    <div class="feature-header">
+      <div class="feature-icon-box purple">🤖</div>
+      <div>
+        <div class="feature-title">Using the AI Assistant</div>
+        <div class="feature-sub">Llama model · Login required · Premium feature</div>
+      </div>
+    </div>
+    <div class="steps">
+      <div class="step"><div class="step-num">1</div><div class="step-text"><strong>Login</strong> to your ToolKit Pro account</div></div>
+      <div class="step"><div class="step-num">2</div><div class="step-text">Click <strong>🤖 AI</strong> in the navigation bar</div></div>
+      <div class="step"><div class="step-num">3</div><div class="step-text">Type your question and press <strong>Enter</strong> to send</div></div>
+      <div class="step"><div class="step-num">4</div><div class="step-text">Wait for response — typing indicator shows AI is processing</div></div>
+      <div class="step"><div class="step-num">5</div><div class="step-text">Click <strong>🗑 Clear</strong> to start a fresh conversation</div></div>
+    </div>
+    <div class="kv-table-wrap"><table class="kv-table">
+      <tr><td class="kv-key purple">Enter</td><td class="kv-val">Send message</td></tr>
+      <tr><td class="kv-key purple">Shift+Enter</td><td class="kv-val">New line without sending</td></tr>
+      <tr><td class="kv-key purple">Hint chips</td><td class="kv-val">Pre-filled example questions — click to use</td></tr>
+    </table></div>
+    <div class="callout warn">
+      <span class="callout-icon">⚠️</span>
+      <span class="callout-text"><strong>Important:</strong> AI responses may be inaccurate. Do not use for medical, legal, or financial decisions. Never share passwords or sensitive personal data with the AI.</span>
+    </div>
+  </div>
+
 <button id="back-top" title="Back to top">↑</button>
 
 <script>
@@ -1049,5 +1214,26 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
 });
 </script>
 
+
+<script>
+// Global theme toggle
+function toggleTheme(){
+  const b = document.body;
+  const cur = b.getAttribute('data-theme');
+  const next = cur === 'light' ? 'dark' : 'light';
+  b.setAttribute('data-theme', next);
+  localStorage.setItem('tkp_theme', next);
+  document.querySelectorAll('.theme-toggle').forEach(btn => {
+    btn.textContent = next === 'light' ? '🌙' : '☀️';
+  });
+}
+// Set initial icon
+(function(){
+  const t = localStorage.getItem('tkp_theme') || 'dark';
+  document.querySelectorAll('.theme-toggle').forEach(btn => {
+    btn.textContent = t === 'light' ? '🌙' : '☀️';
+  });
+})();
+</script>
 </body>
       </html>
